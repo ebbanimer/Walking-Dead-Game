@@ -1,4 +1,4 @@
-package com.dt181g.project;
+package com.dt181g.project.view;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,6 +11,7 @@ public class View extends JFrame {
     JComboBox<String> characterCmb = new JComboBox<>(characterList);
     JButton startBtn = new JButton("Start game");
     JLabel nameLabel = new JLabel();
+    JLabel weaponLabel = new JLabel();
     ImageIcon charImage = new ImageIcon();
     JLabel imgLbl = new JLabel(charImage);
     GridBagConstraints c = new GridBagConstraints();
@@ -37,7 +38,7 @@ public class View extends JFrame {
         characterLbl.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 15));
         characterLbl.setForeground(Color.WHITE);
 
-        characterCmb.setMaximumSize(new Dimension(200, 30));
+        characterCmb.setPreferredSize(new Dimension(200, 30));
 
         c.insets = new Insets(10,10,10,10);
         c.gridx = 0;
@@ -55,16 +56,10 @@ public class View extends JFrame {
         startPanel.setLayout(new GridBagLayout());
         startPanel.setPreferredSize(new Dimension(300, 400));
         startPanel.setBackground(Color.GRAY);
+        startBtn.setPreferredSize(new Dimension(100,40));
 
-        nameLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 15));
-        nameLabel.setForeground(Color.WHITE);
-
-        c.insets = new Insets(20,10,20,10);
-        c.gridx = 0;
-        c.gridy = 1;
-        startPanel.add(nameLabel,c);
-        c.gridx = 0;
-        c.gridy = 2;
+        addFontStyle(startPanel, nameLabel, nameLabel);
+        c.gridy = 3;
         startPanel.add(startBtn,c);
 
         return startPanel;
@@ -75,21 +70,33 @@ public class View extends JFrame {
         imgPanel.setLayout(new GridBagLayout());
         imgPanel.setPreferredSize(new Dimension(300, 400));
         imgPanel.setBackground(Color.BLACK);
-        imgPanel.add(imgLbl);
+
+        addFontStyle(imgPanel, weaponLabel, imgLbl);
+        c.gridy = 2;
+        imgPanel.add(weaponLabel,c);
         return imgPanel;
+    }
+
+    private void addFontStyle(JPanel imgPanel, JLabel weaponLabel, JLabel imgLbl) {
+        weaponLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 15));
+        weaponLabel.setForeground(Color.WHITE);
+
+        c.insets = new Insets(20,10,20,10);
+        c.gridx = 0;
+        c.gridy = 1;
+        imgPanel.add(imgLbl,c);
+        c.gridx = 0;
     }
 
     public String getCharacter(){
         return (String) characterCmb.getSelectedItem();
     }
 
-    public void setCharacter(String character, String imgPath){
+    public void setCharacter(String character, String weapon, String imgPath){
         charImage = new ImageIcon(imgPath);
-        //Image img = charImage.getImage();
-        //Image modImg = img.getScaledInstance(150,300, Image.SCALE_SMOOTH);
-        //charImage.setImage(modImg);
         imgLbl.setIcon(charImage);
         nameLabel.setText("You have chosen character " + character);
+        weaponLabel.setText("Weapon: " + weapon);
     }
 
     public void addComboListener(ActionListener listener){
@@ -98,5 +105,9 @@ public class View extends JFrame {
 
     public void addStartListener(ActionListener listener){
         startBtn.addActionListener(listener);
+    }
+
+    public void displayError(String msg){
+        JOptionPane.showMessageDialog(this, msg);
     }
 }

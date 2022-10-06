@@ -15,3 +15,7 @@ Concurrency x2
 Synchronized x3
 
 Streams API x3
+
+
+How are the zombies gonna move towards the character?
+Where to put the keylisteners?
