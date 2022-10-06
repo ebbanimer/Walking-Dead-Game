@@ -55,6 +55,14 @@ public class Controller {
         }
     }
 
+    static class AddKeyGame extends KeyAdapter {
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+            gameWindow.getImgLabel();
+        }
+    }
+
     /*static class AddKeyAdapter extends KeyAdapter {
         @Override
         public void keyPressed(KeyEvent e) {
