@@ -1,4 +1,4 @@
-package com.dt181g.project.model.characters;
+package com.dt181g.project.model.charFactoryMethod;
 
 public class Michonne extends Character{
 
@@ -6,5 +6,7 @@ public class Michonne extends Character{
         setName("Michonne");
         setWeapon("Sword");
         setImg("src\\main\\java\\com\\dt181g\\project\\images\\michonne.png");
+        setScore(0);
+        setDead(false);
     }
 }

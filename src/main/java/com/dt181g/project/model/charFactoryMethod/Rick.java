@@ -1,4 +1,4 @@
-package com.dt181g.project.model.characters;
+package com.dt181g.project.model.charFactoryMethod;
 
 public class Rick extends Character{
 
@@ -6,5 +6,7 @@ public class Rick extends Character{
         setName("Rick");
         setWeapon("Handgun");
         setImg("src\\main\\java\\com\\dt181g\\project\\images\\rick.png");
+        setScore(0);
+        setDead(false);
     }
 }

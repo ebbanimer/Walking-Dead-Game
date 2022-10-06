@@ -1,11 +1,13 @@
-package com.dt181g.project.model.characters;
-
+package com.dt181g.project.model.charFactoryMethod;
 
 public abstract class Character {
 
     private String name;
     private String weapon;
     private String IMG_PATH;
+    private int startX;
+    private int startY;
+    private int score;
     private boolean isDead = false;
 
     public void setName(String name){
@@ -20,6 +22,14 @@ public abstract class Character {
         this.weapon = weapon;
     }
 
+    public void setScore(int score){
+        this.score = score;
+    }
+
+    public void setDead(boolean isDead){
+        this.isDead = isDead;
+    }
+
     public String getName(){
         return name;
     }
@@ -30,6 +40,14 @@ public abstract class Character {
 
     public String getIMG_PATH(){
         return IMG_PATH;
+    }
+
+    public Integer getScore(){
+        return score;
+    }
+
+    public boolean getIsDead(){
+        return isDead;
     }
 
     public void killZombies(){

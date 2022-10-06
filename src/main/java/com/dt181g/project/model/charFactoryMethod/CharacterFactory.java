@@ -1,21 +1,17 @@
-package com.dt181g.project.model;
-
-import com.dt181g.project.model.characters.*;
-import com.dt181g.project.model.characters.Character;
+package com.dt181g.project.model.charFactoryMethod;
 
 /**
  * Factory method pattern
  */
 public class CharacterFactory {
 
-    public Character makeCharacter(String character){
-
+    public Character createCharacter(String character){
         return switch (character) {
             case "Rick" -> new Rick();
             case "Michonne" -> new Michonne();
             case "Eugene" -> new Eugene();
-            default -> new Daryl();
+            case "Daryl" -> new Daryl();
+            default -> null;
         };
     }
-
 }

@@ -1,14 +1,12 @@
 package com.dt181g.project.view;
 
-import java.util.ArrayList;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Arrays;
 import java.util.Random;
 import java.util.stream.Stream;
 
-public class GameWindow extends JFrame implements KeyListener, ActionListener{
+public class GameWindow extends JFrame implements ActionListener{
 
     private final int MAX_FOOD = 5;
     private final int MAX_ZOMBIES = 5;
@@ -18,10 +16,13 @@ public class GameWindow extends JFrame implements KeyListener, ActionListener{
     int y = 60;
     int currZombies = 5;
     int currFood = 5;
+    int score;
 
     ImageIcon charImage = new ImageIcon();
     JLabel imgLbl = new JLabel(charImage);
     JLabel timerLbl = new JLabel();
+    JLabel scoreLbl = new JLabel("Score: ");
+    JLabel scoreCount = new JLabel();
     JButton endGameBtn = new JButton("End game");
     ImageIcon foodImage = new ImageIcon("src\\main\\java\\com\\dt181g\\project\\images\\food.png");
     ImageIcon zombieImg = new ImageIcon("src\\main\\java\\com\\dt181g\\project\\images\\zombie.png");
@@ -35,33 +36,30 @@ public class GameWindow extends JFrame implements KeyListener, ActionListener{
     int yVelocity = 1;
 
     public GameWindow(){
-        timer = new Timer(1000, this);
-        timer.start();
+
         this.setTitle("Game");
         this.setResizable(false);
         this.setVisible(true);
         this.setFocusable(true);
-        this.addKeyListener(this);
         this.setLayout(new BorderLayout());
-        this.add(addBtnPanel(), BorderLayout.WEST);
+        timer = new Timer(1000, this);
+        timer.start();
         this.add(addGamePanel(), BorderLayout.EAST);
+        this.add(addStatsPanel(), BorderLayout.SOUTH);
         this.pack();
 
-        //this.add(new GamePanel2(path), BorderLayout.EAST);
-    }
-
-    private JPanel addBtnPanel(){
-        JPanel btnPanel = new JPanel();
-        btnPanel.setPreferredSize(new Dimension(150, HEIGHT));
-        btnPanel.setBackground(Color.DARK_GRAY);
-        btnPanel.add(endGameBtn);
-
-        return btnPanel;
     }
 
     private JPanel addStatsPanel(){
         JPanel statsPanel = new JPanel();
+        statsPanel.setPreferredSize(new Dimension(WIDTH, 100));
+        statsPanel.setLayout(new FlowLayout());
+
+        scoreCount.setText(String.valueOf(score));
+
         statsPanel.add(timerLbl);
+        statsPanel.add(scoreLbl);
+        statsPanel.add(scoreCount);
         return statsPanel;
     }
 
@@ -69,8 +67,8 @@ public class GameWindow extends JFrame implements KeyListener, ActionListener{
         gamePanel.setLayout(null);
         gamePanel.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         gamePanel.setBackground(Color.BLACK);
-        addFood();
-        addZombie();
+        //addFood();
+        //addZombie();
 
         imgLbl.setBounds(0, 0, 60, 60);
 
@@ -78,7 +76,31 @@ public class GameWindow extends JFrame implements KeyListener, ActionListener{
         return gamePanel;
     }
 
-    public void addFood(){
+    public void addFoodTest(int x, int y, String path){
+        JLabel label = new JLabel();
+        label.setBounds(x, y, 60, 60);
+
+        Image foodImage = new ImageIcon(path).getImage();
+        Image modFoodImg = foodImage.getScaledInstance(60, 60, Image.SCALE_SMOOTH);
+        ImageIcon newImg = new ImageIcon(modFoodImg);
+        label.setIcon(newImg);
+        gamePanel.add(label);
+    }
+
+    public void addZombieTest(int x, int y, String path){
+        JLabel label = new JLabel();
+        label.setBounds(x, y, 60, 60);
+
+        Image zombieImage = new ImageIcon(path).getImage();
+        Image modZombieImg = zombieImage.getScaledInstance(60, 60, Image.SCALE_SMOOTH);
+        ImageIcon newImg = new ImageIcon(modZombieImg);
+        label.setIcon(newImg);
+        gamePanel.add(label);
+    }
+
+
+
+    /*public void addFood(){
         for (int i = 0; i < MAX_FOOD; i++){
             JLabel label = new JLabel();
             int randX = rand.nextInt((WIDTH - x) + 1) + 1;
@@ -91,7 +113,7 @@ public class GameWindow extends JFrame implements KeyListener, ActionListener{
             label.setIcon(newImg);
             gamePanel.add(label);
         }
-    }
+    }*/
 
     public void addZombie(){
         for (int i = 0; i < MAX_ZOMBIES; i++){
@@ -108,6 +130,11 @@ public class GameWindow extends JFrame implements KeyListener, ActionListener{
         }
     }
 
+    public void checkFood(){
+        score++;
+        scoreCount.setText(String.valueOf(score));
+    }
+
     /*public void moveZombie(JLabel lblImg){
         x = lblImg.getX();
         y = lblImg.getY();
@@ -116,48 +143,28 @@ public class GameWindow extends JFrame implements KeyListener, ActionListener{
     }*/
 
 
-    public void setCharacter(String path){
+    public void setCharacter(String path, int score){
+        this.score = score;
         charImage = new ImageIcon(path);
         Image charOtherImg = charImage.getImage();
         Image modCharImg = charOtherImg.getScaledInstance(60, 60, Image.SCALE_SMOOTH);
         ImageIcon newImg = new ImageIcon(modCharImg);
         imgLbl.setIcon(newImg);
     }
-    
+
     public JLabel getImgLabel(){
         return imgLbl;
     }
 
-    @Override
-    public void keyTyped(KeyEvent e) {
-
+    public void addKeyGame(KeyAdapter listener){
+        this.addKeyListener(listener);
     }
 
-    @Override
-    public void keyPressed(KeyEvent e) {
-        // Move the image-label of character
-        switch (e.getKeyCode()) {
-            case 37 -> imgLbl.setLocation(imgLbl.getX() - 10, imgLbl.getY());
-            case 38 -> imgLbl.setLocation(imgLbl.getX(), imgLbl.getY() - 10);
-            case 39 -> imgLbl.setLocation(imgLbl.getX() + 10, imgLbl.getY());
-            case 40 -> imgLbl.setLocation(imgLbl.getX(), imgLbl.getY() + 10);
-            //case 32: kill zombie
-        }
-        System.out.println(e.getKeyCode());
-    }
 
-    @Override
-    public void keyReleased(KeyEvent e) {
-
-    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
 
     }
-
-    //public void addKeyGame(KeyAdapter listener){
-    //    this.addKeyListener(listener);
-    //}
 
 }
