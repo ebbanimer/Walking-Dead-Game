@@ -50,31 +50,34 @@ public class Controller {
         public void actionPerformed(ActionEvent e) {
             newCharacter = theModel.getNewCharacter();
             if (newCharacter != null){
-                theModel.createItem("Food", 5);
-                theModel.createItem("Zombie", 5);
                 gameWindow = new GameWindow();
+                createFoods();
+                createZombies();
                 gameWindow.addStartGame(new AddStartGame());
                 gameWindow.addKeyGame(new AddKeyGame());
-                foods = theModel.getFoods();
-                zombies = theModel.getZombies();
 
-                for (Food food : foods) {
-                    gameWindow.addFoods(food.getStartX(),
-                            food.getStartY(), food.getPath());
-                    gameWindow.testAdd(food.getStartX(),
-                            food.getStartY(), food.getPath());
-                }
-
-                for (Zombie zombie : zombies) {
-                    gameWindow.addZombies(zombie.getStartX(),
-                            zombie.getStartY(), zombie.getPath());
-                }
-
-                //gameWindow.addKeyGame(new AddKeyAdapter());
                 Character character = theModel.getNewCharacter();
                 gameWindow.addCharacter(character.getIMG_PATH(), character.getScore());
             } else {
                 theView.displayError("Please choose a character");
+            }
+        }
+
+        private void createFoods(){
+            theModel.createItem("Food", 5);
+            foods = theModel.getFoods();
+            for (Food food : foods) {
+                gameWindow.addFoods(food.getStartX(),
+                        food.getStartY(), food.getPath());
+            }
+        }
+
+        private void createZombies(){
+            theModel.createItem("Zombie", 5);
+            zombies = theModel.getZombies();
+            for (Zombie zombie : zombies) {
+                gameWindow.addZombies(zombie.getStartX(),
+                        zombie.getStartY(), zombie.getPath());
             }
         }
     }
@@ -92,23 +95,8 @@ public class Controller {
         @Override
         public void keyPressed(KeyEvent e) {
             JLabel imgLbl = gameWindow.getImgLabel();
-
-            switch (e.getKeyCode()) {
-                case 37 -> imgLbl.setLocation(imgLbl.getX() - 10, imgLbl.getY());
-                case 38 -> imgLbl.setLocation(imgLbl.getX(), imgLbl.getY() - 10);
-                case 39 -> imgLbl.setLocation(imgLbl.getX() + 10, imgLbl.getY());
-                case 40 -> imgLbl.setLocation(imgLbl.getX(), imgLbl.getY() + 10);
-                //case 32: kill zombie
-            }
-
-            for (JLabel jLabel : gameWindow.getFoodLabels()){
-                System.out.println(jLabel.getBounds());
-                if (imgLbl.getBounds().intersects(jLabel.getBounds())){
-                    System.out.println("For loop: Collision detected!");
-                    gameWindow.foodTaken(jLabel);
-                    break;
-                }
-            }
+            moveCharacter(imgLbl, e.getKeyCode());
+            detectCollision(imgLbl);
 
             /*boolean collision = gameWindow.getFoodLabels().stream()
                     .anyMatch(jLabel -> jLabel.getBounds()
@@ -126,6 +114,31 @@ public class Controller {
             //    gameWindow.foodTaken();
                 //foods.remove(0);
             //}
+        }
+
+        private void moveCharacter(JLabel imgLbl, int keyCode){
+            switch (keyCode) {
+                case 37 -> imgLbl.setLocation(imgLbl.getX() - 10, imgLbl.getY());
+                case 38 -> imgLbl.setLocation(imgLbl.getX(), imgLbl.getY() - 10);
+                case 39 -> imgLbl.setLocation(imgLbl.getX() + 10, imgLbl.getY());
+                case 40 -> imgLbl.setLocation(imgLbl.getX(), imgLbl.getY() + 10);
+                //case 32: kill zombie
+            }
+        }
+
+        private void detectCollision(JLabel imgLbl){
+            ArrayList<JLabel> foodLabels = gameWindow.getFoodLabels();
+
+            for (JLabel jLabel : foodLabels){
+                if (imgLbl.getBounds().intersects(jLabel.getBounds())){
+                    System.out.println("For loop: Collision detected!");
+                    foodLabels.remove(jLabel);
+                    gameWindow.foodTaken(jLabel);
+                    break;
+                } else {
+                    System.out.println("No collision");
+                }
+            }
         }
     }
 }

@@ -4,5 +4,5 @@ public interface FoodInterface {
     String getPath();
     Integer getStartX();
     Integer getStartY();
-    Boolean getIsVanished();
+    Boolean getCollision();
 }

@@ -10,8 +10,6 @@ public class Food implements FoodInterface {
     private final int HEIGHT = 600;
     int x = 60;
     int y = 60;
-    int posX;
-    int posY;
 
     public Food(int id){
         this.id = id;
@@ -24,25 +22,15 @@ public class Food implements FoodInterface {
     }
 
     public Integer getStartX(){
-        posX = rand.nextInt((WIDTH - x) + 1);
-        return posX;
+        return rand.nextInt((WIDTH - x) + 1);
     }
 
     public Integer getStartY(){
-        posY = rand.nextInt((HEIGHT - y) + 1);
-        return posY;
-    }
-
-    public Integer getXInterval(){
-        return posX + 60;
-    }
-
-    public Integer getYInterval(){
-        return posY + 60;
+        return rand.nextInt((HEIGHT - y) + 1);
     }
 
     @Override
-    public Boolean getIsVanished() {
+    public Boolean getCollision() {
         return false;
     }
 

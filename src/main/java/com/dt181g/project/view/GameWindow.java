@@ -7,7 +7,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.stream.Stream;
 
 public class GameWindow extends JFrame implements Observers {
@@ -26,19 +25,23 @@ public class GameWindow extends JFrame implements Observers {
     JLabel timerLbl = new JLabel();
     JLabel scoreLbl = new JLabel("Score: ");
     JLabel scoreCount = new JLabel();
+    JLabel foodLbl = new JLabel("Food left: ");
+    JLabel foodCount = new JLabel();
     JButton startGameBtn = new JButton("Start game");
     JButton endGameBtn = new JButton("End game");
     JPanel gamePanel = new JPanel();
 
-    static final int FOOD_DIAMETER = 60;
-    static final int ZOMBIE_DIAMETER = 60;
-    static final int CHAR_DIAMETER = 60;
+    static final int FOOD_WIDTH = 60;
+    static final int ZOMBIE_WIDTH = 60;
+    static final int CHAR_HEIGHT = 60;
 
     static final int FOOD_HEIGHT = 60;
     static final int ZOMBIE_HEIGHT = 60;
-    static final int CHAR_HEIGHT = 60;
+    static final int CHAR_WIDTH = 60;
 
     ArrayList<JLabel> foodLabels = new ArrayList<>();
+    ArrayList<JLabel> zombieLabels = new ArrayList<>();
+    boolean collision = false;
 
     Thread gameThread;
 
@@ -78,10 +81,13 @@ public class GameWindow extends JFrame implements Observers {
         statsPanel.setLayout(new FlowLayout());
 
         scoreCount.setText(String.valueOf(score));
+        foodCount.setText(String.valueOf(currFood));
 
         statsPanel.add(timerLbl);
         statsPanel.add(scoreLbl);
         statsPanel.add(scoreCount);
+        statsPanel.add(foodLbl);
+        statsPanel.add(foodCount);
         return statsPanel;
     }
 
@@ -89,80 +95,37 @@ public class GameWindow extends JFrame implements Observers {
         gamePanel.setLayout(null);
         gamePanel.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         gamePanel.setBackground(Color.BLACK);
-        //addFood();
-        //addZombie();
-
-        imgLbl.setBounds(0, 0, 60, 60);
+        imgLbl.setBounds(0, 0, CHAR_WIDTH, CHAR_HEIGHT);
 
         gamePanel.add(imgLbl);
         return gamePanel;
     }
 
-
-    public void testAdd(int x, int y, String path){
-        JLabel label = new JLabel();
-        label.setBounds(x, y, 60, 60);
-
-        Image img = new ImageIcon(path).getImage();
-        Image img2 = img.getScaledInstance(60, 60, Image.SCALE_SMOOTH);
-        ImageIcon newImg = new ImageIcon(img2);
-        label.setIcon(newImg);
-        foodLabels.add(label);
-    }
-
-    public ArrayList<JLabel> getFoodLabels(){
-        return foodLabels;
-    }
-
     public void addFoods(int x, int y, String path){
-        addItems(x, y, path);
+        for (int i = 0; i < MAX_FOOD; i++){
+            JLabel label = new JLabel();
+            label.setBounds(x, y, 60, 60);
+            Image itemImg = new ImageIcon(path).getImage();
+            Image modifiedImg = itemImg.getScaledInstance(FOOD_WIDTH, FOOD_HEIGHT, Image.SCALE_SMOOTH);
+            ImageIcon newImg = new ImageIcon(modifiedImg);
+            label.setIcon(newImg);
+            foodLabels.add(label);
+            gamePanel.add(label);
+        }
     }
 
     public void addZombies(int x, int y, String path){
-        addItems(x, y, path);
-    }
-
-    private void addItems(int x, int y, String path) {
-        JLabel label = new JLabel();
-        label.setBounds(x, y, 60, 60);
-
-        Image itemImg = new ImageIcon(path).getImage();
-        Image modifiedImg = itemImg.getScaledInstance(60, 60, Image.SCALE_SMOOTH);
-        ImageIcon newImg = new ImageIcon(modifiedImg);
-        label.setIcon(newImg);
-        gamePanel.add(label);
-    }
-
-
-    /*public void addFood(){
-        for (int i = 0; i < MAX_FOOD; i++){
-            JLabel label = new JLabel();
-            int randX = rand.nextInt((WIDTH - x) + 1) + 1;
-            int randY = rand.nextInt((HEIGHT - y) + 1) + 1;
-
-            label.setBounds(randX, randY, 60, 60);
-            Image charOtherImg = foodImage.getImage();
-            Image modFoodImg = charOtherImg.getScaledInstance(60, 60, Image.SCALE_SMOOTH);
-            ImageIcon newImg = new ImageIcon(modFoodImg);
-            label.setIcon(newImg);
-            gamePanel.add(label);
-        }
-    }*/
-
-    /*public void addZombie(){
         for (int i = 0; i < MAX_ZOMBIES; i++){
             JLabel label = new JLabel();
-            int randX = rand.nextInt((WIDTH - x) + 1) + 1;
-            int randY = rand.nextInt((HEIGHT - y) + 1) + 1;
-            label.setBounds(randX, randY, 60, 60);
-            Image charOtherImg = zombieImg.getImage();
-            Image modZombieImg = charOtherImg.getScaledInstance(60, 60, Image.SCALE_SMOOTH);
-            ImageIcon newImg = new ImageIcon(modZombieImg);
+            label.setBounds(x, y, 60, 60);
+            Image itemImg = new ImageIcon(path).getImage();
+            Image modifiedImg = itemImg.getScaledInstance(ZOMBIE_WIDTH, ZOMBIE_HEIGHT, Image.SCALE_SMOOTH);
+            ImageIcon newImg = new ImageIcon(modifiedImg);
             label.setIcon(newImg);
-            //moveZombie(label);
+            zombieLabels.add(label);
             gamePanel.add(label);
         }
-    }*/
+    }
 
     public void foodTaken(JLabel jLabel){
         gamePanel.remove(jLabel);
@@ -171,6 +134,7 @@ public class GameWindow extends JFrame implements Observers {
         score++;
         currFood--;
         scoreCount.setText(String.valueOf(score));
+        foodCount.setText(String.valueOf(currFood));
     }
 
     /*public void moveZombie(JLabel lblImg){
@@ -185,13 +149,21 @@ public class GameWindow extends JFrame implements Observers {
         this.score = score;
         charImage = new ImageIcon(path);
         Image charOtherImg = charImage.getImage();
-        Image modCharImg = charOtherImg.getScaledInstance(60, 60, Image.SCALE_SMOOTH);
+        Image modCharImg = charOtherImg.getScaledInstance(CHAR_WIDTH, CHAR_HEIGHT, Image.SCALE_SMOOTH);
         ImageIcon newImg = new ImageIcon(modCharImg);
         imgLbl.setIcon(newImg);
     }
 
     public JLabel getImgLabel(){
         return imgLbl;
+    }
+
+    public ArrayList<JLabel> getFoodLabels(){
+        return foodLabels;
+    }
+
+    public ArrayList<JLabel> getZombieLabels(){
+        return zombieLabels;
     }
 
     public void addKeyGame(KeyAdapter listener){
