@@ -1,8 +1,5 @@
 package com.dt181g.project.view;
 
-import com.dt181g.project.Observable;
-import com.dt181g.project.Observer;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;

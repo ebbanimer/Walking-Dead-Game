@@ -73,7 +73,7 @@ public class Controller {
         }
 
         private void createZombies(){
-            theModel.createItem("Zombie", 5);
+            theModel.createItem("Zombie", 8);
             zombies = theModel.getZombies();
             for (Zombie zombie : zombies) {
                 gameWindow.addZombies(zombie.getStartX(),
@@ -112,6 +112,9 @@ public class Controller {
         // ISSUES WITH SCORES
         private void detectFoodCollision(JLabel imgLbl){
             ArrayList<JLabel> foodLabels = gameWindow.getFoodLabels();
+            if (foodLabels.isEmpty()){
+                gameWindow.displayWinning("Congrats, you have won!");
+            }
             for (JLabel jLabel : foodLabels){
                 if (imgLbl.getBounds().intersects(jLabel.getBounds())){
                     foodLabels.remove(jLabel);

@@ -6,12 +6,11 @@ import java.util.Timer;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.TimerTask;
-import java.util.stream.Stream;
 
 public class GameWindow extends JFrame {
 
     private final int MAX_FOOD = 5;
-    private final int MAX_ZOMBIES = 5;
+    private final int MAX_ZOMBIES = 8;
     private static final int WIDTH = 700;
     private static final int HEIGHT = 600;
 
@@ -40,17 +39,8 @@ public class GameWindow extends JFrame {
 
     ArrayList<JLabel> foodLabels = new ArrayList<>();
     ArrayList<JLabel> zombieLabels = new ArrayList<>();
-    boolean collision = false;
+    boolean endGame = false;
 
-    Timer timer;
-
-    TimerTask task = new TimerTask() {
-        @Override
-        public void run() {
-
-        }
-    };
-    
     public GameWindow(){
         this.setTitle("Game");
         this.setResizable(false);
@@ -61,10 +51,31 @@ public class GameWindow extends JFrame {
         this.add(addGamePanel(), BorderLayout.EAST);
         this.add(addStatsPanel(), BorderLayout.SOUTH);
         this.pack();
+        startTimer();
 
-        timer = new Timer();
         //gameThread = new Thread(new GameRunnable());
         //gameThread.start();
+    }
+
+    private void startTimer(){
+        Timer timer = new Timer();
+
+        TimerTask task = new TimerTask() {
+            int counter = 15;
+            @Override
+            public void run() {
+                if (counter > 0){
+                    timerLbl.setText(counter + " seconds");
+                    counter--;
+                }
+                else {
+                    endGame = true;
+                    stopGame();
+                    timer.cancel();
+                }
+            }
+        };
+        timer.scheduleAtFixedRate(task, 0, 1000);
     }
 
     private JPanel addBtnPanel(){
@@ -104,15 +115,15 @@ public class GameWindow extends JFrame {
     }
 
     public void addFoods(int x, int y, String path){
-        addItems(x, y, path, FOOD_WIDTH, FOOD_HEIGHT, foodLabels);
+        addItems(x, y, MAX_FOOD, path, FOOD_WIDTH, FOOD_HEIGHT, foodLabels);
     }
 
     public void addZombies(int x, int y, String path){
-        addItems(x, y, path, ZOMBIE_WIDTH, ZOMBIE_HEIGHT, zombieLabels);
+        addItems(x, y, MAX_ZOMBIES, path, ZOMBIE_WIDTH, ZOMBIE_HEIGHT, zombieLabels);
     }
 
-    private void addItems(int x, int y, String path, int width, int height, ArrayList<JLabel> labels) {
-        for (int i = 0; i < 5; i++){
+    private void addItems(int x, int y, int MAX_ITEMS, String path, int width, int height, ArrayList<JLabel> labels) {
+        for (int i = 0; i < MAX_ITEMS; i++){
             JLabel label = new JLabel();
             label.setBounds(x, y, 60, 60);
             Image itemImg = new ImageIcon(path).getImage();
@@ -128,10 +139,15 @@ public class GameWindow extends JFrame {
         gamePanel.remove(jLabel);
         gamePanel.revalidate();
         gamePanel.repaint();
+        foodLabels.remove(jLabel);
+
+        if (foodLabels.size() <= 0){
+
+        }
     }
 
     public void zombieCollision(){
-        collision = true;
+        endGame = true;
         stopGame();
     }
 
@@ -149,7 +165,7 @@ public class GameWindow extends JFrame {
     }
 
     public void stopGame(){
-        if (collision){
+        if (endGame){
             JOptionPane.showMessageDialog(this, "Game over!");
         }
     }
@@ -181,6 +197,10 @@ public class GameWindow extends JFrame {
 
     public void addStartGame(ActionListener listener){
         startGameBtn.addActionListener(listener);
+    }
+
+    public void displayWinning(String msg){
+        JOptionPane.showMessageDialog(this, msg);
     }
 
 }

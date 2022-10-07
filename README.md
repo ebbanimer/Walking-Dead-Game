@@ -5,7 +5,7 @@ Detect collision with zombie
     -> end game
 Collision with apple
     -> score 1 point
-Add timer in stats
+Stop game
 
 Producer/consumer pattern
 Object pool
@@ -27,7 +27,7 @@ Factory method
 Create characters
 Create items
 Collision
-
+Add timer in stats
 
 
 
