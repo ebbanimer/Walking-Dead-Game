@@ -1,20 +1,27 @@
 package com.dt181g.project.view;
 
-import com.dt181g.project.Observables;
-import com.dt181g.project.Observers;
-
 import javax.swing.*;
 import java.awt.*;
+import java.util.Timer;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.TimerTask;
 import java.util.stream.Stream;
 
-public class GameWindow extends JFrame implements Observers {
+public class GameWindow extends JFrame {
 
     private final int MAX_FOOD = 5;
     private final int MAX_ZOMBIES = 5;
     private static final int WIDTH = 700;
     private static final int HEIGHT = 600;
+
+    static final int FOOD_WIDTH = 60;
+    static final int ZOMBIE_WIDTH = 60;
+    static final int CHAR_HEIGHT = 60;
+
+    static final int FOOD_HEIGHT = 60;
+    static final int ZOMBIE_HEIGHT = 60;
+    static final int CHAR_WIDTH = 60;
 
     int currZombies = 5;
     int currFood = 5;
@@ -31,26 +38,19 @@ public class GameWindow extends JFrame implements Observers {
     JButton endGameBtn = new JButton("End game");
     JPanel gamePanel = new JPanel();
 
-    static final int FOOD_WIDTH = 60;
-    static final int ZOMBIE_WIDTH = 60;
-    static final int CHAR_HEIGHT = 60;
-
-    static final int FOOD_HEIGHT = 60;
-    static final int ZOMBIE_HEIGHT = 60;
-    static final int CHAR_WIDTH = 60;
-
     ArrayList<JLabel> foodLabels = new ArrayList<>();
     ArrayList<JLabel> zombieLabels = new ArrayList<>();
     boolean collision = false;
 
-    Thread gameThread;
+    Timer timer;
 
-    int[][] coordinates;
-    Stream<int[]> coord = Stream.empty();
+    TimerTask task = new TimerTask() {
+        @Override
+        public void run() {
+
+        }
+    };
     
-    int xVelocity = 1;
-    int yVelocity = 1;
-
     public GameWindow(){
         this.setTitle("Game");
         this.setResizable(false);
@@ -61,6 +61,8 @@ public class GameWindow extends JFrame implements Observers {
         this.add(addGamePanel(), BorderLayout.EAST);
         this.add(addStatsPanel(), BorderLayout.SOUTH);
         this.pack();
+
+        timer = new Timer();
         //gameThread = new Thread(new GameRunnable());
         //gameThread.start();
     }
@@ -102,27 +104,22 @@ public class GameWindow extends JFrame implements Observers {
     }
 
     public void addFoods(int x, int y, String path){
-        for (int i = 0; i < MAX_FOOD; i++){
-            JLabel label = new JLabel();
-            label.setBounds(x, y, 60, 60);
-            Image itemImg = new ImageIcon(path).getImage();
-            Image modifiedImg = itemImg.getScaledInstance(FOOD_WIDTH, FOOD_HEIGHT, Image.SCALE_SMOOTH);
-            ImageIcon newImg = new ImageIcon(modifiedImg);
-            label.setIcon(newImg);
-            foodLabels.add(label);
-            gamePanel.add(label);
-        }
+        addItems(x, y, path, FOOD_WIDTH, FOOD_HEIGHT, foodLabels);
     }
 
     public void addZombies(int x, int y, String path){
-        for (int i = 0; i < MAX_ZOMBIES; i++){
+        addItems(x, y, path, ZOMBIE_WIDTH, ZOMBIE_HEIGHT, zombieLabels);
+    }
+
+    private void addItems(int x, int y, String path, int width, int height, ArrayList<JLabel> labels) {
+        for (int i = 0; i < 5; i++){
             JLabel label = new JLabel();
             label.setBounds(x, y, 60, 60);
             Image itemImg = new ImageIcon(path).getImage();
-            Image modifiedImg = itemImg.getScaledInstance(ZOMBIE_WIDTH, ZOMBIE_HEIGHT, Image.SCALE_SMOOTH);
+            Image modifiedImg = itemImg.getScaledInstance(width, height, Image.SCALE_SMOOTH);
             ImageIcon newImg = new ImageIcon(modifiedImg);
             label.setIcon(newImg);
-            zombieLabels.add(label);
+            labels.add(label);
             gamePanel.add(label);
         }
     }
@@ -131,19 +128,31 @@ public class GameWindow extends JFrame implements Observers {
         gamePanel.remove(jLabel);
         gamePanel.revalidate();
         gamePanel.repaint();
+    }
+
+    public void zombieCollision(){
+        collision = true;
+        stopGame();
+    }
+
+    public void zombieKilled(JLabel jLabel){
+        gamePanel.remove(jLabel);
+        gamePanel.revalidate();
+        gamePanel.repaint();
+    }
+
+    public void updateStats(){
         score++;
         currFood--;
         scoreCount.setText(String.valueOf(score));
         foodCount.setText(String.valueOf(currFood));
     }
 
-    /*public void moveZombie(JLabel lblImg){
-        x = lblImg.getX();
-        y = lblImg.getY();
-        coord.toList().add(new int[]{x, y});
-        System.out.println(coord);
-    }*/
-
+    public void stopGame(){
+        if (collision){
+            JOptionPane.showMessageDialog(this, "Game over!");
+        }
+    }
 
     public void addCharacter(String path, int score){
         this.score = score;
@@ -174,8 +183,4 @@ public class GameWindow extends JFrame implements Observers {
         startGameBtn.addActionListener(listener);
     }
 
-    @Override
-    public void update(Observables observables) {
-
-    }
 }

@@ -96,7 +96,51 @@ public class Controller {
         public void keyPressed(KeyEvent e) {
             JLabel imgLbl = gameWindow.getImgLabel();
             moveCharacter(imgLbl, e.getKeyCode());
-            detectCollision(imgLbl);
+            detectFoodCollision(imgLbl);
+            detectZombieCollision(e.getKeyCode(), imgLbl);
+        }
+
+        private void moveCharacter(JLabel imgLbl, int keyCode){
+            switch (keyCode) {
+                case 37 -> imgLbl.setLocation(imgLbl.getX() - 10, imgLbl.getY());
+                case 38 -> imgLbl.setLocation(imgLbl.getX(), imgLbl.getY() - 10);
+                case 39 -> imgLbl.setLocation(imgLbl.getX() + 10, imgLbl.getY());
+                case 40 -> imgLbl.setLocation(imgLbl.getX(), imgLbl.getY() + 10);
+            }
+        }
+
+        // ISSUES WITH SCORES
+        private void detectFoodCollision(JLabel imgLbl){
+            ArrayList<JLabel> foodLabels = gameWindow.getFoodLabels();
+            for (JLabel jLabel : foodLabels){
+                if (imgLbl.getBounds().intersects(jLabel.getBounds())){
+                    foodLabels.remove(jLabel);
+                    gameWindow.foodTaken(jLabel);
+                    gameWindow.updateStats();
+                    break;
+                }
+            }
+        }
+
+        private void detectZombieCollision(int keyCode, JLabel imgLbl){
+            ArrayList<JLabel> zombieLabels = gameWindow.getZombieLabels();
+            for (JLabel jLabel : zombieLabels){
+                if (imgLbl.getBounds().intersects(jLabel.getBounds())){
+                    if (keyCode == KeyEvent.VK_SPACE){
+                        gameWindow.zombieKilled(jLabel);
+                    }
+                    newCharacter.getBit();
+                    gameWindow.zombieCollision();
+                    break;
+                }
+            }
+        }
+    }
+
+
+
+
+
 
             /*boolean collision = gameWindow.getFoodLabels().stream()
                     .anyMatch(jLabel -> jLabel.getBounds()
@@ -107,39 +151,12 @@ public class Controller {
                 System.out.println("Streams: Collision detected!");
             }*/
 
-            //boolean matchX = foods.stream().anyMatch(food -> food.getXInterval().equals(imgLbl.getX()));
-            //boolean matchY = foods.stream().anyMatch(food -> food.getYInterval().equals(imgLbl.getY()));
+    //boolean matchX = foods.stream().anyMatch(food -> food.getXInterval().equals(imgLbl.getX()));
+    //boolean matchY = foods.stream().anyMatch(food -> food.getYInterval().equals(imgLbl.getY()));
 
-            //if (matchX && matchY){
-            //    gameWindow.foodTaken();
-                //foods.remove(0);
-            //}
-        }
-
-        private void moveCharacter(JLabel imgLbl, int keyCode){
-            switch (keyCode) {
-                case 37 -> imgLbl.setLocation(imgLbl.getX() - 10, imgLbl.getY());
-                case 38 -> imgLbl.setLocation(imgLbl.getX(), imgLbl.getY() - 10);
-                case 39 -> imgLbl.setLocation(imgLbl.getX() + 10, imgLbl.getY());
-                case 40 -> imgLbl.setLocation(imgLbl.getX(), imgLbl.getY() + 10);
-                //case 32: kill zombie
-            }
-        }
-
-        private void detectCollision(JLabel imgLbl){
-            ArrayList<JLabel> foodLabels = gameWindow.getFoodLabels();
-
-            for (JLabel jLabel : foodLabels){
-                if (imgLbl.getBounds().intersects(jLabel.getBounds())){
-                    System.out.println("For loop: Collision detected!");
-                    foodLabels.remove(jLabel);
-                    gameWindow.foodTaken(jLabel);
-                    break;
-                } else {
-                    System.out.println("No collision");
-                }
-            }
-        }
-    }
+    //if (matchX && matchY){
+    //    gameWindow.foodTaken();
+    //foods.remove(0);
+    //}
 }
 
