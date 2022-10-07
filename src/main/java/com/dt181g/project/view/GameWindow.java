@@ -1,19 +1,22 @@
 package com.dt181g.project.view;
 
+import com.dt181g.project.Observables;
+import com.dt181g.project.Observers;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.stream.Stream;
 
-public class GameWindow extends JFrame implements ActionListener{
+public class GameWindow extends JFrame implements Observers {
 
     private final int MAX_FOOD = 5;
     private final int MAX_ZOMBIES = 5;
-    private final int WIDTH = 700;
-    private final int HEIGHT = 600;
-    int x = 60;
-    int y = 60;
+    private static final int WIDTH = 700;
+    private static final int HEIGHT = 600;
+
     int currZombies = 5;
     int currFood = 5;
     int score;
@@ -23,12 +26,22 @@ public class GameWindow extends JFrame implements ActionListener{
     JLabel timerLbl = new JLabel();
     JLabel scoreLbl = new JLabel("Score: ");
     JLabel scoreCount = new JLabel();
+    JButton startGameBtn = new JButton("Start game");
     JButton endGameBtn = new JButton("End game");
-    ImageIcon foodImage = new ImageIcon("src\\main\\java\\com\\dt181g\\project\\images\\food.png");
-    ImageIcon zombieImg = new ImageIcon("src\\main\\java\\com\\dt181g\\project\\images\\zombie.png");
     JPanel gamePanel = new JPanel();
-    Random rand = new Random();
-    Timer timer;
+
+    static final int FOOD_DIAMETER = 60;
+    static final int ZOMBIE_DIAMETER = 60;
+    static final int CHAR_DIAMETER = 60;
+
+    static final int FOOD_HEIGHT = 60;
+    static final int ZOMBIE_HEIGHT = 60;
+    static final int CHAR_HEIGHT = 60;
+
+    ArrayList<JLabel> foodLabels = new ArrayList<>();
+
+    Thread gameThread;
+
     int[][] coordinates;
     Stream<int[]> coord = Stream.empty();
     
@@ -36,18 +49,27 @@ public class GameWindow extends JFrame implements ActionListener{
     int yVelocity = 1;
 
     public GameWindow(){
-
         this.setTitle("Game");
         this.setResizable(false);
         this.setVisible(true);
         this.setFocusable(true);
         this.setLayout(new BorderLayout());
-        timer = new Timer(1000, this);
-        timer.start();
+        this.add(addBtnPanel(), BorderLayout.WEST);
         this.add(addGamePanel(), BorderLayout.EAST);
         this.add(addStatsPanel(), BorderLayout.SOUTH);
         this.pack();
+        //gameThread = new Thread(new GameRunnable());
+        //gameThread.start();
+    }
 
+    private JPanel addBtnPanel(){
+        JPanel btnPanel = new JPanel();
+        btnPanel.setPreferredSize(new Dimension(125, HEIGHT));
+        btnPanel.setLayout(new BoxLayout(btnPanel, BoxLayout.Y_AXIS));
+
+        btnPanel.add(startGameBtn);
+        btnPanel.add(endGameBtn);
+        return btnPanel;
     }
 
     private JPanel addStatsPanel(){
@@ -76,28 +98,40 @@ public class GameWindow extends JFrame implements ActionListener{
         return gamePanel;
     }
 
-    public void addFoodTest(int x, int y, String path){
+
+    public void testAdd(int x, int y, String path){
         JLabel label = new JLabel();
         label.setBounds(x, y, 60, 60);
 
-        Image foodImage = new ImageIcon(path).getImage();
-        Image modFoodImg = foodImage.getScaledInstance(60, 60, Image.SCALE_SMOOTH);
-        ImageIcon newImg = new ImageIcon(modFoodImg);
+        Image img = new ImageIcon(path).getImage();
+        Image img2 = img.getScaledInstance(60, 60, Image.SCALE_SMOOTH);
+        ImageIcon newImg = new ImageIcon(img2);
         label.setIcon(newImg);
-        gamePanel.add(label);
+        foodLabels.add(label);
     }
 
-    public void addZombieTest(int x, int y, String path){
+    public ArrayList<JLabel> getFoodLabels(){
+        return foodLabels;
+    }
+
+    public void addFoods(int x, int y, String path){
+        addItems(x, y, path);
+    }
+
+    public void addZombies(int x, int y, String path){
+        addItems(x, y, path);
+    }
+
+    private void addItems(int x, int y, String path) {
         JLabel label = new JLabel();
         label.setBounds(x, y, 60, 60);
 
-        Image zombieImage = new ImageIcon(path).getImage();
-        Image modZombieImg = zombieImage.getScaledInstance(60, 60, Image.SCALE_SMOOTH);
-        ImageIcon newImg = new ImageIcon(modZombieImg);
+        Image itemImg = new ImageIcon(path).getImage();
+        Image modifiedImg = itemImg.getScaledInstance(60, 60, Image.SCALE_SMOOTH);
+        ImageIcon newImg = new ImageIcon(modifiedImg);
         label.setIcon(newImg);
         gamePanel.add(label);
     }
-
 
 
     /*public void addFood(){
@@ -115,7 +149,7 @@ public class GameWindow extends JFrame implements ActionListener{
         }
     }*/
 
-    public void addZombie(){
+    /*public void addZombie(){
         for (int i = 0; i < MAX_ZOMBIES; i++){
             JLabel label = new JLabel();
             int randX = rand.nextInt((WIDTH - x) + 1) + 1;
@@ -128,10 +162,14 @@ public class GameWindow extends JFrame implements ActionListener{
             //moveZombie(label);
             gamePanel.add(label);
         }
-    }
+    }*/
 
-    public void checkFood(){
+    public void foodTaken(JLabel jLabel){
+        gamePanel.remove(jLabel);
+        gamePanel.revalidate();
+        gamePanel.repaint();
         score++;
+        currFood--;
         scoreCount.setText(String.valueOf(score));
     }
 
@@ -143,7 +181,7 @@ public class GameWindow extends JFrame implements ActionListener{
     }*/
 
 
-    public void setCharacter(String path, int score){
+    public void addCharacter(String path, int score){
         this.score = score;
         charImage = new ImageIcon(path);
         Image charOtherImg = charImage.getImage();
@@ -160,11 +198,12 @@ public class GameWindow extends JFrame implements ActionListener{
         this.addKeyListener(listener);
     }
 
-
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
+    public void addStartGame(ActionListener listener){
+        startGameBtn.addActionListener(listener);
     }
 
+    @Override
+    public void update(Observables observables) {
+
+    }
 }

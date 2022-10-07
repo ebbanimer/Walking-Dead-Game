@@ -10,7 +10,6 @@ import com.dt181g.project.model.charFactoryMethod.Character;
 import javax.swing.*;
 import java.awt.event.*;
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 /**
  * Tells model to create the characters
@@ -54,26 +53,38 @@ public class Controller {
                 theModel.createItem("Food", 5);
                 theModel.createItem("Zombie", 5);
                 gameWindow = new GameWindow();
+                gameWindow.addStartGame(new AddStartGame());
                 gameWindow.addKeyGame(new AddKeyGame());
                 foods = theModel.getFoods();
                 zombies = theModel.getZombies();
 
                 for (Food food : foods) {
-                    gameWindow.addFoodTest(food.getStartX(),
+                    gameWindow.addFoods(food.getStartX(),
+                            food.getStartY(), food.getPath());
+                    gameWindow.testAdd(food.getStartX(),
                             food.getStartY(), food.getPath());
                 }
 
                 for (Zombie zombie : zombies) {
-                    gameWindow.addZombieTest(zombie.getStartX(),
+                    gameWindow.addZombies(zombie.getStartX(),
                             zombie.getStartY(), zombie.getPath());
                 }
 
                 //gameWindow.addKeyGame(new AddKeyAdapter());
                 Character character = theModel.getNewCharacter();
-                gameWindow.setCharacter(character.getIMG_PATH(), character.getScore());
+                gameWindow.addCharacter(character.getIMG_PATH(), character.getScore());
             } else {
                 theView.displayError("Please choose a character");
             }
+        }
+    }
+
+    static class AddStartGame implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            // move the zombies
+            // eat apples
         }
     }
 
@@ -90,28 +101,31 @@ public class Controller {
                 //case 32: kill zombie
             }
 
-            //boolean matchX = false;
-            //boolean matchY = false;
-
-            /*for (Food food : foods){
-                if ((food.getStartX() - 30) < imgLbl.getX() && imgLbl.getX() < (food.getStartX() + 30)){
-                    matchX = true;
+            for (JLabel jLabel : gameWindow.getFoodLabels()){
+                System.out.println(jLabel.getBounds());
+                if (imgLbl.getBounds().intersects(jLabel.getBounds())){
+                    System.out.println("For loop: Collision detected!");
+                    gameWindow.foodTaken(jLabel);
+                    break;
                 }
             }
 
-            for (Food food : foods){
-                if ((food.getStartY() - 30) < imgLbl.getY() && imgLbl.getY() < (food.getStartY() + 30)){
-                    matchY = true;
-                }
+            /*boolean collision = gameWindow.getFoodLabels().stream()
+                    .anyMatch(jLabel -> jLabel.getBounds()
+                            .intersects(imgLbl.getBounds()));
+
+            if (collision){
+                gameWindow.foodTaken();
+                System.out.println("Streams: Collision detected!");
             }*/
 
-            boolean matchX = foods.stream().anyMatch(food -> food.getXInterval().equals(imgLbl.getX()));
-            boolean matchY = foods.stream().anyMatch(food -> food.getYInterval().equals(imgLbl.getY()));
+            //boolean matchX = foods.stream().anyMatch(food -> food.getXInterval().equals(imgLbl.getX()));
+            //boolean matchY = foods.stream().anyMatch(food -> food.getYInterval().equals(imgLbl.getY()));
 
-            if (matchX && matchY){
-                gameWindow.checkFood();
+            //if (matchX && matchY){
+            //    gameWindow.foodTaken();
                 //foods.remove(0);
-            }
+            //}
         }
     }
 }

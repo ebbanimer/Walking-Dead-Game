@@ -1,12 +1,14 @@
 package com.dt181g.project.model;
 
+import com.dt181g.project.Observables;
+import com.dt181g.project.Observers;
 import com.dt181g.project.model.charFactoryMethod.Character;
 import com.dt181g.project.model.charFactoryMethod.CharacterFactory;
 import com.dt181g.project.model.itemAbstractFactory.*;
 
 import java.util.ArrayList;
 
-public class Model {
+public class Model implements Observables {
 
     private Character newCharacter = null;
     private ArrayList<Zombie> zombies;
@@ -37,5 +39,26 @@ public class Model {
 
     public ArrayList<Food> getFoods(){
         return foods;
+    }
+
+
+    @Override
+    public void update(Observables o, Object arg) {
+
+    }
+
+    @Override
+    public void notiFyObserver() {
+
+    }
+
+    @Override
+    public void register(Observers o) {
+
+    }
+
+    @Override
+    public void unregister(Observers o) {
+
     }
 }
