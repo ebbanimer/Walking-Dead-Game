@@ -1,8 +1,5 @@
-package com.dt181g.project.model.charFactoryMethod;
+package com.dt181g.project.model.characters;
 
-/**
- * Factory method pattern
- */
 public class CharacterFactory {
 
     public Character createCharacter(String character){

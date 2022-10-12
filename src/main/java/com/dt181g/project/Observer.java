@@ -1,5 +1,5 @@
 package com.dt181g.project;
 
 public interface Observer {
-    void update(Observable observable);
+    void update() throws InterruptedException;
 }

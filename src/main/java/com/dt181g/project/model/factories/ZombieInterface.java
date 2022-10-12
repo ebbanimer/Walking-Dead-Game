@@ -1,8 +1,9 @@
-package com.dt181g.project.model.itemAbstractFactory;
+package com.dt181g.project.model.factories;
 
 public interface ZombieInterface {
     String getPath();
     Integer getStartX();
     Integer getStartY();
-    Boolean getIsVanished();
+    Integer getID();
+
 }

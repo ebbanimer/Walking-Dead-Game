@@ -6,6 +6,7 @@ Detect collision with zombie
 Collision with apple
     -> score 1 point
 Stop game
+Kill zombie with space if char is close to zombie
 
 Producer/consumer pattern
 Object pool
@@ -28,10 +29,6 @@ Create characters
 Create items
 Collision
 Add timer in stats
-
-
-
-
 
 
 Walking dead
