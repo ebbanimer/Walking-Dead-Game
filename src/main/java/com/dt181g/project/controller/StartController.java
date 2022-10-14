@@ -20,7 +20,7 @@ public class StartController implements Observer {
 
     public StartController(){
         this.theModel = new Model();
-        this.startView = new StartView(initGui().toArray(new String[0]), 50, "src\\main\\java\\com\\dt181g\\project\\images\\transparent-masterzombie.png");
+        this.startView = new StartView(initGui().toArray(new String[0]), 50, Constants.MASTER_ZOMBIE_PATH);
         startView.addComboListener(new AddCharacterPickListener());
         startView.addStartListener(new AddStartListener());
         startView.addInstructionsListener(new AddInstructionsListener());
@@ -31,7 +31,7 @@ public class StartController implements Observer {
     private List<String> initGui(){
         this.theModel.initializeCharacterList();
         List<String> list = theModel.sortCharacterNames();
-        list.add(0, "Pick a character...");
+        list.add(0, Constants.PICK_CHARACTER);
         return list;
     }
 
@@ -39,7 +39,7 @@ public class StartController implements Observer {
         @Override
         public void actionPerformed(ActionEvent e) {
             String characterName = startView.getCharacter();
-            if (characterName.equals("Pick a character...")) {
+            if (characterName.equals(Constants.PICK_CHARACTER)) {
                 startView.displayError(Constants.ERROR);
             } else {
                 try {

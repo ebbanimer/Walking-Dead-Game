@@ -1,6 +1,7 @@
 package com.dt181g.project;
 
 import com.dt181g.project.controller.GameController;
+import com.dt181g.project.model.Constants;
 
 import javax.swing.*;
 import java.util.Random;
@@ -8,12 +9,7 @@ import java.util.TimerTask;
 
 public class ZombieAnimation extends TimerTask{
 
-    private final int WIDTH = 700;
-    private final int HEIGHT = 600;
-    private final int zombieWidth = 60;
-    private final int zombieHeight = 60;
-    public volatile boolean gameOver = false;
-    private GameController controller;
+    private final GameController controller;
     JLabel zombie;
     int x;
     int y;
@@ -27,19 +23,19 @@ public class ZombieAnimation extends TimerTask{
         this.x = zombie.getX();
         this.y = zombie.getY();
         random = new Random();
-        xVelocity = random.nextInt(3 + 1);
-        yVelocity = random.nextInt(3 +1);
+        xVelocity = random.nextInt(4 + 2);
+        yVelocity = random.nextInt(4 + 2);
     }
 
     @Override
     public void run() {
         do {
-            if (x > WIDTH - zombieWidth || x < 0) {
+            if (x > Constants.WIDTH - Constants.ICON_WIDTH || x < 0) {
                 xVelocity = xVelocity * -1;
             }
             x = x + xVelocity;
 
-            if (y > HEIGHT - zombieHeight || y < 0) {
+            if (y > Constants.HEIGHT - Constants.ICON_HEIGHT || y < 0) {
                 yVelocity = yVelocity * -1;
             }
             y = y + yVelocity;

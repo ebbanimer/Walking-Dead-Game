@@ -66,19 +66,19 @@ public class GamePanel extends JPanel {
     }
 
     public void removeZombies(){
-        for (int i = 0; i < zombieLabels.size(); i++){
-            this.remove(zombieLabels.removeFirst());
-            zombieLabels.removeFirst();
+        for (JLabel zombieLabel : zombieLabels){
+            this.remove(zombieLabel);
         }
+        zombieLabels.clear();
         this.revalidate();
         this.repaint();
     }
 
     public void removeFoods(){
-        for (int i = 0; i < foodLabels.size(); i++){
-            this.remove(foodLabels.removeFirst());
-            foodLabels.removeFirst();
+        for (JLabel foodLabel : foodLabels){
+            this.remove(foodLabel);
         }
+        foodLabels.clear();
         this.revalidate();
         this.repaint();
     }

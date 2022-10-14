@@ -32,6 +32,8 @@ public class GameController implements Observer {
     private final Deque<Food> foods = new LinkedList<>();
     private final Deque<Zombie> zombies = new LinkedList<>();
     volatile boolean gameOver = false;
+    volatile boolean levelOne = false;
+    volatile boolean levelTwo = false;
     Timer timer;
 
     private GameFrame gameFrame;
@@ -61,6 +63,8 @@ public class GameController implements Observer {
     }
 
     private void initializeGame() {
+        levelOne = true;
+        levelTwo = false;
         keyGame = new AddKeyGame();
 
         LevelMethods level = new LevelOne();
@@ -109,19 +113,24 @@ public class GameController implements Observer {
         @Override
         public void keyPressed(KeyEvent e){
             if (foodLabels.isEmpty()){
-                int result = gameFrame.displayWinMsg(Constants.WIN_MESSAGE);
-                switch (result) {
-                    case 0 -> {
-                        try {
-                            nextLevel();
-                        } catch (InterruptedException ex) {
-                            ex.printStackTrace();
+                if (levelOne){
+                    int result = gameFrame.displayWinMsg(Constants.WIN_MESSAGE_1);
+                    switch (result){
+                        case 0 -> {
+                            try {
+                                nextLevel();
+                            } catch (InterruptedException ex) {
+                                ex.printStackTrace();
+                            }
+                        }
+                        case 1 -> {
+                            stopGame();
+                            gameFrame.dispose();
                         }
                     }
-                    case 1 -> {
-                        stopGame();
-                        gameFrame.dispose();
-                    }
+                } else if (levelTwo){
+                    gameFrame.displayWinTwoMsg(Constants.WIN_MESSAGE_2);
+                    gameFrame.dispose();
                 }
             }
             if (!gameOver){
@@ -188,19 +197,24 @@ public class GameController implements Observer {
     }
 
     private void nextLevel() throws InterruptedException {
+        levelOne = false;
+        levelTwo = true;
         timer.cancel();
 
         foods.forEach(food -> theModel.returnFood(food));
         zombies.forEach(zombie -> theModel.returnZombie(zombie));
+        System.out.println("From game controller. Zombies after returning: " + zombies.size());
 
         gamePanel.removeZombies();
         gamePanel.removeFoods();
+        System.out.println("From game controller. Zombie labels after removing, level 2: " + gamePanel.getZombieLabels().size());
 
         LevelMethods levelTwo = new LevelTwo();
         levelTwo.initLevel(theModel);
 
         createFoodLabels();
         createZombieLabels();
+        System.out.println("From game controller. After creating zombie labels: " + gamePanel.getZombieLabels().size());
 
         imgLbl.setLocation(0, 0);
 

@@ -56,16 +56,14 @@ public class Model implements Observable {
     public void createItem(String item, int amount) {
         if ("Carrot".equals(item)){
             foods = foodAbstractFactory.create(item, amount);
-            System.out.println("Foods after creation: " + foods.size());
         } else if ("Salad".equals(item)){
             foods = foodAbstractFactory.create(item, amount);
-            System.out.println("Foods after creation: " + foods.size());
         } else if ("ZombieOne".equals(item)){
             zombies = zombieAbstractFactory.create(item, amount);
-            System.out.println("Zombies after creation: " + zombies.size());
         } else if ("ZombieTwo".equals(item)){
+            System.out.println("From model: " + zombies.size() + " level two, before creating zombie two");
             zombies = zombieAbstractFactory.create(item, amount);
-            System.out.println("Zombies after creation: " + zombies.size());
+            System.out.println("From model: " + zombies.size() + " level two, after creating zombie two");
         }
     }
 
@@ -105,6 +103,7 @@ public class Model implements Observable {
 
     public void returnZombie(Zombie zombie){
         zombies.add(zombie);
+        System.out.println("Model, returning zombies. Size: " + zombies.size());
     }
 
     public Character getNewCharacter(){

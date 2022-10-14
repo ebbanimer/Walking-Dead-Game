@@ -57,6 +57,10 @@ public class GameFrame extends JFrame {
                 displayMsg(msg));
     }
 
+    public void displayWinTwoMsg(String message){
+        JOptionPane.showMessageDialog(this, displayMsg(message));
+    }
+
     public Integer displayWinMsg(String message){
         String[] options = new String[] {"Next level", "Cancel"};
         return JOptionPane.showOptionDialog(this, displayMsg(message), "Winning!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
