@@ -1,8 +1,8 @@
-package com.dt181g.project.animation;
+package com.dt181g.project.model.startanimation;
 
 import java.util.Random;
 
-public class Producer implements Runnable{
+public class ProducerMaster implements Runnable{
 
     private int delay = new Random().nextInt(5) + 1;
     private int amount = new Random().nextInt(10) + 1;
@@ -12,7 +12,7 @@ public class Producer implements Runnable{
     public void run() {
         while(!shouldFinish){
             try {
-                Animation.INSTANCE.addScore(amount);
+                SizePool.INSTANCE.addSize(amount);
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -1,5 +1,4 @@
 package com.dt181g.project.view;
-import com.dt181g.project.model.characters.Character;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,14 +9,14 @@ public class GameFrame extends JFrame {
     GamePanel gamePanel;
     StatsPanel statsPanel;
     ButtonPanel btnPanel;
-    AnimationPanel animationPanel;
+    //AnimationPanel animationPanel;
 
     public GameFrame(String path, int score){
 
         gamePanel = new GamePanel(path);
         statsPanel = new StatsPanel(score, 5, 5);
         btnPanel = new ButtonPanel();
-        animationPanel = new AnimationPanel(score);
+        //animationPanel = new AnimationPanel(score);
 
         this.setTitle("Game");
         this.setResizable(false);
@@ -29,7 +28,8 @@ public class GameFrame extends JFrame {
         this.add(btnPanel, BorderLayout.WEST);
         this.add(gamePanel, BorderLayout.CENTER);
         this.add(statsPanel, BorderLayout.SOUTH);
-        this.add(animationPanel, BorderLayout.EAST);
+        //this.add(animationPanel, BorderLayout.EAST);
+        //this.add(animationPanel, BorderLayout.EAST);
         this.pack();
     }
 
@@ -45,7 +45,7 @@ public class GameFrame extends JFrame {
         return btnPanel;
     }
 
-    public AnimationPanel getAnimationPanel(){ return animationPanel; }
+    //public AnimationPanel getAnimationPanel(){ return animationPanel; }
 
 
     public void displayKilled(String message){

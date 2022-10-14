@@ -1,6 +1,6 @@
 package com.dt181g.project.model.factories;
 
-import com.dt181g.project.Constants;
+import com.dt181g.project.model.Constants;
 
 import java.util.Random;
 

@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.util.Random;
 import java.util.TimerTask;
 
-public class ZombieAnimation extends TimerTask {
+public class ZombieAnimation extends TimerTask{
 
     private final int WIDTH = 700;
     private final int HEIGHT = 600;

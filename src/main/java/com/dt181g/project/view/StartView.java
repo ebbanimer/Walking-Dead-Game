@@ -16,16 +16,19 @@ public class StartView extends JFrame {
     JButton instructionBtn = new JButton("Instructions");
     ImageIcon charImage = new ImageIcon();
     JLabel imgLbl = new JLabel(charImage);
+    StartAnimationPanel startAnimationPanel;
 
-    public StartView(String[] characters){
+    public StartView(String[] characters, int size, String path){
         this.setTitle("The walking dead");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(new BorderLayout());
         this.setResizable(false);
+        startAnimationPanel = new StartAnimationPanel(size, path);
 
-        this.add(addStartPanel(), BorderLayout.EAST);
+        this.add(addStartPanel(), BorderLayout.CENTER);
         this.add(addImgPanel(), BorderLayout.WEST);
         this.add(addPickPanel(characters), BorderLayout.SOUTH);
+        this.add(startAnimationPanel, BorderLayout.EAST);
         this.pack();
         this.setVisible(true);
     }
@@ -131,6 +134,10 @@ public class StartView extends JFrame {
         UIManager.put("OptionPane.background",Color.decode("#0f4c5c"));
         UIManager.put("Panel.background",Color.decode("#0f4c5c"));
         return panel;
+    }
+
+    public JPanel getStartAnimationPanel(){
+        return startAnimationPanel;
     }
 
     public void addInstructionsListener(ActionListener listener){ instructionBtn.addActionListener(listener);}

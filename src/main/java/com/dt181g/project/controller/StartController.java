@@ -1,6 +1,6 @@
 package com.dt181g.project.controller;
 
-import com.dt181g.project.Constants;
+import com.dt181g.project.model.Constants;
 import com.dt181g.project.model.characters.Character;
 import com.dt181g.project.Observer;
 import com.dt181g.project.view.StartView;
@@ -20,10 +20,11 @@ public class StartController implements Observer {
 
     public StartController(){
         this.theModel = new Model();
-        this.startView = new StartView(initGui().toArray(new String[0]));
+        this.startView = new StartView(initGui().toArray(new String[0]), 50, "src\\main\\java\\com\\dt181g\\project\\images\\transparent-masterzombie.png");
         startView.addComboListener(new AddCharacterPickListener());
         startView.addStartListener(new AddStartListener());
         startView.addInstructionsListener(new AddInstructionsListener());
+        new SizeController(startView);
         theModel.register(this);
     }
 
@@ -51,7 +52,7 @@ public class StartController implements Observer {
                 gameCharacter = newCharacter;
                 startView.setCharacter(newCharacter.getName(), newCharacter.getWeapon(), newCharacter.getPath());
             } else if (newCharacter.getIsDead()){
-                startView.displayDead(Constants.DEAD);
+                startView.displayDead(characterName + Constants.DEAD_START_VIEW);
             }
         }
     }

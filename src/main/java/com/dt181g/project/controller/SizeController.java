@@ -1,44 +1,44 @@
 package com.dt181g.project.controller;
 
-import com.dt181g.project.animation.Animation;
-import com.dt181g.project.animation.AnimationObserver;
-import com.dt181g.project.animation.Consumer;
-import com.dt181g.project.animation.Producer;
-import com.dt181g.project.view.AnimationPanel;
-import com.dt181g.project.view.GameFrame;
+import com.dt181g.project.model.startanimation.ConsumerMaster;
+import com.dt181g.project.model.startanimation.ProducerMaster;
+import com.dt181g.project.model.startanimation.SizeObserver;
+import com.dt181g.project.model.startanimation.SizePool;
+import com.dt181g.project.view.StartAnimationPanel;
+import com.dt181g.project.view.StartView;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Deque;
 import java.util.LinkedList;
 
-public class AnimationController implements AnimationObserver {
+public class SizeController implements SizeObserver {
 
-    Animation animation = Animation.INSTANCE;
-    AnimationPanel animationPanel;
-    GameFrame gameFrame;
-    private final Deque<Producer> producerThreads = new LinkedList<>();
-    private final Deque<Consumer> consumerThreads = new LinkedList<>();
-    private int score;
+    SizePool pool = SizePool.INSTANCE;
+    StartAnimationPanel startAnimationPanel;
+    StartView startView;
 
-    public AnimationController(GameFrame gameFrame){
-        this.gameFrame = gameFrame;
-        animation.register(this);
+    private final Deque<ProducerMaster> producerThreads = new LinkedList<>();
+    private final Deque<ConsumerMaster> consumerThreads = new LinkedList<>();
+    private int size;
+
+    public SizeController(StartView startView){
+        this.startView = startView;
+        pool.register(this);
         startThreads();
         startTimer();
     }
 
     public void startThreads(){
-
-        for (int i = 1; i <= animation.getProducers(); i++){
-            Producer producer = new Producer();
+        for (int i = 1; i <= pool.getProducers(); i++){
+            ProducerMaster producer = new ProducerMaster();
             Thread thread = new Thread(producer);
             thread.start();
             producerThreads.add(producer);
         }
 
-        for (int i = 1; i <= animation.getConsumers(); i++){
-            Consumer consumer= new Consumer();
+        for (int i = 1; i <= pool.getConsumers(); i++){
+            ConsumerMaster consumer= new ConsumerMaster();
             Thread thread = new Thread(consumer);
             thread.start();
             consumerThreads.add(consumer);
@@ -47,18 +47,18 @@ public class AnimationController implements AnimationObserver {
 
     public void startTimer(){
         Timer timer = new Timer(1000, e -> {
-            animationPanel = new AnimationPanel(score);
-            gameFrame.add(animationPanel, BorderLayout.EAST);
-            gameFrame.revalidate();
+            startAnimationPanel = new StartAnimationPanel(size, "src\\main\\java\\com\\dt181g\\project\\images\\transparent-masterzombie.png");
+            startView.add(startAnimationPanel, BorderLayout.EAST);
+            startView.revalidate();
         });
         timer.start();
     }
 
     @Override
     public void update() throws InterruptedException {
-        this.score = animation.getScore();
+        this.size = pool.getSize();
 
-        if (score < 40) {
+        if (size < 40) {
             for (int i = 0; i < consumerThreads.size() / 2; i++) {
                 if (2 <= consumerThreads.size()) {
 
@@ -68,13 +68,13 @@ public class AnimationController implements AnimationObserver {
 
                 }
                 if (producerThreads.size() <= 19) {
-                    Producer producer = new Producer();
+                    ProducerMaster producer = new ProducerMaster();
                     Thread thread = new Thread(producer);
                     thread.start();
                     producerThreads.add(producer);
                 }
             }
-        } else if (score >= 150) {
+        } else if (size >= 150) {
             for (int i = 0; i <= producerThreads.size() / 2; i++) {
                 if (2 <= producerThreads.size()) {
                     producerThreads.stream()
@@ -83,7 +83,7 @@ public class AnimationController implements AnimationObserver {
                 }
 
                 if (consumerThreads.size() <= 19) {
-                    Consumer consumer = new Consumer();
+                    ConsumerMaster consumer= new ConsumerMaster();
                     Thread thread = new Thread(consumer);
                     thread.start();
                     consumerThreads.add(consumer);
@@ -92,4 +92,3 @@ public class AnimationController implements AnimationObserver {
         }
     }
 }
-

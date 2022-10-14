@@ -1,6 +1,6 @@
 package com.dt181g.project.view;
 
-import com.dt181g.project.Constants;
+import com.dt181g.project.model.Constants;
 import com.dt181g.project.model.factories.Food;
 import com.dt181g.project.model.factories.Zombie;
 
@@ -44,7 +44,6 @@ public class GamePanel extends JPanel {
     }
 
     public void addZombies(Zombie zombie){
-        System.out.println(zombie.getPath());
         addItems(zombie.getStartX(), zombie.getStartY(), zombie.getPath(), zombieLabels);
     }
 

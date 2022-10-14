@@ -1,8 +1,8 @@
-package com.dt181g.project.animation;
+package com.dt181g.project.model.startanimation;
 
 import java.util.Random;
 
-public class Consumer implements Runnable{
+public class ConsumerMaster implements Runnable{
 
     private final int amount = new Random().nextInt(20) + 1;
     private final int delay = new Random().nextInt(5) + 1;
@@ -13,7 +13,7 @@ public class Consumer implements Runnable{
     public void run(){
         while(!shouldFinish){
             try {
-                Animation.INSTANCE.removeScore(amount);
+                SizePool.INSTANCE.removeSize(amount);
                 Thread.sleep(delay);
             } catch (Exception e) {
                 e.printStackTrace();

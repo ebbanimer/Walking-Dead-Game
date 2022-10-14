@@ -84,7 +84,6 @@ public class Model implements Observable {
     }
 
     public Food getFood(){
-        System.out.println("Foods when taken: " + foods.size());
         return foods.pollFirst();
     }
 
@@ -94,11 +93,9 @@ public class Model implements Observable {
 
     public void returnFood(Food food){
         foods.add(food);
-        System.out.println("Foods when returning: " + foods.size());
     }
 
     public Zombie getZombie(){
-        System.out.println("Zombies when taken: " + zombies.size());
         return zombies.pollFirst();
     }
 
@@ -108,7 +105,6 @@ public class Model implements Observable {
 
     public void returnZombie(Zombie zombie){
         zombies.add(zombie);
-        System.out.println("Zombies when returning: " + zombies.size());
     }
 
     public Character getNewCharacter(){

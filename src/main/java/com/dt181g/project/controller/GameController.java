@@ -1,6 +1,6 @@
 package com.dt181g.project.controller;
 
-import com.dt181g.project.Constants;
+import com.dt181g.project.model.Constants;
 import com.dt181g.project.Observer;
 import com.dt181g.project.ZombieAnimation;
 import com.dt181g.project.model.Model;
@@ -31,7 +31,7 @@ public class GameController implements Observer {
     private Character gameCharacter;
     private final Deque<Food> foods = new LinkedList<>();
     private final Deque<Zombie> zombies = new LinkedList<>();
-    boolean gameOver = false;
+    volatile boolean gameOver = false;
     Timer timer;
 
     private GameFrame gameFrame;
@@ -60,9 +60,8 @@ public class GameController implements Observer {
         buttonPanel.addEndGame(new AddEndGameButton());
     }
 
-    private void initializeGame() throws InterruptedException {
+    private void initializeGame() {
         keyGame = new AddKeyGame();
-        new AnimationController(gameFrame);
 
         LevelMethods level = new LevelOne();
         level.initLevel(theModel);
@@ -142,7 +141,6 @@ public class GameController implements Observer {
                 case 38 -> imgLbl.setLocation(imgLbl.getX(), imgLbl.getY() - 10);
                 case 39 -> imgLbl.setLocation(imgLbl.getX() + 10, imgLbl.getY());
                 case 40 -> imgLbl.setLocation(imgLbl.getX(), imgLbl.getY() + 10);
-                //case 32 -> detectZombieCollision(keyCode, imgLbl);
             }
         }
 
@@ -228,7 +226,7 @@ public class GameController implements Observer {
                     counter--;
                 }
                 else {
-                    gameFrame.displayTimesUpMsg("Times up!");
+                    gameFrame.displayTimesUpMsg(Constants.TIMES_UP_MESSAGE);
                     stopGame();
                 }
             }
@@ -241,7 +239,7 @@ public class GameController implements Observer {
     }
 
     @Override
-    public void update() throws InterruptedException {
+    public void update() {
         match = theModel.getMatch();
     }
 

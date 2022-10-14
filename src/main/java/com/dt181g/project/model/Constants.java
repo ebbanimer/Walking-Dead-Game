@@ -1,4 +1,4 @@
-package com.dt181g.project;
+package com.dt181g.project.model;
 
 public interface Constants {
     int ICON_HEIGHT = 60;
@@ -6,8 +6,10 @@ public interface Constants {
     int WIDTH = 700;
     int HEIGHT = 550;
 
+    String DEAD_START_VIEW = " already got bit in a previous round, try another character!";
+
     String DEAD = "<html>Sorry, character got bit and is dead! <br>" +
-            "Try another character... </html>";
+            "Better luck next time. </html>";
     String ERROR = "Invalid character! Please choose a character before going ahead...";
 
     String INSTRUCTION_MESSAGE = "<html>Collect as much food as you can<br> without getting caught by the zombies.<br> " +
