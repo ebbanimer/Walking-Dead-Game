@@ -1,5 +1,6 @@
 package com.dt181g.project.view;
 
+import com.dt181g.project.Constants;
 import com.dt181g.project.model.factories.Food;
 import com.dt181g.project.model.factories.Zombie;
 
@@ -10,16 +11,15 @@ import java.util.LinkedList;
 
 public class GamePanel extends JPanel {
 
-    private final int WIDTH = 700;
-    private final int HEIGHT = 600;
-    static final int CHAR_WIDTH = 60;
-    static final int CHAR_HEIGHT = 60;
+    private final int WIDTH = Constants.WIDTH;
+    private final int HEIGHT = Constants.HEIGHT;
+    private final int CHAR_WIDTH = Constants.ICON_WIDTH;
+    static final int CHAR_HEIGHT = Constants.ICON_HEIGHT;
 
     ImageIcon charImage = new ImageIcon();
     JLabel imgLbl = new JLabel(charImage);
     Deque<JLabel> foodLabels = new LinkedList<>();
     Deque<JLabel> zombieLabels = new LinkedList<>();
-
 
     public GamePanel(String path){
         this.setFocusable(true);
@@ -40,14 +40,15 @@ public class GamePanel extends JPanel {
     }
 
     public void addFoods(Food food){
-        addItems(food.getStartX(), food.getStartY(), food.getPath(), food.getID(), foodLabels);
+        addItems(food.getStartX(), food.getStartY(), food.getPath(), foodLabels);
     }
 
     public void addZombies(Zombie zombie){
-        addItems(zombie.getStartX(), zombie.getStartY(), zombie.getPath(), zombie.getID(), zombieLabels);
+        System.out.println(zombie.getPath());
+        addItems(zombie.getStartX(), zombie.getStartY(), zombie.getPath(), zombieLabels);
     }
 
-    private void addItems(Integer startX, Integer startY, String path, Integer id, Deque<JLabel> labels) {
+    private void addItems(Integer startX, Integer startY, String path, Deque<JLabel> labels) {
         JLabel label = new JLabel();
         label.setBounds(startX, startY, 60, 60);
         Image itemImg = new ImageIcon(path).getImage();

@@ -1,5 +1,7 @@
 package com.dt181g.project.view;
 
+import com.dt181g.project.Constants;
+
 import javax.swing.*;
 import java.awt.*;
 public class StatsPanel extends JPanel {
@@ -10,18 +12,23 @@ public class StatsPanel extends JPanel {
     JLabel scoreCount = new JLabel();
     JLabel foodLbl = new JLabel("Food left: ");
     JLabel foodCount = new JLabel();
+    JLabel zombieLbl = new JLabel("Zombies left: ");
+    JLabel zombieCount = new JLabel();
 
-    int currFood = 5;
+    int currFood;
     int score;
+    int currZombies;
 
-    public StatsPanel(int score){
+    public StatsPanel(int score, int currFood, int currZombies){
+        this.currZombies = currZombies;
+        this.currFood = currFood;
+        this.score = score;
 
-        this.setPreferredSize(new Dimension(700, 100));
+        this.setPreferredSize(new Dimension(Constants.WIDTH, 50));
         this.setBackground(Color.decode("#0f4c5c"));
         this.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 0));
 
         addLabels();
-        updateScore(score);
 
         this.add(timerLbl);
         this.add(timerCount);
@@ -29,12 +36,14 @@ public class StatsPanel extends JPanel {
         this.add(scoreCount);
         this.add(foodLbl);
         this.add(foodCount);
+        this.add(zombieLbl);
+        this.add(zombieCount);
     }
 
     private void addLabels(){
         scoreCount.setText(String.valueOf(score));
         foodCount.setText(String.valueOf(currFood));
-
+        zombieCount.setText(String.valueOf(currZombies));
 
         timerCount.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 15));
         timerCount.setForeground(Color.decode("#e3a587"));
@@ -42,7 +51,8 @@ public class StatsPanel extends JPanel {
         scoreCount.setForeground(Color.decode("#de3a587"));
         foodCount.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 15));
         foodCount.setForeground(Color.decode("#e3a587"));
-
+        zombieCount.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 15));
+        zombieCount.setForeground(Color.decode("#e3a587"));
 
         timerLbl.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 15));
         timerLbl.setForeground(Color.WHITE);
@@ -51,6 +61,8 @@ public class StatsPanel extends JPanel {
         scoreLbl.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 15));
         scoreLbl.setForeground(Color.WHITE);
 
+        zombieLbl.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 15));
+        zombieLbl.setForeground(Color.WHITE);
     }
 
     public void updateScore(int score){
@@ -59,19 +71,17 @@ public class StatsPanel extends JPanel {
     }
 
     public void updateFoodCount(int count){
-        this.currFood = currFood - count;
+        this.currFood = count;
         foodCount.setText(String.valueOf(currFood));
+    }
+
+    public void updateZombieCount(int count){
+        this.currZombies = count;
+        zombieCount.setText(String.valueOf(currZombies));
     }
 
     public JLabel getTimerCount(){
         return timerCount;
     }
 
-    public JLabel getScoreCount(){
-        return scoreCount;
-    }
-
-    public JLabel getFoodCount(){
-        return foodCount;
-    }
 }

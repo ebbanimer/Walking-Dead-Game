@@ -5,21 +5,19 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-public class View extends JFrame {
+public class StartView extends JFrame {
 
-    JLabel characterLbl = new JLabel("Pick a character");
-    String[] characterList = {"Choose character...", "Rick", "Michonne", "Daryl", "Eugene"};
-    JComboBox<String> characterCmb = new JComboBox<>(characterList);
+    GridBagConstraints c = new GridBagConstraints();
+    JLabel characterLbl = new JLabel("Pick a character...");
+    JLabel charNameLabel = new JLabel();
+    JLabel weaponLabel = new JLabel();
+    JComboBox<String> characterCmb;
     JButton startBtn = new JButton("Start game");
     JButton instructionBtn = new JButton("Instructions");
-    JTextArea instructionText;
-    JLabel nameLabel = new JLabel();
-    JLabel weaponLabel = new JLabel();
     ImageIcon charImage = new ImageIcon();
     JLabel imgLbl = new JLabel(charImage);
-    GridBagConstraints c = new GridBagConstraints();
 
-    public View(){
+    public StartView(String[] characters){
         this.setTitle("The walking dead");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(new BorderLayout());
@@ -27,12 +25,12 @@ public class View extends JFrame {
 
         this.add(addStartPanel(), BorderLayout.EAST);
         this.add(addImgPanel(), BorderLayout.WEST);
-        this.add(addPickPanel(), BorderLayout.SOUTH);
+        this.add(addPickPanel(characters), BorderLayout.SOUTH);
         this.pack();
         this.setVisible(true);
     }
 
-    public JPanel addPickPanel(){
+    public JPanel addPickPanel(String[] characters){
         JPanel pickPanel = new JPanel();
         pickPanel.setLayout(new GridBagLayout());
         pickPanel.setBackground(Color.decode("#0f4c5c"));
@@ -41,6 +39,7 @@ public class View extends JFrame {
         characterLbl.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 15));
         characterLbl.setForeground(Color.WHITE);
 
+        characterCmb = new JComboBox<>(characters);
         characterCmb.setPreferredSize(new Dimension(250, 40));
         characterCmb.setBackground(Color.decode("#cbf3f0"));
 
@@ -65,7 +64,7 @@ public class View extends JFrame {
         instructionBtn.setPreferredSize(new Dimension(150,40));
         instructionBtn.setBackground(Color.decode("#cbf3f0"));
 
-        addFontStyle(startPanel, nameLabel, nameLabel);
+        addFontStyle(startPanel, charNameLabel, charNameLabel);
         c.gridy = 3;
         startPanel.add(startBtn,c);
 
@@ -105,7 +104,7 @@ public class View extends JFrame {
     public void setCharacter(String character, String weapon, String imgPath){
         charImage = new ImageIcon(imgPath);
         imgLbl.setIcon(charImage);
-        nameLabel.setText("You have chosen character " + character);
+        charNameLabel.setText("You have chosen character " + character);
         weaponLabel.setText("Weapon: " + weapon);
     }
 
@@ -115,6 +114,10 @@ public class View extends JFrame {
 
     public void displayError(String msg){
         JOptionPane.showMessageDialog(this, displayMsg(msg), "Error", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    public void displayDead(String msg){
+        JOptionPane.showMessageDialog(this, displayMsg(msg), "Already dead...", JOptionPane.INFORMATION_MESSAGE);
     }
 
     private JPanel displayMsg(String message) {
@@ -130,7 +133,6 @@ public class View extends JFrame {
         return panel;
     }
 
-
     public void addInstructionsListener(ActionListener listener){ instructionBtn.addActionListener(listener);}
 
     public void addComboListener(ActionListener listener){
@@ -141,6 +143,4 @@ public class View extends JFrame {
         startBtn.addActionListener(listener);
     }
 
-
 }
-

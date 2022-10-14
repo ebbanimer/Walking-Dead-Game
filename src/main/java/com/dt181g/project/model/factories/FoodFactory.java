@@ -9,8 +9,14 @@ public class FoodFactory implements AbstractFactory<Food> {
 
     @Override
     public Deque<Food> create(String choice, int amount) {
-        for (int i = 0; i < amount; i++){
-            foods.add(new Food(i));
+        if ("Salad".equals(choice)){
+            for (int i = 0; i < amount; i++){
+                foods.add(new Salad(i));
+            }
+        } else if ("Carrot".equals(choice)){
+            for (int i = 0; i < amount; i++){
+                foods.add(new Carrot(i));
+            }
         }
         return foods;
     }

@@ -12,12 +12,12 @@ public class GameFrame extends JFrame {
     ButtonPanel btnPanel;
     AnimationPanel animationPanel;
 
-    private GameFrame(Character newCharacter){
+    public GameFrame(String path, int score){
 
-        gamePanel = new GamePanel(newCharacter.getPath());
-        statsPanel = new StatsPanel(newCharacter.getScore());
+        gamePanel = new GamePanel(path);
+        statsPanel = new StatsPanel(score, 5, 5);
         btnPanel = new ButtonPanel();
-        animationPanel = new AnimationPanel(newCharacter.getScore());
+        animationPanel = new AnimationPanel(score);
 
         this.setTitle("Game");
         this.setResizable(false);
@@ -33,10 +33,6 @@ public class GameFrame extends JFrame {
         this.pack();
     }
 
-    public static GameFrame createGameFrame(Character newCharacter) {
-        return new GameFrame(newCharacter);
-    }
-
     public GamePanel getGamePanel(){
         return gamePanel;
     }
@@ -49,9 +45,8 @@ public class GameFrame extends JFrame {
         return btnPanel;
     }
 
-    public void addKeyGame(KeyAdapter listener){
-        this.addKeyListener(listener);
-    }
+    public AnimationPanel getAnimationPanel(){ return animationPanel; }
+
 
     public void displayKilled(String message){
         JOptionPane.showMessageDialog(this, displayMsg(message));
@@ -78,5 +73,9 @@ public class GameFrame extends JFrame {
         UIManager.put("OptionPane.background",Color.decode("#0f4c5c"));
         UIManager.put("Panel.background",Color.decode("#0f4c5c"));
         return panel;
+    }
+
+    public void addKeyGame(KeyAdapter listener){
+        this.addKeyListener(listener);
     }
 }

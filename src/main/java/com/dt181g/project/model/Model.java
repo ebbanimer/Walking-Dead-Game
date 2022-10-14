@@ -7,33 +7,64 @@ import com.dt181g.project.model.characters.CharacterFactory;
 import com.dt181g.project.model.factories.*;
 
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.LinkedList;
+import java.util.*;
 
 public class Model implements Observable {
 
+    AbstractFactory<Food> foodAbstractFactory;
+    AbstractFactory<Zombie> zombieAbstractFactory;
+    CharacterFactory characterFactory;
+
     private final ArrayList<Observer> observers = new ArrayList<>();
-    private Character newCharacter = null;
+    private Character gameCharacter;
     private Deque<Food> foods = new LinkedList<>();
     private Deque<Zombie> zombies = new LinkedList<>();
+    private Deque<Character> characters = new LinkedList<>();
+    List<String> characterNames = new ArrayList<>();
     private JLabel match;
 
+    public Model(){
+        foodAbstractFactory = new FoodFactory();
+        zombieAbstractFactory = new ZombieFactory();
+        characterFactory = new CharacterFactory();
+    }
 
-    public void createCharacter(String character) throws InterruptedException {
-        CharacterFactory characterFactory = new CharacterFactory();
-        newCharacter = characterFactory.createCharacter(character);
+    public void initializeCharacterList(){
+        characters.add(characterFactory.createCharacter("Rick"));
+        characters.add(characterFactory.createCharacter("Daryl"));
+        characters.add(characterFactory.createCharacter("Michonne"));
+        characters.add(characterFactory.createCharacter("Eugene"));
+    }
+
+    public List<String> sortCharacterNames(){
+        List<Character> sortedCharList = characters.stream()
+                .sorted(Comparator.comparing(Character::getName)).toList();
+
+        for (Character character : sortedCharList){
+            characterNames.add(character.getName());
+        }
+        return characterNames;
+    }
+
+    public void createCharacter(String nameOfCharacter) throws InterruptedException {
+        gameCharacter = characters.stream()
+                .filter(character -> character.getName().equals(nameOfCharacter))
+                .findFirst().orElse(null);
         notifyObserver();
     }
 
-    public void createItem(String item, int amount) throws InterruptedException {
-        if ("Food".equals(item)){
-            AbstractFactory<Food> abstractFactory = new FoodFactory();
-            foods = abstractFactory.create(item, amount);
+    public void createItem(String item, int amount) {
+        if ("Carrot".equals(item)){
+            foods = foodAbstractFactory.create(item, amount);
             System.out.println("Foods after creation: " + foods.size());
-        } else if ("Zombie".equals(item)){
-            AbstractFactory<Zombie> abstractFactory = new ZombieFactory();
-            zombies = abstractFactory.create(item, amount);
+        } else if ("Salad".equals(item)){
+            foods = foodAbstractFactory.create(item, amount);
+            System.out.println("Foods after creation: " + foods.size());
+        } else if ("ZombieOne".equals(item)){
+            zombies = zombieAbstractFactory.create(item, amount);
+            System.out.println("Zombies after creation: " + zombies.size());
+        } else if ("ZombieTwo".equals(item)){
+            zombies = zombieAbstractFactory.create(item, amount);
             System.out.println("Zombies after creation: " + zombies.size());
         }
     }
@@ -81,7 +112,7 @@ public class Model implements Observable {
     }
 
     public Character getNewCharacter(){
-        return newCharacter;
+        return gameCharacter;
     }
 
     public JLabel getMatch(){

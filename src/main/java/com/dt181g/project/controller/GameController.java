@@ -1,5 +1,6 @@
 package com.dt181g.project.controller;
 
+import com.dt181g.project.Constants;
 import com.dt181g.project.Observer;
 import com.dt181g.project.ZombieAnimation;
 import com.dt181g.project.model.Model;
@@ -26,49 +27,37 @@ import java.util.TimerTask;
 
 public class GameController implements Observer {
 
+    private Model theModel;
     private Character gameCharacter;
+    private final Deque<Food> foods = new LinkedList<>();
+    private final Deque<Zombie> zombies = new LinkedList<>();
+    boolean gameOver = false;
+    Timer timer;
+
     private GameFrame gameFrame;
     private StatsPanel statsPanel;
     private GamePanel gamePanel;
     private ButtonPanel buttonPanel;
     private AddKeyGame keyGame;
+
     private JLabel imgLbl;
-    private Model theModel;
     private JLabel timeCount;
-    boolean gameOver = false;
-    private final Deque<Food> foods = new LinkedList<>();
-    private final Deque<Zombie> zombies = new LinkedList<>();
     private JLabel match;
-    Timer timer;
 
     public GameController(Character newCharacter, Model model) throws InterruptedException {
         gameCharacter = newCharacter;
         theModel = model;
         theModel.register(this);
 
-        gameFrame = GameFrame.createGameFrame(gameCharacter);
+        gameFrame = new GameFrame(gameCharacter.getPath(), gameCharacter.getScore());
         statsPanel = gameFrame.getStatsPanel();
         gamePanel = gameFrame.getGamePanel();
         buttonPanel = gameFrame.getBtnPanel();
 
         initializeGame();
 
-        /*keyGame = new AddKeyGame();
-
-        new AnimationController(gameFrame);
-
-        LevelMethods level = new LevelOne();
-        level.initLevel(theModel);
-
-        createFoodLabels();
-        createZombieLabels();
-
-        imgLbl = gamePanel.getImgLbl();
-        gameFrame.addKeyGame(keyGame);
-        startTimer();*/
         buttonPanel.addInstructionButton(new AddInstructionsButton());
         buttonPanel.addEndGame(new AddEndGameButton());
-        buttonPanel.addRestartBtn(new AddRestartButton());
     }
 
     private void initializeGame() throws InterruptedException {
@@ -108,42 +97,34 @@ public class GameController implements Observer {
         }
     }
 
-    class AddRestartButton implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            try {
-                initializeGame();
-            } catch (InterruptedException ex) {
-                ex.printStackTrace();
-            }
-        }
-    }
-
     class AddInstructionsButton implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            String message = "<html>Collect as much food as you can<br> without getting caught by the zombies.<br> " +
-                    "You have 30 seconds on you, and for each<br> food you collect, you get one point. If you<br> " +
-                    "get bit, you die.<br> " +
-                    "Good luck, and don't get bit!</html>";
-
-            buttonPanel.displayInstructionMessage(message);
+            buttonPanel.displayInstructionMessage(Constants.INSTRUCTION_MESSAGE);
             gameFrame.setFocusable(true);
-            /*switch (result) {
-                case 0 -> {
-                    startTimer();
-                    gameFrame.setFocusable(true);
-                    gameFrame.addKeyGame(new AddKeyGame());
-                }
-                case 1 -> gameFrame.dispose();
-            }*/
         }
     }
 
     class AddKeyGame extends KeyAdapter {
+        Deque<JLabel> foodLabels = gamePanel.getFoodLabels();
         @Override
         public void keyPressed(KeyEvent e){
+            if (foodLabels.isEmpty()){
+                int result = gameFrame.displayWinMsg(Constants.WIN_MESSAGE);
+                switch (result) {
+                    case 0 -> {
+                        try {
+                            nextLevel();
+                        } catch (InterruptedException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                    case 1 -> {
+                        stopGame();
+                        gameFrame.dispose();
+                    }
+                }
+            }
             if (!gameOver){
                 moveCharacter(imgLbl, e.getKeyCode());
                 try {
@@ -166,40 +147,25 @@ public class GameController implements Observer {
         }
 
         private void detectFoodCollision() throws InterruptedException {
-            Deque<JLabel> foodLabels = gamePanel.getFoodLabels();
-
-            if(foodLabels.isEmpty()){
-                // stop game, give option to level two
-                int result = gameFrame.displayWinMsg("You have won!");
-                switch (result) {
-                    case 0 -> nextLevel();
-                    case 1 -> {
-                        stopGame();
-                        gameFrame.dispose();
-                    }
-                }
-            }
-
             theModel.detectFoodCollision(imgLbl, foodLabels);
 
             if (match != null){
-                foodLabels.remove(match);
+                gamePanel.foodTaken(match);
                 theModel.returnFood(foods.poll());
+                foodLabels.remove(match);
                 gameCharacter.setScore(1);
                 statsPanel.updateScore(gameCharacter.getScore());
-                statsPanel.updateFoodCount(1);
-                gamePanel.foodTaken(match);
+                statsPanel.updateFoodCount(gamePanel.getFoodLabels().size());
             }
         }
 
         private void detectZombieCollision() throws InterruptedException {
             Deque<JLabel> zombieLabels = gamePanel.getZombieLabels();
-
             theModel.detectZombieCollision(imgLbl, zombieLabels);
 
             if (match != null){
                 gameCharacter.setDead(true);
-                gameFrame.displayKilled("Character killed...");
+                gameFrame.displayKilled(Constants.DEAD);
                 stopGame();
             }
         }
@@ -244,7 +210,8 @@ public class GameController implements Observer {
         gameCharacter.setScore(-score);
 
         statsPanel.updateScore(gameCharacter.getScore());
-        statsPanel.updateFoodCount(-5);
+        statsPanel.updateFoodCount(gamePanel.getFoodLabels().size());
+        statsPanel.updateZombieCount(gamePanel.getZombieLabels().size());
         startTimer();
     }
 

@@ -7,5 +7,6 @@ public class Eugene extends Character{
         setPath("src\\main\\java\\com\\dt181g\\project\\images\\eugene.png");
         setWeapon("Intelligence");
         setScore(0);
+        setDead(false);
     }
 }

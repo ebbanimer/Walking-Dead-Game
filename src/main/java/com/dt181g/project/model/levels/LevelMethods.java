@@ -3,23 +3,18 @@ package com.dt181g.project.model.levels;
 import com.dt181g.project.model.Model;
 
 public abstract class LevelMethods {
+    Model model;
 
-    Model theModel;
-
-    public final void initLevel(Model theModel) throws InterruptedException {
-        this.theModel = theModel;
+    public final void initLevel(Model model){
+        this.model = model;
         createZombies();
         createFood();
-        moveZombies();
     }
 
-    public abstract void createZombies() throws InterruptedException;
+    public abstract void createZombies();
 
-    private void createFood() throws InterruptedException {
-        theModel.createItem("Food", 5);
-    }
-
-    private void moveZombies(){
-
+    public void createFood(){
+        model.createItem("Salad", 3);
+        model.createItem("Carrot", 2);
     }
 }

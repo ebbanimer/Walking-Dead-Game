@@ -7,6 +7,7 @@ public class Michonne extends Character{
         setPath("src\\main\\java\\com\\dt181g\\project\\images\\michonne.png");
         setWeapon("Sword");
         setScore(0);
+        setDead(false);
     }
 
 }
