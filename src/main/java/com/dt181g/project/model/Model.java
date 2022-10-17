@@ -19,7 +19,7 @@ public class Model implements Observable {
     private Character gameCharacter;
     private Deque<Food> foods = new LinkedList<>();
     private Deque<Zombie> zombies = new LinkedList<>();
-    private Deque<Character> characters = new LinkedList<>();
+    private final Deque<Character> characters = new LinkedList<>();
     List<String> characterNames = new ArrayList<>();
     private JLabel match;
 
@@ -54,17 +54,11 @@ public class Model implements Observable {
     }
 
     public void createItem(String item, int amount) {
-        if ("Carrot".equals(item)){
+        if ("Carrot".equals(item) || "Salad".equals(item))
             foods = foodAbstractFactory.create(item, amount);
-        } else if ("Salad".equals(item)){
-            foods = foodAbstractFactory.create(item, amount);
-        } else if ("ZombieOne".equals(item)){
+        else if ("ZombieOne".equals(item) || "ZombieTwo".equals(item))
             zombies = zombieAbstractFactory.create(item, amount);
-        } else if ("ZombieTwo".equals(item)){
-            System.out.println("From model: " + zombies.size() + " level two, before creating zombie two");
-            zombies = zombieAbstractFactory.create(item, amount);
-            System.out.println("From model: " + zombies.size() + " level two, after creating zombie two");
-        }
+
     }
 
     public void detectFoodCollision(JLabel imgLbl, Deque<JLabel> foodLabels) throws InterruptedException {
@@ -103,7 +97,6 @@ public class Model implements Observable {
 
     public void returnZombie(Zombie zombie){
         zombies.add(zombie);
-        System.out.println("Model, returning zombies. Size: " + zombies.size());
     }
 
     public Character getNewCharacter(){

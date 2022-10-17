@@ -4,19 +4,19 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 
+import static com.dt181g.project.view.StartView.getjPanel;
+
 public class GameFrame extends JFrame {
 
     GamePanel gamePanel;
     StatsPanel statsPanel;
     ButtonPanel btnPanel;
-    //AnimationPanel animationPanel;
 
     public GameFrame(String path, int score){
 
         gamePanel = new GamePanel(path);
         statsPanel = new StatsPanel(score, 5, 5);
         btnPanel = new ButtonPanel();
-        //animationPanel = new AnimationPanel(score);
 
         this.setTitle("Game");
         this.setResizable(false);
@@ -28,8 +28,6 @@ public class GameFrame extends JFrame {
         this.add(btnPanel, BorderLayout.WEST);
         this.add(gamePanel, BorderLayout.CENTER);
         this.add(statsPanel, BorderLayout.SOUTH);
-        //this.add(animationPanel, BorderLayout.EAST);
-        //this.add(animationPanel, BorderLayout.EAST);
         this.pack();
     }
 
@@ -44,10 +42,7 @@ public class GameFrame extends JFrame {
     public ButtonPanel getBtnPanel(){
         return btnPanel;
     }
-
-    //public AnimationPanel getAnimationPanel(){ return animationPanel; }
-
-
+    
     public void displayKilled(String message){
         JOptionPane.showMessageDialog(this, displayMsg(message));
     }
@@ -67,16 +62,7 @@ public class GameFrame extends JFrame {
     }
 
     private JPanel displayMsg(String message) {
-        JPanel panel = new JPanel();
-        JLabel label = new JLabel(message);
-        panel.setBackground(Color.decode("#0f4c5c"));
-        label.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 15));
-        label.setForeground(Color.WHITE);
-        panel.add(label);
-
-        UIManager.put("OptionPane.background",Color.decode("#0f4c5c"));
-        UIManager.put("Panel.background",Color.decode("#0f4c5c"));
-        return panel;
+        return getjPanel(message);
     }
 
     public void addKeyGame(KeyAdapter listener){

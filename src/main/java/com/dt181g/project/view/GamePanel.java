@@ -22,7 +22,7 @@ public class GamePanel extends JPanel {
     Deque<JLabel> zombieLabels = new LinkedList<>();
 
     public GamePanel(String path){
-        this.setFocusable(true);
+        //this.setFocusable(true);
         this.setBackground(Color.BLACK);
         this.setLayout(null);
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));

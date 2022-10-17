@@ -5,11 +5,11 @@ import java.awt.*;
 
 public class StartAnimationPanel extends JPanel {
 
-    private int WIDTH = 250;
-    private int HEIGHT = 400;
-    private ImageIcon zombieImg;
-    private int MASTER_ZOMBIE_WIDTH;
-    private int MASTER_ZOMBIE_HEIGHT;
+    private final int WIDTH = 250;
+    private final int HEIGHT = 400;
+    private final ImageIcon zombieImg;
+    private final int MASTER_ZOMBIE_WIDTH;
+    private final int MASTER_ZOMBIE_HEIGHT;
 
     public StartAnimationPanel(int size, String path){
         zombieImg = new ImageIcon(path);

@@ -2,7 +2,7 @@ package com.dt181g.project.controller;
 
 import com.dt181g.project.model.Constants;
 import com.dt181g.project.Observer;
-import com.dt181g.project.ZombieAnimation;
+import com.dt181g.project.model.ZombieAnimation;
 import com.dt181g.project.model.Model;
 import com.dt181g.project.model.characters.Character;
 import com.dt181g.project.model.factories.Food;
@@ -27,8 +27,8 @@ import java.util.TimerTask;
 
 public class GameController implements Observer {
 
-    private Model theModel;
-    private Character gameCharacter;
+    private final Model theModel;
+    private final Character gameCharacter;
     private final Deque<Food> foods = new LinkedList<>();
     private final Deque<Zombie> zombies = new LinkedList<>();
     volatile boolean gameOver = false;
@@ -36,10 +36,10 @@ public class GameController implements Observer {
     volatile boolean levelTwo = false;
     Timer timer;
 
-    private GameFrame gameFrame;
-    private StatsPanel statsPanel;
-    private GamePanel gamePanel;
-    private ButtonPanel buttonPanel;
+    private final GameFrame gameFrame;
+    private final StatsPanel statsPanel;
+    private final GamePanel gamePanel;
+    private final ButtonPanel buttonPanel;
     private AddKeyGame keyGame;
 
     private JLabel imgLbl;
@@ -47,6 +47,7 @@ public class GameController implements Observer {
     private JLabel match;
 
     public GameController(Character newCharacter, Model model) throws InterruptedException {
+
         gameCharacter = newCharacter;
         theModel = model;
         theModel.register(this);
@@ -59,6 +60,7 @@ public class GameController implements Observer {
         initializeGame();
 
         buttonPanel.addInstructionButton(new AddInstructionsButton());
+        buttonPanel.addExitGame(new AddExitButton());
         buttonPanel.addEndGame(new AddEndGameButton());
     }
 
@@ -110,6 +112,7 @@ public class GameController implements Observer {
 
     class AddKeyGame extends KeyAdapter {
         Deque<JLabel> foodLabels = gamePanel.getFoodLabels();
+
         @Override
         public void keyPressed(KeyEvent e){
             if (foodLabels.isEmpty()){
@@ -130,6 +133,7 @@ public class GameController implements Observer {
                     }
                 } else if (levelTwo){
                     gameFrame.displayWinTwoMsg(Constants.WIN_MESSAGE_2);
+                    gameOver = true;
                     gameFrame.dispose();
                 }
             }
@@ -159,7 +163,7 @@ public class GameController implements Observer {
             if (match != null){
                 gamePanel.foodTaken(match);
                 theModel.returnFood(foods.poll());
-                foodLabels.remove(match);
+                foodLabels = gamePanel.getFoodLabels();
                 gameCharacter.setScore(1);
                 statsPanel.updateScore(gameCharacter.getScore());
                 statsPanel.updateFoodCount(gamePanel.getFoodLabels().size());
@@ -178,7 +182,7 @@ public class GameController implements Observer {
         }
     }
 
-    class AddEndGameButton implements ActionListener {
+    class AddExitButton implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -187,12 +191,20 @@ public class GameController implements Observer {
         }
     }
 
+    class AddEndGameButton implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            stopGame();
+        }
+    }
+
 
     private void stopGame(){
+        timer.cancel();
         int score = gameCharacter.getScore();
         gameCharacter.setScore(-score);
         gameOver = true;
-        timer.cancel();
         gameFrame.removeKeyListener(keyGame);
     }
 
@@ -201,20 +213,17 @@ public class GameController implements Observer {
         levelTwo = true;
         timer.cancel();
 
-        foods.forEach(food -> theModel.returnFood(food));
-        zombies.forEach(zombie -> theModel.returnZombie(zombie));
-        System.out.println("From game controller. Zombies after returning: " + zombies.size());
+        foods.forEach(theModel::returnFood);
+        zombies.forEach(theModel::returnZombie);
 
         gamePanel.removeZombies();
         gamePanel.removeFoods();
-        System.out.println("From game controller. Zombie labels after removing, level 2: " + gamePanel.getZombieLabels().size());
 
         LevelMethods levelTwo = new LevelTwo();
         levelTwo.initLevel(theModel);
 
         createFoodLabels();
         createZombieLabels();
-        System.out.println("From game controller. After creating zombie labels: " + gamePanel.getZombieLabels().size());
 
         imgLbl.setLocation(0, 0);
 
@@ -240,8 +249,9 @@ public class GameController implements Observer {
                     counter--;
                 }
                 else {
-                    gameFrame.displayTimesUpMsg(Constants.TIMES_UP_MESSAGE);
+                    timer.cancel();
                     stopGame();
+                    gameFrame.displayTimesUpMsg(Constants.TIMES_UP_MESSAGE);
                 }
             }
         };

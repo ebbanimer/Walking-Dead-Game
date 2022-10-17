@@ -1,5 +1,6 @@
 package com.dt181g.project.controller;
 
+import com.dt181g.project.model.Constants;
 import com.dt181g.project.model.startanimation.ConsumerMaster;
 import com.dt181g.project.model.startanimation.ProducerMaster;
 import com.dt181g.project.model.startanimation.SizeObserver;
@@ -47,7 +48,7 @@ public class SizeController implements SizeObserver {
 
     public void startTimer(){
         Timer timer = new Timer(1000, e -> {
-            startAnimationPanel = new StartAnimationPanel(size, "src\\main\\java\\com\\dt181g\\project\\images\\transparent-masterzombie.png");
+            startAnimationPanel = new StartAnimationPanel(size, Constants.MASTER_ZOMBIE_PATH);
             startView.add(startAnimationPanel, BorderLayout.EAST);
             startView.revalidate();
         });
@@ -55,7 +56,7 @@ public class SizeController implements SizeObserver {
     }
 
     @Override
-    public void update() throws InterruptedException {
+    public void update()  {
         this.size = pool.getSize();
 
         if (size < 40) {

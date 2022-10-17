@@ -51,8 +51,11 @@ public class StartController implements Observer {
             if (newCharacter != null && !newCharacter.getIsDead()){
                 gameCharacter = newCharacter;
                 startView.setCharacter(newCharacter.getName(), newCharacter.getWeapon(), newCharacter.getPath());
-            } else if (newCharacter.getIsDead()){
-                startView.displayDead(characterName + Constants.DEAD_START_VIEW);
+            } else {
+                assert newCharacter != null;
+                if (newCharacter.getIsDead()){
+                    startView.displayDead(characterName + Constants.DEAD_START_VIEW);
+                }
             }
         }
     }
@@ -82,7 +85,7 @@ public class StartController implements Observer {
     }
 
     @Override
-    public void update() throws InterruptedException {
+    public void update() {
         newCharacter = theModel.getNewCharacter();
     }
 }

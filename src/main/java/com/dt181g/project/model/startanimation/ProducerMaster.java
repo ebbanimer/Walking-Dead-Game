@@ -4,8 +4,8 @@ import java.util.Random;
 
 public class ProducerMaster implements Runnable{
 
-    private int delay = new Random().nextInt(5) + 1;
-    private int amount = new Random().nextInt(10) + 1;
+    private final int delay = new Random().nextInt(5) + 1;
+    private final int amount = new Random().nextInt(10) + 1;
     public volatile boolean shouldFinish = false;
 
     @Override

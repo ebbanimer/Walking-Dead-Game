@@ -1,4 +1,4 @@
-package com.dt181g.project;
+package com.dt181g.project.model;
 
 import com.dt181g.project.controller.GameController;
 import com.dt181g.project.model.Constants;

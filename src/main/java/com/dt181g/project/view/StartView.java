@@ -124,6 +124,10 @@ public class StartView extends JFrame {
     }
 
     private JPanel displayMsg(String message) {
+        return getjPanel(message);
+    }
+
+    static JPanel getjPanel(String message) {
         JPanel panel = new JPanel();
         JLabel label = new JLabel(message);
         panel.setBackground(Color.decode("#0f4c5c"));

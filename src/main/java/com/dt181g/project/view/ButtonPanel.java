@@ -1,17 +1,22 @@
 package com.dt181g.project.view;
+import com.dt181g.project.controller.GameController;
 import com.dt181g.project.model.Constants;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
+import static com.dt181g.project.view.StartView.getjPanel;
+
 public class ButtonPanel extends JPanel {
 
     JButton instructionBtn = new JButton("Instructions");
+    JButton exitBtn = new JButton("Exit");
     JButton endBtn = new JButton("End game");
     SpringLayout layout;
 
     public ButtonPanel(){
+        this.setFocusable(false);
         layout = new SpringLayout();
         this.setPreferredSize(new Dimension(170, Constants.HEIGHT));
         this.setBackground(Color.decode("#0f4c5c"));
@@ -21,6 +26,7 @@ public class ButtonPanel extends JPanel {
 
         this.add(instructionBtn);
         this.add(endBtn);
+        this.add(exitBtn);
     }
 
     public void addButtons(){
@@ -37,16 +43,29 @@ public class ButtonPanel extends JPanel {
         layout.putConstraint(SpringLayout.NORTH, endBtn,
                 190, SpringLayout.NORTH, this);
 
+        layout.putConstraint(SpringLayout.WEST, exitBtn,
+                10, SpringLayout.WEST, this);
+
+        layout.putConstraint(SpringLayout.NORTH, exitBtn,
+                260, SpringLayout.NORTH, this);
+
+
         instructionBtn.setPreferredSize(new Dimension(150,40));
         instructionBtn.setBackground(Color.decode("#cbf3f0"));
         endBtn.setPreferredSize(new Dimension(150,40));
         endBtn.setBackground(Color.decode("#cbf3f0"));
+        exitBtn.setPreferredSize(new Dimension(150,40));
+        exitBtn.setBackground(Color.decode("#cbf3f0"));
     }
 
-    public void addEndGame(ActionListener listener){ endBtn.addActionListener(listener);}
+    public void addExitGame(ActionListener listener){ exitBtn.addActionListener(listener);}
 
     public void addInstructionButton(ActionListener listener){
         instructionBtn.addActionListener(listener);
+    }
+
+    public void addEndGame(ActionListener listener) {
+        endBtn.addActionListener(listener);
     }
 
     public void displayInstructionMessage(String msg){
@@ -55,16 +74,7 @@ public class ButtonPanel extends JPanel {
     }
 
     private JPanel displayMsg(String message) {
-        JPanel panel = new JPanel();
-        JLabel label = new JLabel(message);
-        panel.setBackground(Color.decode("#0f4c5c"));
-        label.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 15));
-        label.setForeground(Color.WHITE);
-        panel.add(label);
-
-        UIManager.put("OptionPane.background",Color.decode("#0f4c5c"));
-        UIManager.put("Panel.background",Color.decode("#0f4c5c"));
-        return panel;
+        return getjPanel(message);
     }
 
 }
