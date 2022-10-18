@@ -2,7 +2,7 @@ package com.dt181g.project.controller;
 
 import com.dt181g.project.model.Constants;
 import com.dt181g.project.model.characters.Character;
-import com.dt181g.project.Observer;
+import com.dt181g.project.model.Observer;
 import com.dt181g.project.view.StartView;
 import com.dt181g.project.model.Model;
 

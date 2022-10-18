@@ -1,6 +1,4 @@
-package com.dt181g.project.model;
-
-import com.dt181g.project.controller.GameController;
+package com.dt181g.project.controller;
 import com.dt181g.project.model.Constants;
 
 import javax.swing.*;

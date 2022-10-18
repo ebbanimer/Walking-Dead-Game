@@ -1,10 +1,11 @@
 package com.dt181g.project.model;
 
-import com.dt181g.project.Observable;
-import com.dt181g.project.Observer;
 import com.dt181g.project.model.characters.Character;
 import com.dt181g.project.model.characters.CharacterFactory;
 import com.dt181g.project.model.factories.*;
+import com.dt181g.project.model.levels.LevelMethods;
+import com.dt181g.project.model.levels.LevelOne;
+import com.dt181g.project.model.levels.LevelTwo;
 
 import javax.swing.*;
 import java.util.*;
@@ -51,6 +52,16 @@ public class Model implements Observable {
                 .filter(character -> character.getName().equals(nameOfCharacter))
                 .findFirst().orElse(null);
         notifyObserver();
+    }
+
+    public void initGame(String level){
+        if (level.equals("LevelOne")){
+            LevelMethods levelOne = new LevelOne();
+            levelOne.initLevel(this);
+        } else if (level.equals("LevelTwo")){
+            LevelMethods levelTwo = new LevelTwo();
+            levelTwo.initLevel(this);
+        }
     }
 
     public void createItem(String item, int amount) {

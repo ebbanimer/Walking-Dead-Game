@@ -1,52 +1,14 @@
 
-# WHAT I HAVE LEFT:
+# Discussion points:
 
-Detect collision with zombie
-    -> end game
-Collision with apple
-    -> score 1 point
-Stop game
-Kill zombie with space if char is close to zombie
+Observer/observable could have been used for zombie animation, and zombies could have been implemented
+as Runnables. However, it's more readable to have a separate class for the animation.
 
-Producer/consumer pattern
-Object pool
-Observer
-Template
+Starting timer in controller, as timer per se is not business logic, thus not suitable in model. 
 
-Concurrent processes x2
-Synchronization x3
-Streams API x3
+Starting threads in controller. 
 
+Model acts as a manager of object pool for zombies/food, that will be re-used for next level. 
 
-# WHAT I HAVE DONE:
-
-Swing components
-Layout managers
-Abstract factory
-Factory method
-
-Create characters
-Create items
-Collision
-Add timer in stats
-
-
-Walking dead
-
-x Factory method pattern
-x MVC
-
-Abstract factory pattern
-Template pattern
-Object pool
-Observer pattern
-Consumer/producer pattern
-
-Concurrency x2
-Synchronized x3
-
-Streams API x3
-
-
-How are the zombies gonna move towards the character?
-Where to put the keylisteners?
+ThreadSizeManager handles amount of threads and operations on threads, meanwhile the controller start them,
+and verify the size amount. The controller observes the pool for changes. 

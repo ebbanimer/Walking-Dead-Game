@@ -1,4 +1,4 @@
-package com.dt181g.project;
+package com.dt181g.project.model;
 
 public interface Observable {
     void notifyObserver() throws InterruptedException;

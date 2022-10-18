@@ -1,15 +1,11 @@
 package com.dt181g.project.controller;
 
 import com.dt181g.project.model.Constants;
-import com.dt181g.project.Observer;
-import com.dt181g.project.model.ZombieAnimation;
+import com.dt181g.project.model.Observer;
 import com.dt181g.project.model.Model;
 import com.dt181g.project.model.characters.Character;
 import com.dt181g.project.model.factories.Food;
 import com.dt181g.project.model.factories.Zombie;
-import com.dt181g.project.model.levels.LevelMethods;
-import com.dt181g.project.model.levels.LevelOne;
-import com.dt181g.project.model.levels.LevelTwo;
 import com.dt181g.project.view.ButtonPanel;
 import com.dt181g.project.view.GameFrame;
 import com.dt181g.project.view.GamePanel;
@@ -69,8 +65,7 @@ public class GameController implements Observer {
         levelTwo = false;
         keyGame = new AddKeyGame();
 
-        LevelMethods level = new LevelOne();
-        level.initLevel(theModel);
+        theModel.initGame("LevelOne");
 
         createFoodLabels();
         createZombieLabels();
@@ -219,8 +214,7 @@ public class GameController implements Observer {
         gamePanel.removeZombies();
         gamePanel.removeFoods();
 
-        LevelMethods levelTwo = new LevelTwo();
-        levelTwo.initLevel(theModel);
+        theModel.initGame("LevelTwo");
 
         createFoodLabels();
         createZombieLabels();
