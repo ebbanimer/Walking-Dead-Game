@@ -10,7 +10,6 @@ import static com.dt181g.project.view.StartView.getjPanel;
 
 public class ButtonPanel extends JPanel {
 
-    JButton instructionBtn = new JButton("Instructions");
     JButton exitBtn = new JButton("Exit");
     JButton endBtn = new JButton("End game");
     SpringLayout layout;
@@ -24,18 +23,11 @@ public class ButtonPanel extends JPanel {
 
         addButtons();
 
-        this.add(instructionBtn);
         this.add(endBtn);
         this.add(exitBtn);
     }
 
     public void addButtons(){
-
-        layout.putConstraint(SpringLayout.WEST, instructionBtn,
-                10, SpringLayout.WEST, this);
-
-        layout.putConstraint(SpringLayout.NORTH, instructionBtn,
-                120, SpringLayout.NORTH, this);
 
         layout.putConstraint(SpringLayout.WEST, endBtn,
                 10, SpringLayout.WEST, this);
@@ -50,8 +42,6 @@ public class ButtonPanel extends JPanel {
                 260, SpringLayout.NORTH, this);
 
 
-        instructionBtn.setPreferredSize(new Dimension(150,40));
-        instructionBtn.setBackground(Color.decode("#cbf3f0"));
         endBtn.setPreferredSize(new Dimension(150,40));
         endBtn.setBackground(Color.decode("#cbf3f0"));
         exitBtn.setPreferredSize(new Dimension(150,40));
@@ -59,10 +49,6 @@ public class ButtonPanel extends JPanel {
     }
 
     public void addExitGame(ActionListener listener){ exitBtn.addActionListener(listener);}
-
-    public void addInstructionButton(ActionListener listener){
-        instructionBtn.addActionListener(listener);
-    }
 
     public void addEndGame(ActionListener listener) {
         endBtn.addActionListener(listener);

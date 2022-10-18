@@ -55,7 +55,6 @@ public class GameController implements Observer {
 
         initializeGame();
 
-        buttonPanel.addInstructionButton(new AddInstructionsButton());
         buttonPanel.addExitGame(new AddExitButton());
         buttonPanel.addEndGame(new AddEndGameButton());
     }
@@ -128,8 +127,7 @@ public class GameController implements Observer {
                     }
                 } else if (levelTwo){
                     gameFrame.displayWinTwoMsg(Constants.WIN_MESSAGE_2);
-                    gameOver = true;
-                    gameFrame.dispose();
+                    stopGame();
                 }
             }
             if (!gameOver){

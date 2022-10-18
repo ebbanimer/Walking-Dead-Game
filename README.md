@@ -1,3 +1,9 @@
+# Left to do
+Refactor zombie animation? 
+Refactor object pool?
+Check why some zombies are still
+Verify that timer ends when winning level 2
+
 
 # Discussion points:
 

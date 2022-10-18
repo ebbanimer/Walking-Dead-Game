@@ -6,6 +6,7 @@ import com.dt181g.project.model.Observer;
 import com.dt181g.project.view.StartView;
 import com.dt181g.project.model.Model;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;

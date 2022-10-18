@@ -7,8 +7,6 @@ public class Project {
     private Project() { }
 
     public static void main(String[] args) {
-            new StartController();
+        java.awt.EventQueue.invokeLater(StartController::new);
     }
-
-
 }
