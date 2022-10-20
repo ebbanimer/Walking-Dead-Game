@@ -10,6 +10,10 @@ import com.dt181g.project.model.levels.LevelTwo;
 import javax.swing.*;
 import java.util.*;
 
+/**
+ * Class representing the model, which handles data. Implemented as an observable.
+ * @author Ebba Nimér
+ */
 public class Model implements Observable {
 
     AbstractFactory<Food> foodAbstractFactory;
@@ -24,12 +28,18 @@ public class Model implements Observable {
     List<String> characterNames = new ArrayList<>();
     private JLabel match;
 
+    /**
+     * Initialize model with initializing the factories for characters, food, and zombies.
+     */
     public Model(){
         foodAbstractFactory = new FoodFactory();
         zombieAbstractFactory = new ZombieFactory();
         characterFactory = new CharacterFactory();
     }
 
+    /**
+     * Make a list of characters using factory method.
+     */
     public void initializeCharacterList(){
         characters.add(characterFactory.createCharacter("Rick"));
         characters.add(characterFactory.createCharacter("Daryl"));
@@ -37,33 +47,55 @@ public class Model implements Observable {
         characters.add(characterFactory.createCharacter("Eugene"));
     }
 
+    /**
+     * Sort the list to A-Z, using Streams API.
+     * @return list of character names.
+     */
     public List<String> sortCharacterNames(){
+
+        // Create a new list with sorted characters.
         List<Character> sortedCharList = characters.stream()
                 .sorted(Comparator.comparing(Character::getName)).toList();
 
+        // Add the names of characters in list.
         for (Character character : sortedCharList){
             characterNames.add(character.getName());
         }
         return characterNames;
     }
 
+    /**
+     * Retrieve character-object based on string, using Streams API.
+     * @param nameOfCharacter name of character
+     * @throws InterruptedException exception if interrupted
+     */
     public void createCharacter(String nameOfCharacter) throws InterruptedException {
+        // Filter through the list, finding the character based on name.
         gameCharacter = characters.stream()
                 .filter(character -> character.getName().equals(nameOfCharacter))
                 .findFirst().orElse(null);
-        notifyObserver();
+        notifyObserver();     // notify observer when filtering is done.
     }
 
+    /**
+     * Initialize game by starting desired level.
+     * @param level level to be started
+     */
     public void initGame(String level){
         if (level.equals("LevelOne")){
             LevelMethods levelOne = new LevelOne();
-            levelOne.initLevel(this);
+            levelOne.initLevel(this);     // pass model to level
         } else if (level.equals("LevelTwo")){
             LevelMethods levelTwo = new LevelTwo();
             levelTwo.initLevel(this);
         }
     }
 
+    /**
+     * Create food or zombie items, based on passed name and amount, using abstract factory method.
+     * @param item item to be created
+     * @param amount number of items
+     */
     public void createItem(String item, int amount) {
         if ("Carrot".equals(item) || "Salad".equals(item))
             foods = foodAbstractFactory.create(item, amount);
@@ -72,7 +104,7 @@ public class Model implements Observable {
 
     }
 
-    public void detectFoodCollision(JLabel imgLbl, Deque<JLabel> foodLabels) throws InterruptedException {
+    /*public void detectFoodCollision(JLabel imgLbl, Deque<JLabel> foodLabels) throws InterruptedException {
         match = foodLabels.stream()
                 .filter(jLabel -> jLabel.getBounds().intersects(imgLbl.getBounds()))
                 .findFirst().orElse(null);
@@ -84,54 +116,91 @@ public class Model implements Observable {
                 .filter(jLabel -> jLabel.getBounds().intersects(imgLbl.getBounds()))
                 .findFirst().orElse(null);
         notifyObserver();
-    }
+    }*/
 
+    /**
+     * Return food to client.
+     * @return food object.
+     */
     public Food getFood(){
         return foods.pollFirst();
     }
 
+    /**
+     * Verify that food-list is not empty.
+     * @return boolean whether list is empty or not.
+     */
     public boolean hasAnotherFood(){
         return !foods.isEmpty();
     }
 
+    /**
+     * Return food to list.
+     * @param food food object.
+     */
     public void returnFood(Food food){
         foods.add(food);
     }
 
+    /**
+     * Return zombie to client.
+     * @return zombie-object.
+     */
     public Zombie getZombie(){
         return zombies.pollFirst();
     }
 
+    /**
+     * Verify if list of zombies is empty or not.
+     * @return boolean whether list is empty or not.
+     */
     public boolean hasAnotherZombie(){
         return !zombies.isEmpty();
     }
 
+    /**
+     * Return zombie to list.
+     * @param zombie zombie to be returned.
+     */
     public void returnZombie(Zombie zombie){
         zombies.add(zombie);
     }
 
+    /**
+     * Return character object to client.
+     * @return character
+     */
     public Character getNewCharacter(){
         return gameCharacter;
     }
 
-    public JLabel getMatch(){
+    /*public JLabel getMatch(){
         return match;
-    }
+    }*/
 
-    @Override
-    public void notifyObserver() throws InterruptedException {
+    /**
+     * Notify observer when changes happen.
+     * @throws InterruptedException exception if interrupted.
+     */
+    @Override public void notifyObserver() throws InterruptedException {
         for (Observer o : observers) {
             o.update();
         }
     }
 
-    @Override
-    public void register(Observer o) {
+    /**
+     * register the observer.
+     * @param o observer
+     */
+    @Override public void register(Observer o) {
         observers.add(o);
     }
 
-    @Override
-    public void unregister(Observer o) {
+    /**
+     * unregister the observer.
+     * @param o observer.
+     */
+    @Override public void unregister(Observer o) {
         observers.remove(o);
     }
 }

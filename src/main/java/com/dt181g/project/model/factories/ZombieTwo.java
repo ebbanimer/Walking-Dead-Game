@@ -3,33 +3,45 @@ package com.dt181g.project.model.factories;
 import com.dt181g.project.model.Constants;
 
 import java.util.Random;
-
+/**
+ * Class representing zombie two, implementing zombie.
+ * @author Ebba Nimér
+ */
 public class ZombieTwo implements Zombie{
     Random random;
-    final int HEIGHT = Constants.HEIGHT;
-    final int WIDTH = Constants.WIDTH;
-    final int ZOMBIE_WIDTH = Constants.ICON_WIDTH;
-    final int ZOMBIE_HEIGHT = Constants.ICON_HEIGHT;
     int id;
 
+    /**
+     * Initialize zombie two with id and generate random instance.
+     * @param id id of zombie
+     */
     public ZombieTwo(int id){
         this.id = id;
         random = new Random();
     }
 
-    @Override
-    public String getPath() {
+    /**
+     * Return image path of zombie two to calling client.
+     * @return image path.
+     */
+    @Override public String getPath() {
         return "src\\main\\java\\com\\dt181g\\project\\images\\zombie2.png";
     }
 
-    @Override
-    public Integer getStartX() {
-        return random.nextInt((WIDTH - ZOMBIE_WIDTH) + 1);
+    /**
+     * Return start randomized x-coordinate of zombie two to calling client.
+     * @return x-coordinate
+     */
+    @Override public Integer getStartX() {
+        return random.nextInt((Constants.WIDTH - Constants.ICON_WIDTH) + 1);
     }
 
-    @Override
-    public Integer getStartY() {
-        return random.nextInt((HEIGHT - ZOMBIE_HEIGHT) + 1);
+    /**
+     * Return start randomized y-coordinate of zombie two to calling client.
+     * @return y-coordinate
+     */
+    @Override public Integer getStartY() {
+        return random.nextInt((Constants.HEIGHT - Constants.ICON_HEIGHT) + 1);
     }
 
 }

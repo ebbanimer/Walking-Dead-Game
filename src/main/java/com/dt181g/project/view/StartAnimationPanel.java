@@ -3,6 +3,10 @@ package com.dt181g.project.view;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Panel representing animated zombie in start-view.
+ * @author Ebba Nimér
+ */
 public class StartAnimationPanel extends JPanel {
 
     private final int WIDTH = 250;
@@ -11,6 +15,11 @@ public class StartAnimationPanel extends JPanel {
     private final int MASTER_ZOMBIE_WIDTH;
     private final int MASTER_ZOMBIE_HEIGHT;
 
+    /**
+     * Initialize panel with size and image path.
+     * @param size size.
+     * @param path image path.
+     */
     public StartAnimationPanel(int size, String path){
         zombieImg = new ImageIcon(path);
         this.MASTER_ZOMBIE_WIDTH = size;
@@ -18,6 +27,10 @@ public class StartAnimationPanel extends JPanel {
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
     }
 
+    /**
+     * Paint image.
+     * @param g graphics
+     */
     public void paint(Graphics g){
 
         double x = (WIDTH * .5) - (MASTER_ZOMBIE_WIDTH * .5);
@@ -25,8 +38,10 @@ public class StartAnimationPanel extends JPanel {
 
         Graphics2D g2D = (Graphics2D) g;
         g2D.setColor(Color.BLACK);
-        g2D.fillRect(0, 0, WIDTH, HEIGHT);
+        g2D.fillRect(0, 0, WIDTH, HEIGHT);     // paint background
 
-        g2D.drawImage(zombieImg.getImage(), (int)x, (int)y, MASTER_ZOMBIE_WIDTH, MASTER_ZOMBIE_HEIGHT, null);
+        // draw image
+        g2D.drawImage(zombieImg.getImage(), (int)x, (int)y, MASTER_ZOMBIE_WIDTH, MASTER_ZOMBIE_HEIGHT,
+                null);
     }
 }

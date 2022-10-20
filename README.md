@@ -3,6 +3,8 @@ Refactor zombie animation?
 Refactor object pool?
 Check why some zombies are still
 Verify that timer ends when winning level 2
+Comment
+README
 
 
 # Discussion points:

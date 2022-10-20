@@ -2,19 +2,25 @@ package com.dt181g.project.model.startanimation;
 
 import java.util.Random;
 
+/**
+ * Class representing consumer of producer/consumer pattern. Withdrawing size amount, implemented as
+ * runnable.
+ * @author Ebba Nimér
+ */
 public class ConsumerMaster implements Runnable{
-
-    private final int amount = new Random().nextInt(20) + 1;
-    private final int delay = new Random().nextInt(5) + 1;
 
     public volatile boolean shouldFinish = false;
 
-    @Override
-    public void run(){
+    /**
+     * While the application is running, withdraw random amount from pool at random interval.
+     */
+    @Override public void run(){
+        int amount = new Random().nextInt(20) + 1;
+        int delay = new Random().nextInt(3) + 1;
         while(!shouldFinish){
             try {
                 SizePool.INSTANCE.removeSize(amount);
-                Thread.sleep(delay);
+                Thread.sleep(delay + 1000);
             } catch (Exception e) {
                 e.printStackTrace();
             }

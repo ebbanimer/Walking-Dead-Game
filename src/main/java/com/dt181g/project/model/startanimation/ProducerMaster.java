@@ -2,23 +2,25 @@ package com.dt181g.project.model.startanimation;
 
 import java.util.Random;
 
+/**
+ * Class representing producer in producer/consumer pattern. Adding to sizepool, implemented as runnable.
+ * @author Ebba Nimér
+ */
 public class ProducerMaster implements Runnable{
 
-    private final int delay = new Random().nextInt(5) + 1;
-    private final int amount = new Random().nextInt(10) + 1;
     public volatile boolean shouldFinish = false;
 
-    @Override
-    public void run() {
+    /**
+     * While animation should run, assign random value at random interval to pool.
+     */
+    @Override public void run() {
+        int delay = new Random().nextInt(3) + 1;
+        int amount = new Random().nextInt(10) + 1;
         while(!shouldFinish){
             try {
                 SizePool.INSTANCE.addSize(amount);
+                Thread.sleep(delay + 1000);
             } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
-                Thread.sleep(delay);
-            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }

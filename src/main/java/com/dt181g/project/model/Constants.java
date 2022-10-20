@@ -1,5 +1,9 @@
 package com.dt181g.project.model;
 
+/**
+ * Interface which stores values to be used throughout the program.
+ * @author Ebba Nimér
+ */
 public interface Constants {
     int ICON_HEIGHT = 60;
     int ICON_WIDTH = 60;

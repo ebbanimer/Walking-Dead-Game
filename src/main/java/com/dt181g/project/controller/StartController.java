@@ -5,30 +5,39 @@ import com.dt181g.project.model.characters.Character;
 import com.dt181g.project.model.Observer;
 import com.dt181g.project.view.StartView;
 import com.dt181g.project.model.Model;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+/**
+ * Start-controller in program. Implemented as an observer to get updates from the observable.
+ * @author Ebba Nimér
+ */
 public class StartController implements Observer {
 
     private final StartView startView;
     private final Model theModel;
-    private List<Character> characters;
     private Character gameCharacter;
     static Character newCharacter;
 
+    /**
+     * Initialize controller with starting model and view, adding listeners to view.
+     */
     public StartController(){
         this.theModel = new Model();
+        // Initialize start-view with list of characters to be displayed, and animation image with size.
         this.startView = new StartView(initGui().toArray(new String[0]), 50, Constants.MASTER_ZOMBIE_PATH);
         startView.addComboListener(new AddCharacterPickListener());
         startView.addStartListener(new AddStartListener());
         startView.addInstructionsListener(new AddInstructionsListener());
-        new SizeController(startView);
+        new SizeController(startView);      // initialize the zombie-graphics in separate controller.
         theModel.register(this);
     }
 
+    /**
+     * Initialize character-list from list in model, to be displayed in GUI.
+     * @return list of character names.
+     */
     private List<String> initGui(){
         this.theModel.initializeCharacterList();
         List<String> list = theModel.sortCharacterNames();
@@ -36,21 +45,30 @@ public class StartController implements Observer {
         return list;
     }
 
+    /**
+     * Inner class representing actionslistener for choosing a character in view.
+     * @author Ebba Nimér
+     */
     class AddCharacterPickListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
+
+        /**
+         * Retrieve character name and verify that the character is not yet dead, and it is a valid
+         * character.
+         * @param e action event
+         */
+        @Override public void actionPerformed(ActionEvent e) {
             String characterName = startView.getCharacter();
             if (characterName.equals(Constants.PICK_CHARACTER)) {
                 startView.displayError(Constants.ERROR);
             } else {
                 try {
-                    theModel.createCharacter(characterName);
+                    theModel.createCharacter(characterName);     // create character based from name
                 } catch (InterruptedException ex) {
                     ex.printStackTrace();
                 }
             }
             if (newCharacter != null && !newCharacter.getIsDead()){
-                gameCharacter = newCharacter;
+                gameCharacter = newCharacter;    // if the creation was successful, assign new character to gamecharacter
                 startView.setCharacter(newCharacter.getName(), newCharacter.getWeapon(), newCharacter.getPath());
             } else {
                 assert newCharacter != null;
@@ -61,13 +79,21 @@ public class StartController implements Observer {
         }
     }
 
+    /**
+     * Inner class representing action listener for starting the game.
+     * @author Ebba Nimér
+     */
     class AddStartListener implements ActionListener {
 
-        @Override
-        public void actionPerformed(ActionEvent e) {
+        /**
+         * If the character is created when starting the game, initialize the controller that handles the
+         * game simulation, passing the character and model
+         * @param e action event
+         */
+        @Override public void actionPerformed(ActionEvent e) {
             if (gameCharacter != null){
                 try {
-                    new GameController(gameCharacter, theModel);
+                    new GameController(gameCharacter, theModel);   // intialize controller for game
                 } catch (InterruptedException ex) {
                     ex.printStackTrace();
                 }
@@ -78,6 +104,9 @@ public class StartController implements Observer {
         }
     }
 
+    /**
+     * Inner class representing action listener for displaying instructions.
+     */
     class AddInstructionsListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -85,6 +114,9 @@ public class StartController implements Observer {
         }
     }
 
+    /**
+     * Update character based on notification from model.
+     */
     @Override
     public void update() {
         newCharacter = theModel.getNewCharacter();

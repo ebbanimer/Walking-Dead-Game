@@ -1,7 +1,14 @@
 package com.dt181g.project.model.characters;
 
+/**
+ * Class representing Michonne, extending character class.
+ * @author Ebba Nimér.
+ */
 public class Michonne extends Character{
 
+    /**
+     * Initializing Michonne with start-values.
+     */
     public Michonne(){
         setName("Michonne");
         setPath("src\\main\\java\\com\\dt181g\\project\\images\\michonne.png");

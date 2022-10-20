@@ -1,5 +1,4 @@
 package com.dt181g.project.view;
-import com.dt181g.project.controller.GameController;
 import com.dt181g.project.model.Constants;
 
 import javax.swing.*;
@@ -8,12 +7,19 @@ import java.awt.event.ActionListener;
 
 import static com.dt181g.project.view.StartView.getjPanel;
 
+/**
+ * JPanel for buttons in game-frame.
+ * @author Ebba Nimér
+ */
 public class ButtonPanel extends JPanel {
 
     JButton exitBtn = new JButton("Exit");
     JButton endBtn = new JButton("End game");
     SpringLayout layout;
 
+    /**
+     * Initialize button-panel by adding components and layout manager.
+     */
     public ButtonPanel(){
         this.setFocusable(false);
         layout = new SpringLayout();
@@ -27,6 +33,9 @@ public class ButtonPanel extends JPanel {
         this.add(exitBtn);
     }
 
+    /**
+     * Design and add buttons to JPanel, using SpringLayout.
+     */
     public void addButtons(){
 
         layout.putConstraint(SpringLayout.WEST, endBtn,
@@ -48,17 +57,34 @@ public class ButtonPanel extends JPanel {
         exitBtn.setBackground(Color.decode("#cbf3f0"));
     }
 
+    /**
+     * Adding listener when user presses exit game-button.
+     * @param listener action-listener
+     */
     public void addExitGame(ActionListener listener){ exitBtn.addActionListener(listener);}
 
+    /**
+     * Adding listener when user presses end game-button.
+     * @param listener action listener
+     */
     public void addEndGame(ActionListener listener) {
         endBtn.addActionListener(listener);
     }
 
+    /**
+     * When instructions button is pressed, display passed message.
+     * @param msg message
+     */
     public void displayInstructionMessage(String msg){
         JOptionPane.showMessageDialog(this, displayMsg(msg));
         this.setFocusable(false);
     }
 
+    /**
+     * Used for layout of JOptionpane.
+     * @param message message to be displayed.
+     * @return JPanel to be displayed.
+     */
     private JPanel displayMsg(String message) {
         return getjPanel(message);
     }

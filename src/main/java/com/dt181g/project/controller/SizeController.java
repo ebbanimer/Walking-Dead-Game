@@ -8,6 +8,10 @@ import com.dt181g.project.view.StartView;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Class representing a controller for the animation in start-frame, observing the changes of size.
+ * @author Ebba Nimér
+ */
 public class SizeController implements SizeObserver {
 
     SizePool pool = SizePool.INSTANCE;
@@ -16,6 +20,10 @@ public class SizeController implements SizeObserver {
     ThreadSizeManager threadSizeManager;
     private int size;
 
+    /**
+     * Initialize size-controller by creating thread-size manager, starting threads and timer.
+     * @param startView start-frame.
+     */
     public SizeController(StartView startView){
         threadSizeManager = new ThreadSizeManager();
         this.startView = startView;
@@ -24,20 +32,25 @@ public class SizeController implements SizeObserver {
         startTimer();
     }
 
-    public void startThreads(){
+    /**
+     * Start producer and consumer threads, retrieved from manager.
+     */
+    private void startThreads(){
         for (Thread thread : threadSizeManager.getProducerThreads()){
-            if (!thread.isAlive())
-                thread.start();
+            thread.start();
         }
 
         for (Thread thread : threadSizeManager.getConsumerThreads()){
-            if (!thread.isAlive())
-                thread.start();
+            thread.start();
         }
     }
 
+    /**
+     * Start timer and assign runnable to be performed each 100 ms.
+     * Update animation with new size and add to start-frame.
+     */
     public void startTimer(){
-        Timer timer = new Timer(1000, e -> {
+        Timer timer = new Timer(100, e -> {
             startAnimationPanel = new StartAnimationPanel(size, Constants.MASTER_ZOMBIE_PATH);
             startView.add(startAnimationPanel, BorderLayout.EAST);
             startView.revalidate();
@@ -45,17 +58,17 @@ public class SizeController implements SizeObserver {
         timer.start();
     }
 
-    @Override
-    public void update()  {
+    /**
+     * When there's an update in size-pool, update size value.
+     */
+    @Override public void update()  {
         this.size = pool.getSize();
-        if (size < 40){
+        if (size < 40){                        // if size is less than 40, remove consumer and add producers.
             threadSizeManager.removeConsumer();
             threadSizeManager.addProducer();
-            startThreads();
-        } else if (size >= 250) {
+        } else if (size >= 250) {              // if size is more than 250, do opposite.
             threadSizeManager.removeProducer();
             threadSizeManager.addConsumer();
-            startThreads();
         }
     }
 }
