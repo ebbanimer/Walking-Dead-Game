@@ -1,7 +1,7 @@
 package com.dt181g.project.controller;
 
 import com.dt181g.project.model.Constants;
-import com.dt181g.project.model.Observer;
+import com.dt181g.project.Observer;
 import com.dt181g.project.model.Model;
 import com.dt181g.project.model.characters.Character;
 import com.dt181g.project.model.factories.Food;
@@ -63,7 +63,7 @@ public class GameController implements Observer {
         gamePanel = gameFrame.getGamePanel();
         buttonPanel = gameFrame.getBtnPanel();
 
-        initializeGame();  // intialize game
+        initializeGame();
 
         buttonPanel.addExitGame(new AddExitButton());
         buttonPanel.addEndGame(new AddEndGameButton());
@@ -95,7 +95,7 @@ public class GameController implements Observer {
         while (theModel.hasAnotherFood()){
             Food food = theModel.getFood();
             foods.add(food);
-            gamePanel.addFoods(food);
+            gamePanel.addFoods(food.getStartX(), food.getStartY(), food.getPath());
         }
     }
 
@@ -106,7 +106,7 @@ public class GameController implements Observer {
         while (theModel.hasAnotherZombie()){
             Zombie zombie = theModel.getZombie();
             zombies.add(zombie);
-            gamePanel.addZombies(zombie);
+            gamePanel.addZombies(zombie.getStartX(), zombie.getStartY(), zombie.getPath());
         }
 
         // initialize animation for each zombie.
@@ -117,22 +117,18 @@ public class GameController implements Observer {
         }
     }
 
-    class AddInstructionsButton implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            buttonPanel.displayInstructionMessage(Constants.INSTRUCTION_MESSAGE);
-            gameFrame.setFocusable(true);
-        }
-    }
-
     /**
      * Inner class representing game for moving character.
      */
     class AddKeyGame extends KeyAdapter {
         Deque<JLabel> foodLabels = gamePanel.getFoodLabels();
 
-        @Override
-        public void keyPressed(KeyEvent e){
+        /**
+         * When key is pressed, if food is empty, display win. Otherwise, move character and
+         * verify if there was a collision with food or zombie.
+         * @param e key-event
+         */
+        @Override public void keyPressed(KeyEvent e){
             if (foodLabels.isEmpty()){    // if foodlabels is empty, the character has won.
                 if (levelOne){
                     int result = gameFrame.displayWinMsg(Constants.WIN_MESSAGE_1); // give character option to start next level.
@@ -196,7 +192,7 @@ public class GameController implements Observer {
                 theModel.returnFood(foods.poll());   // return food
                 foodLabels = gamePanel.getFoodLabels();   // retrieve new list of existing foodlabels
                 gameCharacter.setScore(1);      // increase score by one
-                statsPanel.updateScore(gameCharacter.getScore());                    // update values in view
+                statsPanel.updateScore(gameCharacter.getScore());                 // update values in view
                 statsPanel.updateFoodCount(gamePanel.getFoodLabels().size());
             }
         }

@@ -1,8 +1,6 @@
 package com.dt181g.project.view;
 
 import com.dt181g.project.model.Constants;
-import com.dt181g.project.model.factories.Food;
-import com.dt181g.project.model.factories.Zombie;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,7 +28,6 @@ public class GamePanel extends JPanel {
      * @param path image path.
      */
     public GamePanel(String path){
-        //this.setFocusable(true);
         this.setBackground(Color.BLACK);
         this.setLayout(null);
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -54,18 +51,22 @@ public class GamePanel extends JPanel {
 
     /**
      * Add food-labels by passing values to dedicated method.
-     * @param food food to be displayed.
+     * @param x x-coordinate
+     * @param y y-coordinate
+     * @param path image path
      */
-    public void addFoods(Food food){
-        addItems(food.getStartX(), food.getStartY(), food.getPath(), foodLabels);
+    public void addFoods(int x, int y, String path){
+        addItems(x, y, path, foodLabels);
     }
 
     /**
      * Add zombie-labels by passing values to dedicated method.
-     * @param zombie zombie to be displayed.
+     * @param x x-coordinate
+     * @param y y-coordinate
+     * @param path image path
      */
-    public void addZombies(Zombie zombie){
-        addItems(zombie.getStartX(), zombie.getStartY(), zombie.getPath(), zombieLabels);
+    public void addZombies(int x, int y, String path){
+        addItems(x, y, path, zombieLabels);
     }
 
     /**

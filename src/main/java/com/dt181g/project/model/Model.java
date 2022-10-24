@@ -1,5 +1,6 @@
 package com.dt181g.project.model;
 
+import com.dt181g.project.Observer;
 import com.dt181g.project.model.characters.Character;
 import com.dt181g.project.model.characters.CharacterFactory;
 import com.dt181g.project.model.factories.*;
@@ -7,26 +8,24 @@ import com.dt181g.project.model.levels.LevelMethods;
 import com.dt181g.project.model.levels.LevelOne;
 import com.dt181g.project.model.levels.LevelTwo;
 
-import javax.swing.*;
 import java.util.*;
 
 /**
  * Class representing the model, which handles data. Implemented as an observable.
  * @author Ebba Nimér
  */
-public class Model implements Observable {
+public class Model implements com.dt181g.project.Observable {
 
     AbstractFactory<Food> foodAbstractFactory;
     AbstractFactory<Zombie> zombieAbstractFactory;
     CharacterFactory characterFactory;
 
-    private final ArrayList<Observer> observers = new ArrayList<>();
+    private final ArrayList<com.dt181g.project.Observer> observers = new ArrayList<>();
     private Character gameCharacter;
     private Deque<Food> foods = new LinkedList<>();
     private Deque<Zombie> zombies = new LinkedList<>();
-    private final Deque<Character> characters = new LinkedList<>();
+    private final List<Character> characters = new LinkedList<>();
     List<String> characterNames = new ArrayList<>();
-    private JLabel match;
 
     /**
      * Initialize model with initializing the factories for characters, food, and zombies.
@@ -104,20 +103,6 @@ public class Model implements Observable {
 
     }
 
-    /*public void detectFoodCollision(JLabel imgLbl, Deque<JLabel> foodLabels) throws InterruptedException {
-        match = foodLabels.stream()
-                .filter(jLabel -> jLabel.getBounds().intersects(imgLbl.getBounds()))
-                .findFirst().orElse(null);
-        notifyObserver();
-    }
-
-    public void detectZombieCollision(JLabel imgLbl, Deque<JLabel> zombieLabels) throws InterruptedException {
-        match = zombieLabels.stream()
-                .filter(jLabel -> jLabel.getBounds().intersects(imgLbl.getBounds()))
-                .findFirst().orElse(null);
-        notifyObserver();
-    }*/
-
     /**
      * Return food to client.
      * @return food object.
@@ -174,16 +159,12 @@ public class Model implements Observable {
         return gameCharacter;
     }
 
-    /*public JLabel getMatch(){
-        return match;
-    }*/
-
     /**
      * Notify observer when changes happen.
      * @throws InterruptedException exception if interrupted.
      */
     @Override public void notifyObserver() throws InterruptedException {
-        for (Observer o : observers) {
+        for (com.dt181g.project.Observer o : observers) {
             o.update();
         }
     }
@@ -192,7 +173,7 @@ public class Model implements Observable {
      * register the observer.
      * @param o observer
      */
-    @Override public void register(Observer o) {
+    @Override public void register(com.dt181g.project.Observer o) {
         observers.add(o);
     }
 

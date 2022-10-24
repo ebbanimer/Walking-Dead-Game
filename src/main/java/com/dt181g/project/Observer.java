@@ -1,4 +1,4 @@
-package com.dt181g.project.model;
+package com.dt181g.project;
 
 /**
  * Interface representing observer.
