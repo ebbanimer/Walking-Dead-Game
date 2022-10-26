@@ -10,7 +10,7 @@ public interface Constants {
     int WIDTH = 700;
     int HEIGHT = 550;
 
-    String MASTER_ZOMBIE_PATH = "src\\main\\java\\com\\dt181g\\project\\images\\transparent-masterzombie.png";
+    String MASTER_ZOMBIE_PATH = "src\\main\\resources\\images\\transparent-masterzombie.png";
 
     String PICK_CHARACTER = "Pick a character...";
 

@@ -11,7 +11,7 @@ public class Daryl extends Character{
      */
     public Daryl(){
         setName("Daryl");
-        setPath("src\\main\\java\\com\\dt181g\\project\\images\\daryl.png");
+        setPath("src\\main\\resources\\images\\daryl.png");
         setWeapon("Bow");
         setScore(0);
         setDead(false);

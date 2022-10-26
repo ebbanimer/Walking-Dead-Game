@@ -26,7 +26,7 @@ public class Carrot implements Food{
      * @return image path.
      */
     @Override public String getPath() {
-        return "src\\main\\java\\com\\dt181g\\project\\images\\carrot.png";
+        return "src\\main\\resources\\images\\carrot.png";
     }
 
     /**

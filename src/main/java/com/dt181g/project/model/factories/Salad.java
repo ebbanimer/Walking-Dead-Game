@@ -26,7 +26,7 @@ public class Salad implements Food{
      * @return image path.
      */
     @Override public String getPath() {
-        return "src\\main\\java\\com\\dt181g\\project\\images\\salad.png";
+        return "src\\main\\resources\\images\\salad.png";
     }
 
     /**

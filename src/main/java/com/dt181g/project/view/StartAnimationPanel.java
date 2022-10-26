@@ -21,6 +21,7 @@ public class StartAnimationPanel extends JPanel {
      * @param path image path.
      */
     public StartAnimationPanel(int size, String path){
+
         zombieImg = new ImageIcon(path);
         this.MASTER_ZOMBIE_WIDTH = size;
         this.MASTER_ZOMBIE_HEIGHT = size;

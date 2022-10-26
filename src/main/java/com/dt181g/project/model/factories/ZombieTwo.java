@@ -25,7 +25,7 @@ public class ZombieTwo implements Zombie{
      * @return image path.
      */
     @Override public String getPath() {
-        return "src\\main\\java\\com\\dt181g\\project\\images\\zombie2.png";
+        return "src\\main\\resources\\images\\zombie2.png";
     }
 
     /**
