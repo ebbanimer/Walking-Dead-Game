@@ -86,7 +86,7 @@ public class StartView extends JFrame {
         instructionBtn.setPreferredSize(new Dimension(150,40));
         instructionBtn.setBackground(Color.decode("#cbf3f0"));
 
-        // adding font-style and align using gridbag-layout.
+        // adding font-style and align using grid-bag-layout.
         addFontStyle(startPanel, charNameLabel, charNameLabel);
         c.gridy = 3;
         startPanel.add(startBtn,c);
@@ -114,10 +114,10 @@ public class StartView extends JFrame {
     }
 
     /**
-     * Add font-style to passed panel with jlabels.
+     * Add font-style to passed panel with jLabels.
      * @param panel panel containing labels.
-     * @param jLabel1 jlabel
-     * @param jLabel2 jlabel
+     * @param jLabel1 jLabel
+     * @param jLabel2 jLabel
      */
     private void addFontStyle(JPanel panel, JLabel jLabel1, JLabel jLabel2) {
         jLabel1.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 15));
@@ -152,31 +152,34 @@ public class StartView extends JFrame {
     }
 
     /**
-     * display instructions when instruction button is clicked.
+     * Display instructions when instruction button is clicked.
      * @param message message to be displayed.
      */
     public void showInstructions(String message){
-        JOptionPane.showMessageDialog(this, displayMsg(message), "Instructions", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, displayMsg(message),
+                "Instructions", JOptionPane.INFORMATION_MESSAGE);
     }
 
     /**
-     * if invalid choice, display passed message.
+     * If invalid choice, display passed message.
      * @param msg message to be displayed.
      */
     public void displayError(String msg){
-        JOptionPane.showMessageDialog(this, displayMsg(msg), "Error", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, displayMsg(msg),
+                "Error", JOptionPane.INFORMATION_MESSAGE);
     }
 
     /**
-     * display passed message if character is already dead.
+     * Display passed message if character is already dead.
      * @param msg message to be displayed
      */
     public void displayDead(String msg){
-        JOptionPane.showMessageDialog(this, displayMsg(msg), "Already dead...", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, displayMsg(msg),
+                "Already dead...", JOptionPane.INFORMATION_MESSAGE);
     }
 
     /**
-     * design of JOptionpane.
+     * Design of JOptionPane.
      * @param message message to display
      * @return JPanel containing style and message
      */
@@ -185,7 +188,7 @@ public class StartView extends JFrame {
     }
 
     /**
-     * static method to provide access to other view-classes. containing styling of jpanel.
+     * Static method to provide access to other view-classes. Containing styling of jPanel.
      * @param message message to be displayed.
      * @return JPanel containing style and message.
      */
@@ -201,10 +204,6 @@ public class StartView extends JFrame {
         UIManager.put("OptionPane.background",Color.decode("#0f4c5c"));
         UIManager.put("Panel.background",Color.decode("#0f4c5c"));
         return panel;
-    }
-
-    public JPanel getStartAnimationPanel(){
-        return startAnimationPanel;
     }
 
     /**

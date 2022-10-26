@@ -46,7 +46,7 @@ public class StartController implements Observer {
     }
 
     /**
-     * Inner class representing actionslistener for choosing a character in view.
+     * Inner class representing actionsListener for choosing a character in view.
      * @author Ebba Nimér
      */
     class AddCharacterPickListener implements ActionListener {

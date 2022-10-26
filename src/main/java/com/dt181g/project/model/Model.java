@@ -9,18 +9,21 @@ import com.dt181g.project.model.levels.LevelOne;
 import com.dt181g.project.model.levels.LevelTwo;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Class representing the model, which handles data. Implemented as an observable.
+ * Contains object pool distributor in object pool pattern and requesting factories for factory method
+ * and abstract factory patterns.
  * @author Ebba Nimér
  */
-public class Model implements com.dt181g.project.Observable {
+public class Model implements Observable {
 
     AbstractFactory<Food> foodAbstractFactory;
     AbstractFactory<Zombie> zombieAbstractFactory;
     CharacterFactory characterFactory;
 
-    private final ArrayList<com.dt181g.project.Observer> observers = new ArrayList<>();
+    private final ArrayList<Observer> observers = new ArrayList<>();
     private Character gameCharacter;
     private Deque<Food> foods = new LinkedList<>();
     private Deque<Zombie> zombies = new LinkedList<>();
@@ -54,7 +57,7 @@ public class Model implements com.dt181g.project.Observable {
 
         // Create a new list with sorted characters.
         List<Character> sortedCharList = characters.stream()
-                .sorted(Comparator.comparing(Character::getName)).toList();
+                .sorted(Comparator.comparing(Character::getName)).collect(Collectors.toList());
 
         // Add the names of characters in list.
         for (Character character : sortedCharList){
@@ -77,7 +80,7 @@ public class Model implements com.dt181g.project.Observable {
     }
 
     /**
-     * Initialize game by starting desired level.
+     * Initialize game by starting desired level. Part of template method pattern.
      * @param level level to be started
      */
     public void initGame(String level){
@@ -100,11 +103,10 @@ public class Model implements com.dt181g.project.Observable {
             foods = foodAbstractFactory.create(item, amount);
         else if ("ZombieOne".equals(item) || "ZombieTwo".equals(item))
             zombies = zombieAbstractFactory.create(item, amount);
-
     }
 
     /**
-     * Return food to client.
+     * Return food to client, part of object pool distributor.
      * @return food object.
      */
     public Food getFood(){
@@ -112,7 +114,20 @@ public class Model implements com.dt181g.project.Observable {
     }
 
     /**
-     * Verify that food-list is not empty.
+     * Return food-list to calling client.
+     * @return food-list
+     */
+    public Deque<Food> getFoods(){ return foods; }
+
+    /**
+     * Clear food-list.
+     */
+    public void clearFoods(){
+        foods.clear();
+    }
+
+    /**
+     * Verify that food-list is not empty, part of object pool distributor.
      * @return boolean whether list is empty or not.
      */
     public boolean hasAnotherFood(){
@@ -120,7 +135,7 @@ public class Model implements com.dt181g.project.Observable {
     }
 
     /**
-     * Return food to list.
+     * Return food to list, part of object pool distributor.
      * @param food food object.
      */
     public void returnFood(Food food){
@@ -128,7 +143,7 @@ public class Model implements com.dt181g.project.Observable {
     }
 
     /**
-     * Return zombie to client.
+     * Return zombie to client, part of object pool distributor.
      * @return zombie-object.
      */
     public Zombie getZombie(){
@@ -136,7 +151,7 @@ public class Model implements com.dt181g.project.Observable {
     }
 
     /**
-     * Verify if list of zombies is empty or not.
+     * Verify if list of zombies is empty or not, part of object pool distributor.
      * @return boolean whether list is empty or not.
      */
     public boolean hasAnotherZombie(){
@@ -144,7 +159,7 @@ public class Model implements com.dt181g.project.Observable {
     }
 
     /**
-     * Return zombie to list.
+     * Return zombie to list, part of object pool distributor.
      * @param zombie zombie to be returned.
      */
     public void returnZombie(Zombie zombie){
@@ -152,7 +167,7 @@ public class Model implements com.dt181g.project.Observable {
     }
 
     /**
-     * Return character object to client.
+     * Return character object to calling client.
      * @return character
      */
     public Character getNewCharacter(){
@@ -164,21 +179,21 @@ public class Model implements com.dt181g.project.Observable {
      * @throws InterruptedException exception if interrupted.
      */
     @Override public void notifyObserver() throws InterruptedException {
-        for (com.dt181g.project.Observer o : observers) {
+        for (Observer o : observers) {
             o.update();
         }
     }
 
     /**
-     * register the observer.
+     * Register the observer.
      * @param o observer
      */
-    @Override public void register(com.dt181g.project.Observer o) {
+    @Override public void register(Observer o) {
         observers.add(o);
     }
 
     /**
-     * unregister the observer.
+     * Unregister the observer.
      * @param o observer.
      */
     @Override public void unregister(Observer o) {

@@ -3,7 +3,8 @@ package com.dt181g.project.model.startanimation;
 import java.util.ArrayList;
 
 /**
- * Class representing pool that handles size. Implemented as observable.
+ * Class representing pool that handles size. Implemented as observable in producer/consumer pattern.
+ * Defined as a Singleton, to ensure it is initialized once.
  * @author Ebba Nimér
  */
 public class SizePool implements SizeObservable {
@@ -73,7 +74,7 @@ public class SizePool implements SizeObservable {
     }
 
     /**
-     * When changes have occured, update observer.
+     * When changes have occurred, update observer.
      * @throws Exception exception
      */
     @Override public void notifyObserver() throws Exception {

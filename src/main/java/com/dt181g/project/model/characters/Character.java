@@ -1,7 +1,7 @@
 package com.dt181g.project.model.characters;
 
 /**
- * Abstract class representing characters.
+ * Abstract class representing characters. Part of Factory Method pattern.
  * @author Ebba Nimér
  */
 public abstract class Character {
@@ -53,7 +53,7 @@ public abstract class Character {
     }
 
     /**
-     * return character-name to client.
+     * Return character-name to client.
      * @return name
      */
     public String getName(){
@@ -61,7 +61,7 @@ public abstract class Character {
     }
 
     /**
-     * return image path to client.
+     * Return image path to client.
      * @return image path
      */
     public String getPath(){
@@ -69,13 +69,13 @@ public abstract class Character {
     }
 
     /**
-     * return weapon-name to client.
+     * Return weapon-name to client.
      * @return name of weapon.
      */
     public String getWeapon(){return weapon;}
 
     /**
-     * return score to client.
+     * Return score to client.
      * @return amount of score.
      */
     public int getScore(){
@@ -83,7 +83,7 @@ public abstract class Character {
     }
 
     /**
-     * return boolean if character is dead or not to client.
+     * Return boolean if character is dead or not to client.
      * @return boolean if dead.
      */
     public boolean getIsDead(){ return isDead; }

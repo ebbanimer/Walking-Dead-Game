@@ -4,7 +4,7 @@ import java.util.Deque;
 import java.util.LinkedList;
 
 /**
- * Class representing food-factory, implementing abstract factory.
+ * Class representing food-factory. Part of Factory Method pattern.
  * @author Ebba Nimér
  */
 public class FoodFactory implements AbstractFactory<Food> {

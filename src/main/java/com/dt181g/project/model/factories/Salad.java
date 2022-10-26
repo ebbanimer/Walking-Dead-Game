@@ -13,7 +13,7 @@ public class Salad implements Food{
     int id;
 
     /**
-     * Initialize salad with given id and intialize random instance.
+     * Initialize salad with given id and initialize random instance.
      * @param id id number
      */
     public Salad(int id){

@@ -1,7 +1,7 @@
 package com.dt181g.project.model;
 
 /**
- * Interface which stores values to be used throughout the program.
+ * Interface to store values to be used throughout the program.
  * @author Ebba Nimér
  */
 public interface Constants {
@@ -23,7 +23,8 @@ public interface Constants {
     String INSTRUCTION_MESSAGE =
             "<html>Collect as much food as you can without getting caught by the zombies.<br> " +
             "You move your character with the arrow keys and you have 30 seconds on you.<br>" +
-            "For each food you collect, you get one point. If you get to close or get bit, you die.<br>" +
+            "For each food you collect, you get one point. If you get to close to a zombie <br>" +
+                    "or get bit, you die.<br>" +
             "Good luck, and don't get bit!</html>";
 
     String WIN_MESSAGE_1 =

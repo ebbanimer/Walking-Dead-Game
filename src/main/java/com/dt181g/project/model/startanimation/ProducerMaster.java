@@ -3,7 +3,7 @@ package com.dt181g.project.model.startanimation;
 import java.util.Random;
 
 /**
- * Class representing producer in producer/consumer pattern. Adding to sizepool, implemented as runnable.
+ * Class representing producer in producer/consumer pattern. Adding to size-pool, implemented as runnable.
  * @author Ebba Nimér
  */
 public class ProducerMaster implements Runnable{

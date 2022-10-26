@@ -1,7 +1,6 @@
 package com.dt181g.project.controller;
 
 import com.dt181g.project.model.Constants;
-import com.dt181g.project.Observer;
 import com.dt181g.project.model.Model;
 import com.dt181g.project.model.characters.Character;
 import com.dt181g.project.model.factories.Food;
@@ -22,10 +21,10 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * Class representing the controller of game simulation, observing model
+ * Class representing the controller of game simulation.
  * @author Ebba Nimér
  */
-public class GameController implements Observer {
+public class GameController {
 
     private final Model theModel;
     private final Character gameCharacter;
@@ -55,8 +54,7 @@ public class GameController implements Observer {
     public GameController(Character newCharacter, Model model) throws InterruptedException {
 
         gameCharacter = newCharacter;
-        theModel = model;     // assign model that was created in start-controller, to avoid creating new model losing values.
-        theModel.register(this);
+        theModel = model;     // assign model that was created in start-controller
 
         gameFrame = new GameFrame(gameCharacter.getPath(), gameCharacter.getScore());
         statsPanel = gameFrame.getStatsPanel();
@@ -73,6 +71,8 @@ public class GameController implements Observer {
      * Initializing game in level one, creating labels and starting timer.
      */
     private void initializeGame() {
+        removeFoods();
+
         levelOne = true;
         levelTwo = false;
         keyGame = new AddKeyGame();
@@ -88,10 +88,25 @@ public class GameController implements Observer {
     }
 
     /**
+     * If there are foods/foodLabels left from previous games, remove foods/labels.
+     */
+    private void removeFoods(){
+        if (!gamePanel.getFoodLabels().isEmpty()){
+            gamePanel.getFoodLabels().clear();
+        }
+        if (!foods.isEmpty()){
+            foods.clear();
+        }
+        if (!theModel.getFoods().isEmpty()){
+            theModel.clearFoods();
+        }
+    }
+
+    /**
      * Create food labels, using object pool pattern.
      */
     private void createFoodLabels(){
-        // while model has food, create pass food to view to create label.
+        // while model has food, create food and pass to view.
         while (theModel.hasAnotherFood()){
             Food food = theModel.getFood();
             foods.add(food);
@@ -129,7 +144,7 @@ public class GameController implements Observer {
          * @param e key-event
          */
         @Override public void keyPressed(KeyEvent e){
-            if (foodLabels.isEmpty()){    // if foodlabels is empty, the character has won.
+            if (foodLabels.isEmpty()){    // if foodLabels is empty, the character has won.
                 if (levelOne){
                     int result = gameFrame.displayWinMsg(Constants.WIN_MESSAGE_1); // give character option to start next level.
                     switch (result){
@@ -257,11 +272,9 @@ public class GameController implements Observer {
 
     /**
      * If character wishes to go to next level, initialize level two.
-     * @throws InterruptedException exceptioin if interrupted.
+     * @throws InterruptedException exception if interrupted.
      */
     private void nextLevel() throws InterruptedException {
-        levelOne = false;
-        levelTwo = true;
         timer.cancel();
 
         // Return all foods and zombies to model.
@@ -272,6 +285,8 @@ public class GameController implements Observer {
         gamePanel.removeZombies();
         gamePanel.removeFoods();
 
+        levelOne = false;
+        levelTwo = true;
         theModel.initGame("LevelTwo");
 
         // Create new labels.
@@ -321,11 +336,6 @@ public class GameController implements Observer {
      */
     public boolean getGameOver(){
         return gameOver;
-    }
-
-    @Override
-    public void update() {
-        //match = theModel.getMatch();
     }
 
 }

@@ -3,7 +3,7 @@ package com.dt181g.project.model.levels;
 import com.dt181g.project.model.Model;
 
 /**
- * Template method class representing levels.
+ * Template Method class representing levels.
  * @author Ebba Nimér.
  */
 public abstract class LevelMethods {
@@ -20,7 +20,7 @@ public abstract class LevelMethods {
     }
 
     /**
-     * To be determined by level classes.
+     * To be defined by level classes.
      */
     public abstract void createZombies();
 

@@ -88,7 +88,7 @@ public class GamePanel extends JPanel {
     }
 
     /**
-     * if character hit food, remove food from panel.
+     * If character hit food, remove food from panel.
      * @param jLabel food label.
      */
     public void foodTaken(JLabel jLabel){
@@ -99,7 +99,7 @@ public class GamePanel extends JPanel {
     }
 
     /**
-     * remove zombies from list and from panel.
+     * Remove zombies from list and from panel.
      */
     public void removeZombies(){
         for (JLabel zombieLabel : zombieLabels){
@@ -111,7 +111,7 @@ public class GamePanel extends JPanel {
     }
 
     /**
-     * remove food from list and from panel.
+     * Remove food from list and from panel.
      */
     public void removeFoods(){
         for (JLabel foodLabel : foodLabels){
@@ -123,7 +123,7 @@ public class GamePanel extends JPanel {
     }
 
     /**
-     * provide image-label to calling client.
+     * Provide image-label to calling client.
      * @return JLabel containing image.
      */
     public JLabel getImgLbl(){
@@ -131,7 +131,7 @@ public class GamePanel extends JPanel {
     }
 
     /**
-     * provide food-labels to calling client.
+     * Provide food-labels to calling client.
      * @return list containing food-labels.
      */
     public Deque<JLabel> getFoodLabels(){
@@ -139,7 +139,7 @@ public class GamePanel extends JPanel {
     }
 
     /**
-     * provide zombie-labels to calling client.
+     * Provide zombie-labels to calling client.
      * @return list containing zombie-labels.
      */
     public Deque<JLabel> getZombieLabels(){ return zombieLabels; }

@@ -15,7 +15,7 @@ public class ThreadSizeManager {
     private final Deque<Thread> consumerThreads = new LinkedList<>();
 
     /**
-     * Initial class by starting threads determined by pool.
+     * Initialize class by starting threads determined by pool.
      */
     public ThreadSizeManager(){
         for (int i = 0; i < pool.getProducers(); i++){
@@ -50,7 +50,7 @@ public class ThreadSizeManager {
     }
 
     /**
-     * Terminate consumer and remove thread from list.
+     * Terminate consumer and remove thread and runnable from lists.
      */
     public synchronized void removeConsumer() {
 

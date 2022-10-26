@@ -1,7 +1,7 @@
 package com.dt181g.project.model.characters;
 
 /**
- * Class representing factory of characters.
+ * Class representing factory of characters. Part of Factory Method pattern.
  * @author Ebba Nimér
  */
 public class CharacterFactory {

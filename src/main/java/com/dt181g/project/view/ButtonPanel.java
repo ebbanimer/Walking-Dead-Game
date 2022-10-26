@@ -5,8 +5,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-import static com.dt181g.project.view.StartView.getjPanel;
-
 /**
  * JPanel for buttons in game-frame.
  * @author Ebba Nimér
@@ -69,24 +67,6 @@ public class ButtonPanel extends JPanel {
      */
     public void addEndGame(ActionListener listener) {
         endBtn.addActionListener(listener);
-    }
-
-    /**
-     * When instructions button is pressed, display passed message.
-     * @param msg message
-     */
-    public void displayInstructionMessage(String msg){
-        JOptionPane.showMessageDialog(this, displayMsg(msg));
-        this.setFocusable(false);
-    }
-
-    /**
-     * Used for layout of JOptionpane.
-     * @param message message to be displayed.
-     * @return JPanel to be displayed.
-     */
-    private JPanel displayMsg(String message) {
-        return getjPanel(message);
     }
 
 }
