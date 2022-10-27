@@ -1,5 +1,7 @@
 package com.dt181g.project.model.characters;
 
+import static com.dt181g.project.model.Constants.RICK_PATH;
+
 /**
  * Class representing Rick, extending character class.
  * @author Ebba Nimér.
@@ -11,7 +13,7 @@ public class Rick extends Character{
      */
     public Rick(){
         setName("Rick");
-        setPath("src\\main\\resources\\images\\rick.png");
+        setPath(RICK_PATH);
         setWeapon("Pistol");
         setScore(0);
         setDead(false);

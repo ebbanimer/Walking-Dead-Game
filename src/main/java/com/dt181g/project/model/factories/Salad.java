@@ -4,6 +4,8 @@ import com.dt181g.project.model.Constants;
 
 import java.util.Random;
 
+import static com.dt181g.project.model.Constants.SALAD_PATH;
+
 /**
  * Class representing salad, implementing food.
  * @author Ebba Nimér
@@ -26,7 +28,7 @@ public class Salad implements Food{
      * @return image path.
      */
     @Override public String getPath() {
-        return "src\\main\\resources\\images\\salad.png";
+        return SALAD_PATH;
     }
 
     /**

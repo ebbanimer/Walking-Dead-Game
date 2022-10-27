@@ -1,5 +1,7 @@
 package com.dt181g.project.model.characters;
 
+import static com.dt181g.project.model.Constants.DARYL_PATH;
+
 /**
  * Class representing Daryl, extending character class.
  * @author Ebba Nimér.
@@ -11,7 +13,7 @@ public class Daryl extends Character{
      */
     public Daryl(){
         setName("Daryl");
-        setPath("src\\main\\resources\\images\\daryl.png");
+        setPath(DARYL_PATH);
         setWeapon("Bow");
         setScore(0);
         setDead(false);

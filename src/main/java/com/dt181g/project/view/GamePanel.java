@@ -40,7 +40,7 @@ public class GamePanel extends JPanel {
      * @return JLabel with image.
      */
     private JLabel addCharacterLbl(String path){
-        charImage = new ImageIcon(path);    // create image-icon from path
+        charImage = new ImageIcon (ClassLoader.getSystemResource(path)); // create image-icon from path
         Image otherImg = charImage.getImage();    // get image to change size
         Image newImg = otherImg.getScaledInstance(CHAR_WIDTH, CHAR_HEIGHT, Image.SCALE_SMOOTH);
         ImageIcon newIcon = new ImageIcon(newImg);
@@ -79,7 +79,7 @@ public class GamePanel extends JPanel {
     private void addItems(Integer startX, Integer startY, String path, Deque<JLabel> labels) {
         JLabel label = new JLabel();
         label.setBounds(startX, startY, 60, 60);
-        Image itemImg = new ImageIcon(path).getImage();
+        Image itemImg = new ImageIcon (ClassLoader.getSystemResource(path)).getImage();
         Image modifiedImg = itemImg.getScaledInstance(60, 60, Image.SCALE_SMOOTH);
         ImageIcon newImg = new ImageIcon(modifiedImg);
         label.setIcon(newImg);

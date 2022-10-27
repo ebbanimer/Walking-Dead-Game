@@ -1,9 +1,19 @@
 package com.dt181g.project.view;
 
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.Objects;
+
+import static java.lang.ClassLoader.getSystemResource;
 
 /**
  * JFrame representing the start-view.
@@ -28,7 +38,7 @@ public class StartView extends JFrame {
      * @param size initial size of animation.
      * @param path image path for animation.
      */
-    public StartView(String[] characters, int size, String path){
+    public StartView(String[] characters, int size, String path) throws IOException {
         this.setTitle("The walking dead");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(new BorderLayout());
@@ -102,6 +112,8 @@ public class StartView extends JFrame {
      * @return JPanel with image
      */
     public JPanel addImgPanel(){
+
+
         JPanel imgPanel = new JPanel();
         imgPanel.setLayout(new GridBagLayout());
         imgPanel.setPreferredSize(new Dimension(300, 400));
@@ -144,9 +156,19 @@ public class StartView extends JFrame {
      * @param weapon name of weapon
      * @param imgPath image path
      */
-    public void setCharacter(String character, String weapon, String imgPath){
-        charImage = new ImageIcon(imgPath);
-        imgLbl.setIcon(charImage);
+    public void setCharacter(String character, String weapon, String imgPath) throws IOException {
+
+        //ImageIcon img = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource(imgPath)));
+
+        ImageIcon img = new ImageIcon(ClassLoader.getSystemResource(imgPath));
+
+
+        /*ClassLoader cldr = this.getClass().getClassLoader();
+        java.net.URL imageURL   = cldr.getResource(imgPath);
+        assert imageURL != null;
+        ImageIcon img = new ImageIcon(imageURL);*/
+
+        imgLbl.setIcon(img);
         charNameLabel.setText("You have chosen character " + character);
         weaponLabel.setText("Weapon: " + weapon);
     }

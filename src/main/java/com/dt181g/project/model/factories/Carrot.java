@@ -4,6 +4,8 @@ import com.dt181g.project.model.Constants;
 
 import java.util.Random;
 
+import static com.dt181g.project.model.Constants.CARROT_PATH;
+
 /**
  * Class representing carrot, implementing food.
  * @author Ebba Nimér
@@ -26,7 +28,7 @@ public class Carrot implements Food{
      * @return image path.
      */
     @Override public String getPath() {
-        return "src\\main\\resources\\images\\carrot.png";
+        return CARROT_PATH;
     }
 
     /**

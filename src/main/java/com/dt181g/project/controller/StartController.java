@@ -7,6 +7,7 @@ import com.dt181g.project.view.StartView;
 import com.dt181g.project.model.Model;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -23,7 +24,7 @@ public class StartController implements Observer {
     /**
      * Initialize controller with starting model and view, adding listeners to view.
      */
-    public StartController(){
+    public StartController() throws IOException {
         this.theModel = new Model();
         // Initialize start-view with list of characters to be displayed, and animation image with size.
         this.startView = new StartView(initGui().toArray(new String[0]), 50, Constants.MASTER_ZOMBIE_PATH);
@@ -69,7 +70,11 @@ public class StartController implements Observer {
             }
             if (newCharacter != null && !newCharacter.getIsDead()){
                 gameCharacter = newCharacter;    // if the creation was successful, assign new character to gamecharacter
-                startView.setCharacter(newCharacter.getName(), newCharacter.getWeapon(), newCharacter.getPath());
+                try {
+                    startView.setCharacter(newCharacter.getName(), newCharacter.getWeapon(), newCharacter.getPath());
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             } else {
                 assert newCharacter != null;
                 if (newCharacter.getIsDead()){

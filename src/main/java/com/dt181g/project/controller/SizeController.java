@@ -7,6 +7,7 @@ import com.dt181g.project.view.StartView;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 /**
  * Class representing a controller for the animation in start-frame, observing the changes of size.
@@ -51,7 +52,11 @@ public class SizeController implements SizeObserver {
      */
     public void startTimer(){
         Timer timer = new Timer(100, e -> {
-            startAnimationPanel = new StartAnimationPanel(size, Constants.MASTER_ZOMBIE_PATH);
+            try {
+                startAnimationPanel = new StartAnimationPanel(size, Constants.MASTER_ZOMBIE_PATH);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
             startView.add(startAnimationPanel, BorderLayout.EAST);
             startView.revalidate();
         });

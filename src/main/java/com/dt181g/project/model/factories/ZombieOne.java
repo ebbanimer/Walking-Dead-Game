@@ -4,6 +4,8 @@ import com.dt181g.project.model.Constants;
 
 import java.util.Random;
 
+import static com.dt181g.project.model.Constants.ZOMBIE_ONE_PATH;
+
 /**
  * Class representing zombie one, implementing zombie.
  * @author Ebba Nimér
@@ -26,7 +28,7 @@ public class ZombieOne implements Zombie {
      * @return image path.
      */
     @Override public String getPath() {
-        return "src\\main\\resources\\images\\zombie1.png";
+        return ZOMBIE_ONE_PATH;
     }
 
     /**

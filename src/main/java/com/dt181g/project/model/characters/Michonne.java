@@ -1,5 +1,7 @@
 package com.dt181g.project.model.characters;
 
+import static com.dt181g.project.model.Constants.MICHONNE_PATH;
+
 /**
  * Class representing Michonne, extending character class.
  * @author Ebba Nimér.
@@ -11,7 +13,7 @@ public class Michonne extends Character{
      */
     public Michonne(){
         setName("Michonne");
-        setPath("src\\main\\resources\\images\\michonne.png");
+        setPath(MICHONNE_PATH);
         setWeapon("Sword");
         setScore(0);
         setDead(false);
