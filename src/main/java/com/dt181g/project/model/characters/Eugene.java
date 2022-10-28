@@ -1,5 +1,6 @@
 package com.dt181g.project.model.characters;
 
+import static com.dt181g.project.model.Constants.DARYL_PATH;
 import static com.dt181g.project.model.Constants.EUGENE_PATH;
 
 /**
@@ -14,7 +15,6 @@ public class Eugene extends Character{
     public Eugene(){
         setName("Eugene");
         setPath(EUGENE_PATH);
-        setWeapon("Intelligence");
         setScore(0);
         setDead(false);
     }

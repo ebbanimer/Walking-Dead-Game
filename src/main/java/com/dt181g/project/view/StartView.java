@@ -157,16 +157,7 @@ public class StartView extends JFrame {
      * @param imgPath image path
      */
     public void setCharacter(String character, String weapon, String imgPath) throws IOException {
-
-        //ImageIcon img = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource(imgPath)));
-
         ImageIcon img = new ImageIcon(ClassLoader.getSystemResource(imgPath));
-
-
-        /*ClassLoader cldr = this.getClass().getClassLoader();
-        java.net.URL imageURL   = cldr.getResource(imgPath);
-        assert imageURL != null;
-        ImageIcon img = new ImageIcon(imageURL);*/
 
         imgLbl.setIcon(img);
         charNameLabel.setText("You have chosen character " + character);

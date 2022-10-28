@@ -1,4 +1,4 @@
-package com.dt181g.project.model.factories;
+package com.dt181g.project.model.itemfactory;
 
 import com.dt181g.project.model.Constants;
 

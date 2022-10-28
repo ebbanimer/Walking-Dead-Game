@@ -14,7 +14,6 @@ public class Michonne extends Character{
     public Michonne(){
         setName("Michonne");
         setPath(MICHONNE_PATH);
-        setWeapon("Sword");
         setScore(0);
         setDead(false);
     }

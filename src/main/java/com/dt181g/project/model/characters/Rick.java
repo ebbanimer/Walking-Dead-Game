@@ -1,5 +1,6 @@
 package com.dt181g.project.model.characters;
 
+import static com.dt181g.project.model.Constants.DARYL_PATH;
 import static com.dt181g.project.model.Constants.RICK_PATH;
 
 /**
@@ -14,7 +15,6 @@ public class Rick extends Character{
     public Rick(){
         setName("Rick");
         setPath(RICK_PATH);
-        setWeapon("Pistol");
         setScore(0);
         setDead(false);
     }

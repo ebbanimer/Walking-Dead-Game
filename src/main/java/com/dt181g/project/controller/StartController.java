@@ -71,7 +71,7 @@ public class StartController implements Observer {
             if (newCharacter != null && !newCharacter.getIsDead()){
                 gameCharacter = newCharacter;    // if the creation was successful, assign new character to gamecharacter
                 try {
-                    startView.setCharacter(newCharacter.getName(), newCharacter.getWeapon(), newCharacter.getPath());
+                    startView.setCharacter(newCharacter.getName(), theModel.getWeapon(), newCharacter.getPath());
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }

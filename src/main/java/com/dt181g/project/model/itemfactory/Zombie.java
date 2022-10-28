@@ -1,4 +1,4 @@
-package com.dt181g.project.model.factories;
+package com.dt181g.project.model.itemfactory;
 
 /**
  * Interface representing zombie. Part of Abstract Factory pattern.

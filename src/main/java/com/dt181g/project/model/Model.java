@@ -3,7 +3,8 @@ package com.dt181g.project.model;
 import com.dt181g.project.Observer;
 import com.dt181g.project.model.characters.Character;
 import com.dt181g.project.model.characters.CharacterFactory;
-import com.dt181g.project.model.factories.*;
+import com.dt181g.project.model.itemfactory.*;
+import com.dt181g.project.model.weaponfactory.WeaponFactory;
 import com.dt181g.project.model.levels.LevelMethods;
 import com.dt181g.project.model.levels.LevelOne;
 import com.dt181g.project.model.levels.LevelTwo;
@@ -19,14 +20,16 @@ import java.util.stream.Collectors;
  */
 public class Model implements Observable {
 
-    AbstractFactory<Food> foodAbstractFactory;
-    AbstractFactory<Zombie> zombieAbstractFactory;
+    AbstractFactory foodAbstractFactory;
+    AbstractFactory zombieAbstractFactory;
     CharacterFactory characterFactory;
+    WeaponFactory weaponFactory;
 
     private final ArrayList<Observer> observers = new ArrayList<>();
     private Character gameCharacter;
-    private Deque<Food> foods = new LinkedList<>();
-    private Deque<Zombie> zombies = new LinkedList<>();
+    private String weaponName;
+    private Deque<Object> foods = new LinkedList<>();
+    private Deque<Object> zombies = new LinkedList<>();
     private final List<Character> characters = new LinkedList<>();
     List<String> characterNames = new ArrayList<>();
 
@@ -34,9 +37,10 @@ public class Model implements Observable {
      * Initialize model with initializing the factories for characters, food, and zombies.
      */
     public Model(){
-        foodAbstractFactory = new FoodFactory();
-        zombieAbstractFactory = new ZombieFactory();
+        foodAbstractFactory = GetItemFactory.getFactory("Food");
+        zombieAbstractFactory = GetItemFactory.getFactory("Zombie");
         characterFactory = new CharacterFactory();
+        weaponFactory = new WeaponFactory();
     }
 
     /**
@@ -76,6 +80,7 @@ public class Model implements Observable {
         gameCharacter = characters.stream()
                 .filter(character -> character.getName().equals(nameOfCharacter))
                 .findFirst().orElse(null);
+        weaponName = weaponFactory.chreateWeapon(gameCharacter).setCharWeapon();
         notifyObserver();     // notify observer when filtering is done.
     }
 
@@ -110,14 +115,14 @@ public class Model implements Observable {
      * @return food object.
      */
     public Food getFood(){
-        return foods.pollFirst();
+        return (Food) foods.pollFirst();
     }
 
     /**
      * Return food-list to calling client.
      * @return food-list
      */
-    public Deque<Food> getFoods(){ return foods; }
+    public Deque<Object> getFoods(){ return foods; }
 
     /**
      * Clear food-list.
@@ -147,7 +152,7 @@ public class Model implements Observable {
      * @return zombie-object.
      */
     public Zombie getZombie(){
-        return zombies.pollFirst();
+        return (Zombie) zombies.pollFirst();
     }
 
     /**
@@ -172,6 +177,10 @@ public class Model implements Observable {
      */
     public Character getNewCharacter(){
         return gameCharacter;
+    }
+
+    public String getWeapon(){
+        return weaponName;
     }
 
     /**

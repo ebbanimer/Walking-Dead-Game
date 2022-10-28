@@ -1,38 +1,38 @@
-package com.dt181g.project.model.factories;
+package com.dt181g.project.model.itemfactory;
 
 import com.dt181g.project.model.Constants;
 
 import java.util.Random;
 
-import static com.dt181g.project.model.Constants.ZOMBIE_TWO_PATH;
+import static com.dt181g.project.model.Constants.SALAD_PATH;
 
 /**
- * Class representing zombie two, implementing zombie.
+ * Class representing salad, implementing food.
  * @author Ebba Nimér
  */
-public class ZombieTwo implements Zombie{
+public class Salad implements Food{
     Random random;
     int id;
 
     /**
-     * Initialize zombie two with id and generate random instance.
-     * @param id id of zombie
+     * Initialize salad with given id and initialize random instance.
+     * @param id id number
      */
-    public ZombieTwo(int id){
+    public Salad(int id){
         this.id = id;
         random = new Random();
     }
 
     /**
-     * Return image path of zombie two to calling client.
+     * Return image path of salad to calling client.
      * @return image path.
      */
     @Override public String getPath() {
-        return ZOMBIE_TWO_PATH;
+        return SALAD_PATH;
     }
 
     /**
-     * Return start randomized x-coordinate of zombie two to calling client.
+     * Return start randomized x-coordinate of salad to calling client.
      * @return x-coordinate
      */
     @Override public Integer getStartX() {
@@ -40,11 +40,10 @@ public class ZombieTwo implements Zombie{
     }
 
     /**
-     * Return start randomized y-coordinate of zombie two to calling client.
+     * Return start randomized y-coordinate of salad to calling client.
      * @return y-coordinate
      */
     @Override public Integer getStartY() {
         return random.nextInt((Constants.HEIGHT - Constants.ICON_HEIGHT) + 1);
     }
-
 }

@@ -1,4 +1,4 @@
-package com.dt181g.project.model.factories;
+package com.dt181g.project.model.itemfactory;
 
 /**
  * Interface representing food. Part of Abstract Factory pattern.

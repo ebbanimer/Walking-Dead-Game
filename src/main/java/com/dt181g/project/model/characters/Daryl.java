@@ -7,14 +7,12 @@ import static com.dt181g.project.model.Constants.DARYL_PATH;
  * @author Ebba Nimér.
  */
 public class Daryl extends Character{
-
     /**
      * Initialize Daryl with start-values.
      */
     public Daryl(){
         setName("Daryl");
         setPath(DARYL_PATH);
-        setWeapon("Bow");
         setScore(0);
         setDead(false);
     }

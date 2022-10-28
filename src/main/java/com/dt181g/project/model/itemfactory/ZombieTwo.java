@@ -1,38 +1,38 @@
-package com.dt181g.project.model.factories;
+package com.dt181g.project.model.itemfactory;
 
 import com.dt181g.project.model.Constants;
 
 import java.util.Random;
 
-import static com.dt181g.project.model.Constants.ZOMBIE_ONE_PATH;
+import static com.dt181g.project.model.Constants.ZOMBIE_TWO_PATH;
 
 /**
- * Class representing zombie one, implementing zombie.
+ * Class representing zombie two, implementing zombie.
  * @author Ebba Nimér
  */
-public class ZombieOne implements Zombie {
+public class ZombieTwo implements Zombie{
     Random random;
     int id;
 
     /**
-     * Initialize zombie one with id and generate random instance.
+     * Initialize zombie two with id and generate random instance.
      * @param id id of zombie
      */
-    public ZombieOne(int id){
+    public ZombieTwo(int id){
         this.id = id;
         random = new Random();
     }
 
     /**
-     * Return image path of zombie one to calling client.
+     * Return image path of zombie two to calling client.
      * @return image path.
      */
     @Override public String getPath() {
-        return ZOMBIE_ONE_PATH;
+        return ZOMBIE_TWO_PATH;
     }
 
     /**
-     * Return start randomized x-coordinate of zombie one to calling client.
+     * Return start randomized x-coordinate of zombie two to calling client.
      * @return x-coordinate
      */
     @Override public Integer getStartX() {
@@ -40,7 +40,7 @@ public class ZombieOne implements Zombie {
     }
 
     /**
-     * Return start randomized y-coordinate of zombie one to calling client.
+     * Return start randomized y-coordinate of zombie two to calling client.
      * @return y-coordinate
      */
     @Override public Integer getStartY() {
