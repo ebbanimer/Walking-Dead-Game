@@ -8,7 +8,6 @@ import java.util.ArrayList;
  * @author Ebba Nimér
  */
 public class SizePool implements SizeObservable {
-    public static final SizePool INSTANCE = new SizePool();
 
     private final ArrayList<SizeObserver> observers;
     private final int producers;
@@ -18,7 +17,7 @@ public class SizePool implements SizeObservable {
     /**
      * Initialize pool with amount of consumers/producers, and initial size.
      */
-    private SizePool(){
+    public SizePool(){
         observers = new ArrayList<>();
         producers = 7;
         consumers = 1;

@@ -7,7 +7,7 @@ import com.dt181g.project.model.characters.Character;
  */
 public class WeaponFactory {
 
-    public Weapon chreateWeapon(Character character){
+    public Weapon createWeapon(Character character){
         if (character == null)
             return null;
         return switch (character.getClass().getSimpleName()) {

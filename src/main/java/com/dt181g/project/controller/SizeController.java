@@ -15,7 +15,7 @@ import java.io.IOException;
  */
 public class SizeController implements SizeObserver {
 
-    SizePool pool = SizePool.INSTANCE;
+    SizePool pool;
     StartAnimationPanel startAnimationPanel;
     StartView startView;
     ThreadSizeManager threadSizeManager;
@@ -26,7 +26,8 @@ public class SizeController implements SizeObserver {
      * @param startView start-frame.
      */
     public SizeController(StartView startView){
-        threadSizeManager = new ThreadSizeManager();
+        pool = new SizePool();
+        threadSizeManager = new ThreadSizeManager(pool);
         this.startView = startView;
         pool.register(this);
         startThreads();

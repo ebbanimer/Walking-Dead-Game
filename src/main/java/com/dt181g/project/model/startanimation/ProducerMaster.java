@@ -9,6 +9,11 @@ import java.util.Random;
 public class ProducerMaster implements Runnable{
 
     public volatile boolean shouldFinish = false;
+    SizePool pool;
+
+    public ProducerMaster(SizePool pool){
+        this.pool = pool;
+    }
 
     /**
      * While animation should run, assign random value at random interval to pool.
@@ -18,7 +23,7 @@ public class ProducerMaster implements Runnable{
         int amount = new Random().nextInt(10) + 1;
         while(!shouldFinish){
             try {
-                SizePool.INSTANCE.addSize(amount);
+                pool.addSize(amount);
                 Thread.sleep(delay + 1000);
             } catch (Exception e) {
                 e.printStackTrace();

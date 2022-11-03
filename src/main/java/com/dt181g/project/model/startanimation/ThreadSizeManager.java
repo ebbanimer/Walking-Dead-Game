@@ -8,7 +8,7 @@ import java.util.LinkedList;
  * @author Ebba Nimér
  */
 public class ThreadSizeManager {
-    SizePool pool = SizePool.INSTANCE;
+    SizePool pool;
     private final Deque<ProducerMaster> producerRunnables = new LinkedList<>();
     private final Deque<ConsumerMaster> consumerRunnables = new LinkedList<>();
     private final Deque<Thread> producerThreads = new LinkedList<>();
@@ -17,16 +17,17 @@ public class ThreadSizeManager {
     /**
      * Initialize class by starting threads determined by pool.
      */
-    public ThreadSizeManager(){
+    public ThreadSizeManager(SizePool pool){
+        this.pool = pool;
         for (int i = 0; i < pool.getProducers(); i++){
-            ProducerMaster producerMaster = new ProducerMaster();
+            ProducerMaster producerMaster = new ProducerMaster(pool);
             Thread thread = new Thread(producerMaster);
             producerThreads.add(thread);
             producerRunnables.add(producerMaster);
         }
 
         for (int i = 0; i < pool.getConsumers(); i++){
-            ConsumerMaster consumerMaster = new ConsumerMaster();
+            ConsumerMaster consumerMaster = new ConsumerMaster(pool);
             Thread thread = new Thread(consumerMaster);
             consumerThreads.add(thread);
             consumerRunnables.add(consumerMaster);
@@ -71,7 +72,7 @@ public class ThreadSizeManager {
      * Add producer.
      */
     public synchronized void addProducer() {
-        ProducerMaster producerMaster = new ProducerMaster();
+        ProducerMaster producerMaster = new ProducerMaster(pool);
         Thread thread = new Thread(producerMaster);
         thread.start();
         producerThreads.add(thread);
@@ -100,7 +101,7 @@ public class ThreadSizeManager {
      * Add consumer.
      */
     public synchronized void addConsumer() {
-        ConsumerMaster consumerMaster = new ConsumerMaster();
+        ConsumerMaster consumerMaster = new ConsumerMaster(pool);
         Thread thread = new Thread(consumerMaster);
         thread.start();
         consumerThreads.add(thread);

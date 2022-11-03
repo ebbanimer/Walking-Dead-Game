@@ -13,25 +13,26 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * Class representing the model, which handles data. Implemented as an observable.
- * Contains object pool distributor in object pool pattern and requesting factories for factory method
- * and abstract factory patterns.
+ * Class representing the model, which handles data. Implemented as an observable. Distributes food and zombie objects
+ * according to object pool patterns, and requesting factories for factory method and abstract factory.
  * @author Ebba Nimér
  */
 public class Model implements Observable {
 
-    AbstractFactory foodAbstractFactory;
-    AbstractFactory zombieAbstractFactory;
-    CharacterFactory characterFactory;
-    WeaponFactory weaponFactory;
-
     private final ArrayList<Observer> observers = new ArrayList<>();
-    private Character gameCharacter;
-    private String weaponName;
+
+    private final AbstractFactory foodAbstractFactory;
+    private final AbstractFactory zombieAbstractFactory;
+    private final CharacterFactory characterFactory;
+    private final WeaponFactory weaponFactory;
+
     private Deque<Object> foods = new LinkedList<>();
     private Deque<Object> zombies = new LinkedList<>();
+
     private final List<Character> characters = new LinkedList<>();
-    List<String> characterNames = new ArrayList<>();
+    private final List<String> characterNames = new ArrayList<>();
+    private Character gameCharacter;
+    private String weaponName;
 
     /**
      * Initialize model with initializing the factories for characters, food, and zombies.
@@ -44,7 +45,7 @@ public class Model implements Observable {
     }
 
     /**
-     * Make a list of characters using factory method.
+     * Make a list of characters using a factory.
      */
     public void initializeCharacterList(){
         characters.add(characterFactory.createCharacter("Rick"));
@@ -61,7 +62,8 @@ public class Model implements Observable {
 
         // Create a new list with sorted characters.
         List<Character> sortedCharList = characters.stream()
-                .sorted(Comparator.comparing(Character::getName)).collect(Collectors.toList());
+                .sorted(Comparator.comparing(Character::getName))
+                .collect(Collectors.toList());
 
         // Add the names of characters in list.
         for (Character character : sortedCharList){
@@ -80,7 +82,10 @@ public class Model implements Observable {
         gameCharacter = characters.stream()
                 .filter(character -> character.getName().equals(nameOfCharacter))
                 .findFirst().orElse(null);
-        weaponName = weaponFactory.chreateWeapon(gameCharacter).setCharWeapon();
+
+        // Get weapon that belongs to the character, using factory method.
+        weaponName = weaponFactory.createWeapon(gameCharacter).setCharWeapon();
+
         notifyObserver();     // notify observer when filtering is done.
     }
 
@@ -179,6 +184,10 @@ public class Model implements Observable {
         return gameCharacter;
     }
 
+    /**
+     * Return weapon to calling client.
+     * @return name of weapon.
+     */
     public String getWeapon(){
         return weaponName;
     }

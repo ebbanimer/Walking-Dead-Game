@@ -26,11 +26,14 @@ public class StartController implements Observer {
      */
     public StartController() throws IOException {
         this.theModel = new Model();
-        // Initialize start-view with list of characters to be displayed, and animation image with size.
+
+        // Initialize start-view with list of characters to be displayed, an animation image with size,
+        // and pass action-listeners.
         this.startView = new StartView(initGui().toArray(new String[0]), 50, Constants.MASTER_ZOMBIE_PATH);
         startView.addComboListener(new AddCharacterPickListener());
         startView.addStartListener(new AddStartListener());
         startView.addInstructionsListener(new AddInstructionsListener());
+
         new SizeController(startView);      // initialize the zombie-graphics in separate controller.
         theModel.register(this);
     }
@@ -40,7 +43,7 @@ public class StartController implements Observer {
      * @return list of character names.
      */
     private List<String> initGui(){
-        this.theModel.initializeCharacterList();
+        theModel.initializeCharacterList();
         List<String> list = theModel.sortCharacterNames();
         list.add(0, Constants.PICK_CHARACTER);
         return list;
@@ -69,8 +72,9 @@ public class StartController implements Observer {
                 }
             }
             if (newCharacter != null && !newCharacter.getIsDead()){
-                gameCharacter = newCharacter;    // if the creation was successful, assign new character to gamecharacter
+                gameCharacter = newCharacter;    // If the creation was successful, assign new character to game-character
                 try {
+                    // Display the character
                     startView.setCharacter(newCharacter.getName(), theModel.getWeapon(), newCharacter.getPath());
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -98,7 +102,7 @@ public class StartController implements Observer {
         @Override public void actionPerformed(ActionEvent e) {
             if (gameCharacter != null){
                 try {
-                    new GameController(gameCharacter, theModel);   // intialize controller for game
+                    new GameController(gameCharacter, theModel);   // initialize controller for game
                 } catch (InterruptedException ex) {
                     ex.printStackTrace();
                 }
@@ -111,8 +115,14 @@ public class StartController implements Observer {
 
     /**
      * Inner class representing action listener for displaying instructions.
+     * @author Ebba Nimér
      */
     class AddInstructionsListener implements ActionListener{
+
+        /**
+         * Method for displaying instructions
+         * @param e action-event
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             startView.showInstructions(Constants.INSTRUCTION_MESSAGE);

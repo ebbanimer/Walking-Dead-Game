@@ -21,8 +21,8 @@ public class Project {
      * @param args args
      */
     public static void main(String[] args) throws IOException {
-        //SwingUtilities.invokeLater(StartController::new);    // Start program on EDT
 
+        // Start program on the EDT
         SwingUtilities.invokeLater(() -> {
             try {
                 new StartController();

@@ -71,7 +71,8 @@ public class GameController {
      * Initializing game in level one, creating labels and starting timer.
      */
     private void initializeGame() {
-        removeFoods();
+
+        removeFoods();   // remove foods from previous game
 
         levelOne = true;
         levelTwo = false;

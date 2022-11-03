@@ -1,14 +1,3 @@
-# Left to do
-- Comment
-- POM file (JAR)
-- Material: readme
-- Purpose: readme
-- Section to how the game is executed: readme
-- Procedures: readme
-- Fix factory method?
-Discussion: readme
-Solution no higher than 15 jdk?
-
 # Material
 Microsoft Windows 10 Home 64-bit, IntelliJ IDEA 2021.3.3, Terminal,
 java 19.0.1 2022-10-18
@@ -19,9 +8,13 @@ Apache Maven 3.8.5
 
 
 # Purpose
-The purpose of this final project is to create a GUI application based on the Swing library, running on the
-Event Dispatch Thread (EDT). The aim is to achieve the highest grade A, which involves adding the following
-concepts/functionalities;
+The purpose of this final project is to comprehend the concepts of concurrency, design patterns used throughout the course, 
+Swing, and Streams API. The goal is to get an understanding of how these can be applied in a GUI application built with the 
+Swing library, and how they can be incorporated into working with each other, applying it to a possible real-life project. 
+To be more specific, the objective is to build an application based on the following technical requirements;
+
+Create a GUI application based on the Swing library, running on the Event Dispatch Thread (EDT). The aim is to achieve 
+the highest grade A, which involves adding the following concepts/functionalities;
 
 - The following six design patterns:
   - Observer pattern
@@ -35,92 +28,84 @@ concepts/functionalities;
 - Six different Swing components.
 - Four different Layout managers.
 - Three usages of Streams API.
-- Functioning jar-file should be produced using Maven.
+- Functioning jar file should be produced using Maven.
 
-These six functionalities should be designed according to Model-View-Controller (MVC) architecture, separating
-the model and the view, and having the controller govern the communication. The objective is to assemble a game inspired
-by The Walking Dead TV series, having one selected character collecting food meanwhile being threatened by being
-hit by a zombie. The intent is to have processes to select a character, and collect points by accumulating food items,
-meanwhile having a timer counting down to the end of the game. A character should die if it gets hit by a zombie, or
-have the option to advance to the next level if the character accomplishes winning the game. The ambition is to build
-this application, based on given design patterns and functionalities such as concurrent processes, as mentioned above.
+These six functionalities should be designed according to Model-View-Controller (MVC) architecture, separating the model 
+and the view, and having the controller govern the communication.
 
 # Procedure
-As the aim of the project was high, and it had multiple components and concepts to take into consideration, the initial
-step was to set up a plan. More precisely, how would the application work? How would the functionalities, design patterns,
-and other requirements be incorporated? A plan had to take form, to take each requirement step by step, to avoid the
-feeling of overwhelm.
+As the aim of the project was high, and it had multiple components and concepts to take into consideration, the initial 
+step was to set up a plan. More precisely, what type of application should be assembled? What type of functionalities 
+would the application have? How would the concepts, design patterns, and other requirements be incorporated? A plan had 
+to take form, to take each requirement step by step, to avoid the feeling of being overwhelmed.
 
-The plan was to create a game using Swing components, and somehow, the user would be able to select a character to
-use throughout the game, and step by step, incorporate the rest of the functionalities. Hence, starting with Swing and
-the creation of characters made sense. The start JFrame was created, using the Border-Layout manager to create a JPanel for
-each responsibility. One had the responsibility to select a character, another one had to display the chosen character,
-and one had to have buttons to initialize the game. Could a design pattern be applied here? Or concurrent processes or
-Streams API? Well, the character had to be chosen. The characters were created using simple factory out of personal
-preference, but the belonging weapon was created using the factory method pattern. However, how would the weapons be 
-incorporated here? Where should the characters be created, in the controller or in the model?  This was the main issue 
-throughout the rest of the application, as Model should contain the data, View contains the GUI component and the 
-displayed data, and Controller is responsible for making decisions and communicating these data between Model and View.
+The plan was to create a game inspired by the TV show “The Walking Dead” using Swing components, and somehow, the user 
+would be able to select a character to use throughout the game, and step by step, incorporate the rest of the 
+functionalities. Hence, starting with Swing and the creation of characters was the initial approach. The start JFrame 
+was created, using the Border-Layout manager to create a JPanel for each responsibility. One had the responsibility to 
+select a character, another one had to display the chosen character, and one had to have buttons to initialize the game. Could a design pattern be applied here? Or concurrent processes or Streams API? Well, the character had to be picked by the user. The characters were created using a simple factory, but could the factory method be incorporated here somehow? The decision was to separate the weaponry to a factory method, as the weaponry was not really useful for the game per se, and it could easily represent itself, being matched to each character. However, how would the weapons be incorporated here? Where should the characters be created, in the controller or the model? This was the main issue that persisted throughout the rest of the application, as the model should contain the data, the view contains the GUI components and the displayed data, and the controller is responsible for making decisions and communicating these data between the model and the view.
 
-Characters and weapons are a part of the data - thus, they were placed in Model, to be filtered based on what the user 
-chose in View, which was sent through via Controller. It was important that the View and Model were completely separated, 
-which led to that the controller containing a lot of code as there was a lot of happening in the background of the
-application. Next off, can any other requirement from the purpose be incorporated? Well, why not include Streams API? 
-Perhaps, it will look forced, as the application works completely fine without using them at this point, but Streams API 
-could indeed be used for sorting and filtering through the characters.
+Characters and weaponry were included in the model as they were part of the data and would be filtered according to the 
+user's selections in the view, which was given via the controller as the view and the model needed to be completely 
+separated. Next, can any further purpose-related requirements be included? Why not incorporate the Streams API? Although
+it might appear forced at this stage because the program now functions just fine without them, the Streams API could be 
+used to sort and filter the characters.
 
-At this point, once a valid character has been chosen, the user is ready to start the game. But, the controller had grown
-to contain a lot of code, including action listeners and communication between View and Model. Was there too much code?
-Should the code be distributed to View or Model? As mentioned above, this was an issue throughout the program. However,
-the choice was to keep the action listeners in the Controller, as the action listener needed information from the model, and
-the view should be limited to the GUI behavior and the design of the GUI. Thus, the next thing was to make an instance of a
-new controller - the GameController. Once opening the new GameController when the game should start, suddenly, all data
-was lost as a new instance of the Model was created. Should the model be created as a Singleton instead, so it only
-requires to be initialized once? Well, then the same data will be kept if the user restarts the game, and that is
-not as desired. Additionally, remembering from assignment 3, none of the actors should be a singleton... Even though
-it perhaps is not readable by passing the model to different classes, it would be the salvation of this issue.
+The player is now prepared to begin the game after selecting a viable character.  However, the controller has expanded 
+to include a substantial amount of code, such as action listeners and interactions between the view and model. Should 
+the code be distributed to the view or the model? The decision was made to keep the action listeners in the controller 
+as they need data from the model and the view should only be used to control how the GUI behaves and looks. Making an 
+instance of the GameController, a new controller, was what came next. All data was suddenly lost as soon as the new 
+GameController was opened when the game was supposed to begin because a new instance of the model had been generated. 
+Should the model instead be built as a Singleton, requiring only one initialization? If the player restarts the game, 
+the same data will be maintained, which is not what is wanted. In addition, keep in mind that none of the actors should 
+be singletons based on assignment 3. Even though it perhaps is not readable by passing the model to other classes, it 
+would be the solution to this problem.
 
-The purpose of the GameController had to be the following;
+The functionalities of the GameController had to be the following;
 - Creating zombies and incorporating an animation for them to move around.
 - Creating food items.
-- Initialize a key-listener so the actor could move around.
+- Initialize a key listener so the actor could move around.
 - Keeping track of the score.
 
-All this would have to be done by controlling the communication between the data and the view. As zombies and foods
-are characters themselves, they were created within the model using an abstract factory. However, it was the controller
-initializing the creation, as the controller makes the decisions. The key listener was also created in the controller,
-however, it seemed like the controller would have too much logic by placing this in the controller, using the information
-from the user interaction in the view. How much should the controller take care of? The view should not
-be responsible for detecting collisions, but the model should not be aware of what is happening in the view. Thus, the
-decision was to place this in the controller, based on the responsibilities model and view not should have. Hence, all
-key events were determined in the controller and made decisions whether it was a collision or not, and update values
-in data and view based on this. The detection of collisions, the moving of x- and y-coordinates of the character,
-determining if it was a win, and stopping the game or increasing the score based on this.
+Controlling the communication between the model and the view would be necessary to do this. As zombies and foods are in 
+one way characters themselves, they were created within the model using an abstract factory, which further contains 
+factory methods for each item. An opportunity to incorporate the template method pattern appeared at this point. As the 
+template method is a behavioral pattern, the game could be divided into two levels. Each level would consist of a common 
+behavior, and a separate behavior. This was demonstrated by creating the same type of food items for both levels, but 
+two different zombie items.
 
-At this point, it started to become the game that was envisioned. However, there were still some issues and some
-functionalities/design patterns were still not incorporated. Where should the animation of the zombie be placed? Should
-the zombie animation be implemented as runnable and running in a Thread, or timers and timer tasks? Is there any way to
-include some synchronization of the concurrent processes? Why are images not being displayed in the jar file?
+The model was responsible for keeping these data and distributing the items once requested by the controller. The model 
+stored the items in lists, hence the model was created to also act as a distributor, to get and return items by and from the calling client. All these interactions were done from the controller, and aside from that, the key listener was also created in the controller, however, it seemed like the controller would have too much logic by placing this in the controller, using the information from the user interaction in the view. How much responsibility should the controller bear? While the model shouldn't be aware of what is happening in the view, neither the view nor the model should be in charge of detecting collisions. Thus, the decision was to place this in the controller to manage these interactions, using Streams API to find matching coordinates. The key listener's activities were used to stop the game or raise the score, detect collisions, move the character's x- and y-coordinates, and determine if it was a win.
 
-To overcome these issues, there were different approaches to be used to incorporate zombie animation. Should their
-coordinates be dynamically updated in the model, and the controller retrieves these values by using a thread together with 
-sleep to get the desired interval? Or, should a TimerTask be implemented and run by a timer in the controller? Well, the 
-latter choice was the decision, as it made sense to implement a timer that would execute a task at a certain interval. 
-The TimerTask would have to be implemented in the controller, as otherwise, the model would be aware of the GUI, or the 
-view would handle too much logic. Hence, the TimerTask was created in a separate class in the controller, being started 
-in GameController, to have the zombies moving simultaneously in a concurrent fashion. The Timer and TimerTask are working
-in a background thread, but some synchronized threads and processes somehow needed to be included as well. This was more 
-of a "shoehorned" added functionality, which ended up being included in the start frame. Another JPanel was created, with
-an animated zombie, increasing and decreasing, with producer- and consumer threads working in the background, applying 
-the producer and consumer pattern.
+It started to take on the form of the game that was intended at this stage. However, there were still some problems, and 
+some functionalities and design principles were still not incorporated. Where should the zombie animation be placed? 
+Should timers and timer tasks be used instead of runnable threads to implement the zombie animation?  Is there any way 
+to include some synchronization of the concurrent processes?
 
-At this point, all patterns, functionalities, and concepts were included - now it was time to produce the JAR file.
-However, the images were not displayed in the JAR file as they were in the console. In the target folder where Maven
-had generated the jar file, there were no images to be found. This was solved by moving the images to the resource-folder,
-to be able to access them from the jar file and the console. The images had to instead be loaded from the resource folder,
-using the ClassLoader interface.
+To overcome these issues, there were different approaches to be used to incorporate zombie animation. Should their 
+coordinates be dynamically updated in the model, and the controller retrieves these values by using a thread together 
+with sleep to get the desired interval? Or, should a TimerTask be implemented and run by a timer in the controller? The 
+decision was taken to use the latter option since it was appropriate to set up a timer to do a task at predetermined 
+intervals. The TimerTask would have to be implemented in the controller, as otherwise, the model would be aware of the 
+GUI, or the view would handle too much logic. To enable the zombies to move concurrently and simultaneously, the 
+TimerTask was developed in a separate class in the controller and executed in GameController.
 
-# Discussion
+Although the Timer and TimerTask are running in a background thread, it was still necessary to integrate some 
+synchronized threads and processes. This was more of a "shoehorned" extra feature that was eventually incorporated into 
+the start frame. The producer and consumer patterns were used to construct a new JPanel with an animated zombie that 
+increased and decreased while producer and consumer threads ran in the background. The processes of doing this were 
+synchronized and applying the observer pattern so that the SizeController could observe changes in the size, that was 
+altered in the pool. A ThreadSizeManager was included, to manage the number of threads. The third usage of Streams API 
+was included here, to remove threads if desired.
+
+All patterns, features, and concepts had now been incorporated; the jar file needed to be created. However, unlike in 
+the console, the graphics were not visible in the jar file. There were no images in the target folder where Maven had 
+created the jar file. To access the photos from the jar file and the console, the problem was fixed by transferring the 
+images to the resource folder. Rather, the ClassLoader interface had to be used to load the images from the resource 
+folder.
+
+#Discussion
 The final product of this game fulfills the requirements of this assignment. It contains six Swing components;
 - JLabel.
 - JPanel.
@@ -144,123 +129,111 @@ It contains over three synchronized concurrent processes;
 - addSize() and removeSize() in SizePool.
 - addConsumer(), removeConsumer(), addProducer(), and removeProducer() in ThreadSizeManager.
 
-It contains following concurrent processes;
-- Amount of maximum zombies is 10, as 10 different Timers are used simultaneously in different background Threads.
+It contains the following concurrent processes;
+- Amount of maximum zombies is 10, as 10 different Timers are used simultaneously in different background threads.
 - Amount of consumers + producers starts with eight threads in total, and increases/decreases.
 
 It includes all mentioned six design patterns;
 - Observer pattern is used in SizePool as Observable, and ThreadSizeManager as Observer,
-  Observer pattern is also used in Model as Observable, and StartController as Observer.
-- Producer/Consumer pattern is used for increasing/decreasing size of the animation in StartView of the Zombie.
+  The observer pattern is also used in Model as Observable, and StartController as Observer.
+- Producer/Consumer pattern is used for increasing/decreasing the size of the animation in StartView of the Zombie.
 - Template Method is used for LevelMethods, with subclasses LevelOne and LevelTwo.
 - Abstract Factory pattern is used for creating Zombies and Foods.
 - Object Pool pattern is used for distributing foods and zombies in Model to GameController.
-- Factory Method pattern is used for creating Weapons in Model.
+- Factory Method pattern is used for creating Weapons in the Model.
 
-The entire application is constructed based on the MVC pattern, distributing responsibilities to each class. 
-The subpackage of models contains classes for handling data, the subpackage of view contains classes for the
-GUI design, and the subpackage of controllers contains classes for handling communication between the models 
-and view. The view is getting updated based on what is happening behind the scenes in controller and model,
-not being aware of the model, and the model is providing and handling data based on what the controller requests,
-not being aware of the view. It is running on the EDT and the jar-file has been successfully generated using
-Maven. 
+The MVC approach was used to build the entire application, assigning duties to each class. The subpackage of controllers 
+includes classes for handling communication between the models and view, the subpackage of views contains classes for 
+the GUI design, and the subpackage of models has classes for handling data handling. Without being aware of the model, 
+the view is updated based on what is going on in the controller and model behind the scenes, and the model is processing 
+and giving data based on what the controller wants without being aware of the view. The jar file was successfully 
+produced using Maven, and it is operating on EDT.
 
-On top of these technical requirements, the game has been developed according to the original idea, mentioned
-in purpose. The explanation of the final game execution is detailed in the section of Game Execution further
-down below. 
+In addition to these technical specifications, the game was created in accordance with the original concept outlined in 
+the plan. The below-level section on game execution provides a full explanation of the final game execution.
 
-This choice of this assignment has provided a lot of freedom, which has been very appreciated. It has enabled the 
-students to develop an application of their own interest, however, limited to given requirements. The choice of 
-application in this project was chosen based on a personal interest, as it has been a TV-show that has been followed for 
-several years. Developing an application using knowledge from the course, but applying it on a project of personal choice,
-led to being indeed tempting to developing a game based on personal interest.
+This assignment has provided a great deal of independence. It has enabled the students to create an application of their
+choosing while adhering to the guidelines. The selected choice of type of application to develop was chosen based on 
+personal interest. A popular TV program from the past few years served as the basis for this application. The motivation 
+was undoubtedly ignited by creating an application using the course material while also using it on a project of one's 
+own choosing. The decision to create an application that would incorporate all the technical requirements occasionally 
+felt overbearing, but because it was driven by personal interest, the motivation to learn new concepts that were relevant
+to this game and come up with solutions for implementing requirements that weren't part of the game itself was kept. The 
+use of the Streams API was one illustration of this. The technique could easily be done in a foreach loop in 
+createCharacter() to find the character based on the characterName specified, but that would not meet the Streams API 
+requirement.
 
-At times, it felt like the choice of the functionalities and goals were a bit overwhelming, and perhaps overkill,
-but the fact that it was based on a personal interest, it keeps the motivation up for learning new relevant concepts to 
-this game, and coming up with ideas with how to implement certain requirements that did not really belong to the game 
-itself. One example of this, was the usage of Streams API. In createCharacter(), the method could easily be done in a 
-foreach loop to find the character based on the provided characterName, but that would not conform to the Streams API 
-requirement. Additionally, it would come into handy to use a Singleton in certain places, but that would not conform to 
-the idea of the MVC architecture. 
+Aside from the examples mentioned above, there are some more ideas that were imposed on the game functionality to meet 
+the requirements but ultimately turned out to be a good touch. The zombie animation in the StartView serves as the best
+illustration of this. A producer/consumer pattern was missing, so why not add animation to the StartView? This wasn't 
+initially included and wasn't actually in the idea. It was a good touch to the game's start that gave the player a sense 
+of its zombie theme.
 
-Aside from the examples mentioned above, some other concepts that were not included in the game-functionality
-and were forced into it to conform to the requirements, but ended up being a quite nice touch. The primary
-example of this is the animation of the zombie in the StartView. This was not included at first and not really
-according to the plan, but a producer/consumer pattern was missing - why not include an animation in the StartView? It
-was a nice touch to the introduction of the game, giving the user an idea of the zombie-theme. 
+The abstract factory pattern, template method, and factory method pattern were additional somewhat forced concepts in 
+this particular project. One sort of food and one type of zombie were the early ideas, which could have been accomplished 
+without a factory. However, due to the requirements, factories had to be included with more options on types of items, 
+and template methods to create two levels. If two levels needed to be built, this might have been done directly in the 
+controller or model instead of using classes like LevelOne and LevelTwo.  To mention the factory method pattern, it 
+would be preferable if the variable weapon could be added inside the character classes itself to initialize the weapon. 
+However, as was already indicated, the application had to have a factory method pattern, and since the characters were 
+created in accordance with a simple factory pattern, it was decided to separate them in order to incorporate the factory 
+method.
 
-Another concept that was quite forced was the abstract factory pattern, template method, and factory method pattern. 
-The initial thoughts were to create one type of zombie and one typ of food, which could have been done without a factory.
-However, due to the requirements, factories had to be included with more options on types of items, and template method 
-to create two levels. If two levels was created, this could have been done without classes as LevelOne and LevelTwo, and 
-instead directly decided in controller/model. To mention the factory method pattern, preferably the weapon could be
-initialized within the character classes themselves, by adding the variable weapon. But, as mentioned earlier, the
-application had to include a factory method pattern, and simple factory pattern was out of personal choice in creating
-the characters, which led to the decision of separating these to include factory method. 
+However, employing these patterns is a good idea as they weren't used in prior projects. There are obvious advantages to
+using these patterns, especially when adding new objects to the categories. For example, all that would be required to 
+add a third zombie in the future is to extend the super-class and define the variables, particularly for this zombie. 
+However, the addition of more classes and clutter may appear overkill for such a little application.
 
-But all this being said, it is good practice using these patterns, as they were not used in previous assignments. The 
-benefits of using these patterns can definitely be seen, especially when adding new objects within the categories. For 
-instance, if a third zombie would be included in the future, it would be as simple as just extending the super-class 
-and set the values to this zombie in particular. However, for a small application as this, it may seem like an overkill 
-with adding more classes than necessary and clutter. 
+The object pool pattern was incorporated in the main class of the model, as the model class was responsible for the data 
+but distributing the data to other classes, such as above mentioned factories. However, as the model stored the data 
+created from the factories, it made sense to assign the duty of object pool distribution within the main model class. 
+Another approach could have been to separate the distribution activity into a separate class, to only be responsible for 
+retrieving and returning objects. Doing so in this case would result in an unnecessary amount of code, hence, it was 
+incorporated into the model.
 
-
-
+As mentioned in the procedure, the main issue that persisted throughout the game development was deciding where to put 
+certain functionalities. Some examples of these were where to put the moving animation of the zombies, and where to 
+detect collisions in order to determine a victory or loss. These are functionalities that alter the data, and for 
+instance, the animation of moving the zombies could have been altered in the model, using a runnable as a task to change 
+coordinates, and initializing a thread with the runnable as a task.
 
 ## Game execution
-When the application runs, the user will see a JFrame containing four JPanels. One JPanel has a JCombobox where the user
-selects a game character (Rick, Michonne, Eugene, or Daryl). These are sorted by name using Streams API. Once the user
-has selected a character, the second JPanel will display an image of the chosen character together with the characters'
-weapon. The characters are built using a factory method pattern. The third JPanel will display an animation of a zombie,
-that is increasing or decreasing.
-The fourth JPanel will have two buttons; Start Game and Instructions.
-If the user clicks on Instructions, the user will see a JOptionPane containing the instructions of the game, which are;
-- The character will collect food items by moving using the arrow keys.
-- If the character gets too close to a zombie, the character will die, and it is game over.
-- If the character collects all food before the time is up (30 seconds), the character wins and will have the choice to go
-  to the next level. Otherwise, the game is canceled.
-- In level two, the character will battle against 10 zombies and will have 10 foods to collect.
+When the application runs, the user will see a JFrame containing four JPanels. One JPanel has a JCombobox where the user 
+selects a game character (Rick, Michonne, Eugene, or Daryl). These are sorted by name using the Streams API. Once the 
+user has selected a character, the second JPanel will display an image of the chosen character together with the 
+character's weapon. The characters are built using a factory method pattern. The third JPanel will display an animation
+of a zombie that is increasing or decreasing. Start Game and Instructions will be the two buttons on the fourth JPanel.
+If the user clicks on Instructions, the user will see a JOptionPane containing the instructions for the game, which are:
 
-If the user clicks on the Start Game button, a new JFrame will be displayed containing three JPanels. One GamePanel, one ButtonPanel,
-and one StatsPanel. The GamePanel will display a small image of the chosen character, five zombies, and five food items.
-The zombies are moving simultaneously, the food items are still, and the character will be moving around using arrow keys.
-When a character collides with a food item, the food item will disappear on the GamePanel and the score will increase by
-one point. If the character collides with a zombie, the game is over. The same concept goes for level two, but level two
-will have 10 food items and 10 zombies.
+-The character will collect food items by moving using the arrow keys.
+-If the character gets too close to a zombie, the character will die, and it is game over.
+-If the character collects all the food before the time is up (30 seconds), the character wins and will have the choice 
+to go to the next level. Otherwise, the game is canceled.
+-In level two, the character will battle against 10 zombies and will have 10 foods to collect.
 
-The second JPanel will contain the stats for the game, which are time counting down, score, food left, and amount of
-zombies. These will get updated throughout the game.
-
-The third JPanel will contain three buttons, one for exiting the game, and one for ending the game. If the user clicks on
-End Game, the timer will stop and the key listener will be disabled. If the user clicks on Exit Game, the JFrame will
-be disposed, but the StartView is still displayed so the user can have the option to select another character and run
+If the user clicks on the Start Game button, a new JFrame will be displayed containing three JPanels. There is a 
+GamePanel, a ButtonPanel, and a StatsPanel. The GamePanel will display a small image of the chosen character, five 
+zombies, and five food items. The zombies are moving simultaneously, the food items are still, and the character will be 
+moving around using arrow keys. When a character collides with a food item, the food item will disappear from the 
+GamePanel and the score will increase by one point. If the character collides with a zombie, the game is over. The same
+concept goes for level two, but level two will have 10 food items and 10 zombies.
+The second JPanel will contain the stats for the game, which are time counting down, score, food left, and zombies. 
+These will be updated throughout the game.
+The third JPanel will contain three buttons: one for exiting the game, and one for ending the game. If the user clicks 
+on End Game, the timer will stop and the key listener will be disabled. If the user clicks on Exit Game, the JFrame will 
+be disposed of, but the StartView is still displayed so the user can have the option to select another character and run 
 the game again.
+
 
 
 
 # Discussion points:
 
-Model is used in many places and could be created as a singleton to avoid passing around model instance to different classes
-for more readability, however, then the model class will remain with same objects if the user exits/wins/loses the game and
-restart the game, e.g. will have 10 foods instead of 5.
-
-Some things are unnecessary for example stream api, only to squeeze it in.
-
-Abstract factory is implemented with interfaces, as it was straightforward and some tutorials showed it's possible.
-
-ZombieAnimation in controller, because it works with JLabels, and model should not know about view,
-and view should not have this much logic, so i decided to put it in controller folder.
-
-Observer/observable could have been used for zombie animation, and zombies could have been implemented
-as Runnables. However, it's more readable to have a separate class for the animation.
-
 Observer could be view, but chose controller.
-
-Starting timer in controller, as timer per se is not business logic, thus not suitable in model.
 
 Starting threads in controller.
 
-If I had chosen, model would act as a manager of object pool for zombies/food, that will be re-used for next level.
-
 ThreadSizeManager handles amount of threads and operations on threads, meanwhile the controller start them,
 and verify the size amount. The controller observes the pool for changes.
+
+

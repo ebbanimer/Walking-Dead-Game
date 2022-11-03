@@ -10,6 +10,11 @@ import java.util.Random;
 public class ConsumerMaster implements Runnable{
 
     public volatile boolean shouldFinish = false;
+    SizePool pool;
+
+    public ConsumerMaster(SizePool pool){
+        this.pool = pool;
+    }
 
     /**
      * While the application is running, withdraw random amount from pool at random interval.
@@ -19,7 +24,7 @@ public class ConsumerMaster implements Runnable{
         int delay = new Random().nextInt(3) + 1;
         while(!shouldFinish){
             try {
-                SizePool.INSTANCE.removeSize(amount);
+                pool.removeSize(amount);
                 Thread.sleep(delay + 1000);
             } catch (Exception e) {
                 e.printStackTrace();
