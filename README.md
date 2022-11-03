@@ -105,7 +105,7 @@ created the jar file. To access the photos from the jar file and the console, th
 images to the resource folder. Rather, the ClassLoader interface had to be used to load the images from the resource 
 folder.
 
-#Discussion
+# Discussion
 The final product of this game fulfills the requirements of this assignment. It contains six Swing components;
 - JLabel.
 - JPanel.
