@@ -40,23 +40,23 @@ and the view, and having the controller govern the communication.
 As the aim of the project was high, and it had multiple components and concepts to take into consideration, the initial 
 step was to set up a plan. More precisely, what type of application should be assembled? What type of functionalities 
 would the application have? How would the concepts, design patterns, and other requirements be incorporated? A plan had 
-to take form, to take each requirement step by step, to avoid the feeling overwhelm.
+to take form, to take each requirement step by step, to avoid the feeling of overwhelm.
 
 The plan was to create a game inspired by the TV show “The Walking Dead” using Swing components, and somehow, the user 
 would be able to select a character to use throughout the game, and step by step, incorporate the rest of the 
 functionalities. Hence, starting with Swing and the creation of characters was the initial approach. 
 
-### Preparation of game; Selecting and creation of characters
+### Preparation of the game; Selecting and creation of characters
 The start JFrame was created, using the Border-Layout manager to create a JPanel for each responsibility. One had the 
 responsibility to select a character, another one had to display the chosen character, and one had to have buttons to 
-initialize the game. Could a design pattern be applied here? Or concurrent processes or Streams API? As mentioned, the character 
-had to be picked by the user. The characters were created using a simple factory, but could the factory method be 
-incorporated here somehow? The decision was to separate the weaponry to a factory method, as the weaponry was not really 
-useful for the game per se, and it could easily represent itself, being matched to each character. However, how would 
-the weapons be incorporated here? Where should the characters be created, in the controller or the model? This was the 
-main issue that persisted throughout the rest of the application, where to put each functionality being implemented. As 
-the model should contain the data, the view contains the GUI components and the displayed data, and the controller is 
-responsible for making decisions and communicating these data between the model the view.
+initialize the game. Could a design pattern be applied here? Or concurrent processes or Streams API? As mentioned, the 
+character had to be picked by the user. The characters were created using a simple factory, but could the factory method
+be incorporated here somehow? The decision was to separate the weaponry to a factory method, as the weaponry was not 
+really useful for the game per se, and it could easily represent itself, being matched to each character. However, how 
+would the weapons be incorporated here? Where should the characters be created, in the controller or the model? This was 
+the main issue that persisted throughout the rest of the application, where to put each functionality being implemented. 
+As the model should contain the data, the view contains the GUI components and the displayed data, and the controller is 
+responsible for making decisions and communicating these data between the model and the view.
 
 Characters and weaponry were included in the model as they were part of the data and would be filtered according to the 
 user's selections in the view, which was given via the controller as the view and the model needed to be completely 
@@ -69,8 +69,8 @@ The player is now prepared to begin the game after selecting a viable character.
 to include a substantial amount of code, such as action listeners and interactions between the view and model. Should 
 the code be distributed to the view or the model? The decision was made to keep the action listeners in the controller 
 as they need data from the model and the view, and the view should only be used to control how the GUI behaves and looks. 
-Making an instance of a new controller, the GameController, was what came next. All data was suddenly lost as soon as the new 
-GameController was opened when the game was supposed to begin because a new instance of the model had been generated. 
+Making an instance of a new controller, the GameController, was what came next. All data was suddenly lost as soon as the 
+new GameController was opened when the game was supposed to begin because a new instance of the model had been generated. 
 Should the model instead be built as a Singleton, requiring only one initialization? If the player restarts the game, 
 the same data will be maintained, which is not what is wanted. In addition, keep in mind that none of the actors should 
 be singletons based on assignment 3. Even though it perhaps is not readable by passing the model to other classes, it 
@@ -83,11 +83,11 @@ The functionalities of the GameController had to be the following;
 - Keeping track of the score.
 
 Controlling the communication between the model and the view would be necessary to do this. As zombies and foods are in 
-one way characters themselves in this application, they were created within the model using an abstract factory, which further contains 
-factory methods for each item. An opportunity to incorporate the template method pattern appeared at this point. As the 
-template method is a behavioral pattern, the game could be divided into two levels. Each level would consist of a common 
-behavior, and a separate behavior. This was demonstrated by creating the same type of food items for both levels, but 
-two different zombie items.
+one way characters themselves in this application, they were created within the model using an abstract factory, which
+further contains factory methods for each item. An opportunity to incorporate the template method pattern appeared at 
+this point. As the template method is a behavioral pattern, the game could be divided into two levels. Each level would 
+consist of a common behavior and a separate behavior. This was demonstrated by creating the same type of food items for 
+both levels, but two different zombie items.
 
 ### Game simulation; concurrent processes, action-listeners
 The model was responsible for keeping these data and distributing the items once requested by the controller. The model 
@@ -96,9 +96,9 @@ the calling client. All these interactions were done from the controller, and as
 created in the controller, however, it seemed like the controller would have too much logic by placing this in the 
 controller, using the information from the user interaction in the view. How much responsibility should the controller 
 bear? While the model shouldn't be aware of what is happening in the view, neither the view nor the model should be in 
-charge of detecting collisions for this reason. Thus, the decision was to place this in the controller to manage these interactions, 
-using Streams API to find matching coordinates. The key listener's activities were used to stop the game or raise the 
-score, detect collisions, move the character's x- and y-coordinates, and determine if it was a win.
+charge of detecting collisions for this reason. Thus, the decision was to place this in the controller to manage these 
+interactions, using Streams API to find matching coordinates. The key listener's activities were used to stop the game 
+or raise the score, detect collisions, move the character's x- and y-coordinates, and determine if it was a win.
 
 It started to take on the form of the game that was intended at this stage. However, there were still some problems, and 
 some functionalities and design principles were still not incorporated. Where should the zombie animation be placed? 
@@ -110,12 +110,12 @@ coordinates be dynamically updated in the model, and the controller retrieves th
 with sleep to get the desired interval? Or, should a TimerTask be implemented and run by a timer in the controller? The 
 decision was taken to use the latter option since it was appropriate to set up a timer to do a task at predetermined 
 intervals. The TimerTask would have to be implemented in the controller, as otherwise, the model would be aware of the 
-GUI, or the view would handle too much logic. To enable the zombies to move concurrently and simultaneously, the 
+GUI or the view would handle too much logic. To enable the zombies to move concurrently and simultaneously, the 
 TimerTask was developed in a separate class in the controller and executed in GameController.
 
 Although the Timer and TimerTask are running in a separate background thread, it was still necessary to integrate some 
 synchronized threads and processes. This was more of a "shoehorned" extra feature that was eventually incorporated into 
-the start frame. The producer and consumer patterns were used to construct a new JPanel with an animated zombie that 
+the start frame. The producer and consumer patterns were used to constructing a new JPanel with an animated zombie that 
 increased and decreased while producer and consumer threads ran in the background. The processes of doing this were 
 synchronized and applying the observer pattern so that the SizeController could observe changes in the size, that was 
 altered in the pool. A ThreadSizeManager was included, to manage the number of threads. The third usage of Streams API 
@@ -184,10 +184,10 @@ felt overbearing, but because it was driven by personal interest, the motivation
 to this game and come up with solutions for implementing requirements that weren't part of the game itself was kept. The 
 use of the Streams API was one illustration of this. The technique could easily be done in a foreach loop in 
 createCharacter() to find the character based on the characterName specified, but that would not meet the Streams API 
-requirement. However, to give credit to Streams API, you can agree on that it is a very valuable tool to use for handling
+requirement. However, to give credit to Streams API, you can agree that it is a very valuable tool to use for handling
 large data, and looks more sophisticated than to use a larger for-loop. It is more efficient, and you can see the benefits
-of learning and applying this concept to carrying on for future larger applications, regardless of whether it was necessary 
-in this game or not. 
+of learning and applying this concept to carry with for future larger applications, regardless of whether it was necessary 
+for this game or not. 
 
 Aside from the example mentioned above, there are some more ideas that were imposed on the game functionality to meet 
 the requirements but ultimately turned out to be a good touch. The zombie animation in the StartView serves as the best
@@ -200,23 +200,27 @@ The abstract factory pattern, template method, and factory method pattern were a
 this particular project. One sort of food and one type of zombie were the early ideas, which could have been accomplished 
 without a factory. However, due to the requirements, factories had to be included with more options on types of items, 
 and template methods to create two levels. If two levels needed to be built, this might have been done directly in the 
-controller or model instead of using classes like LevelOne and LevelTwo.  To mention the factory method pattern, it 
+controller or model instead of using classes like LevelOne and LevelTwo. To mention the factory method pattern, it 
 would be preferable if the variable weapon could be added inside the character classes itself to initialize the weapon. 
 However, as was already indicated, the application had to have a factory method pattern, and since the characters were 
 created in accordance with a simple factory pattern, it was decided to separate them in order to incorporate the factory 
-method.
+method. 
 
-However, employing these patterns is a good idea as not all of them were used in prior projects. There are obvious advantages to
-using these patterns, especially when adding new objects to the categories. For example, all that would be required to 
-add a third zombie in the future is to extend the super-class and define the variables, particularly for this zombie. 
-However, the addition of more classes and clutter may appear overkill for such a little application.
+However, employing these patterns is a good idea as not all of them were used in prior projects. There are obvious 
+advantages to using these patterns, especially when adding new objects to the categories. For example, all that would be 
+required to add a third zombie in the future is to extend the super-class and define the variables, particularly for 
+this zombie. However, the addition of more classes and clutter may appear overkill for such a little application. 
+Although it has its benefits, the distinction between simple factory, factory method, and abstract factory and when to 
+identify which of them to implement, it may be considered to be confusing. They are quite similar, and it was hard to 
+identify when it was best practice using one of them over another. For instance, the choice was to use a simple factory 
+for creating characters, but this could probably have been done by only using factory method. 
 
 The object pool pattern was incorporated in the main class of the model, as the model class was responsible for the data 
-but distributing the operations on the data to other classes, such as above-mentioned factories. However, as the model stored the data 
-created from the factories, it made sense to assign the duty of object pool distribution within the main model class. 
-Another approach could have been to separate the distribution activity into a separate class, to only be responsible for 
-retrieving and returning objects. Doing so in this case would result in an unnecessary amount of code, hence, it was 
-incorporated into the model.
+but distributing the operations on the data to other classes, such as the above-mentioned factories. However, as the 
+model stored the data created from the factories, it made sense to assign the duty of object pool distribution within 
+the main model class. Another approach could have been to separate the distribution activity into a separate class, to 
+only be responsible for retrieving and returning objects. Doing so in this case would result in an unnecessary amount of 
+code, hence, it was incorporated into the model.
 
 As mentioned in the procedure, the main issue that persisted throughout the game development was deciding where to put 
 certain functionalities. Some examples of these were where to put the moving animation of the zombies, and where to 
@@ -254,15 +258,5 @@ be disposed of, but the StartView is still displayed so the user can have the op
 the game again. There is only one way for the player to exit the game, which is by clicking on this button.
 
 
-
-
-# Discussion points:
-
-Observer could be view, but chose controller.
-
-Starting threads in controller.
-
-ThreadSizeManager handles amount of threads and operations on threads, meanwhile the controller start them,
-and verify the size amount. The controller observes the pool for changes.
 
 
