@@ -1,5 +1,5 @@
 package com.dt181g.project.view;
-import com.dt181g.project.model.Constants;
+import com.dt181g.project.Constants;
 
 import javax.swing.*;
 import java.awt.*;

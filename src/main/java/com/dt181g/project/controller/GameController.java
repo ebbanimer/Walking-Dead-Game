@@ -1,6 +1,7 @@
 package com.dt181g.project.controller;
 
-import com.dt181g.project.model.Constants;
+import com.dt181g.project.ZombieAnimation;
+import com.dt181g.project.Constants;
 import com.dt181g.project.model.Model;
 import com.dt181g.project.model.characters.Character;
 import com.dt181g.project.model.itemfactory.Food;

@@ -1,6 +1,6 @@
 package com.dt181g.project.controller;
 
-import com.dt181g.project.model.Constants;
+import com.dt181g.project.Constants;
 import com.dt181g.project.model.startanimation.*;
 import com.dt181g.project.view.StartAnimationPanel;
 import com.dt181g.project.view.StartView;

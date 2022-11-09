@@ -1,6 +1,6 @@
 package com.dt181g.project.model.characters;
 
-import static com.dt181g.project.model.Constants.MICHONNE_PATH;
+import static com.dt181g.project.Constants.MICHONNE_PATH;
 
 /**
  * Class representing Michonne, extending character class.

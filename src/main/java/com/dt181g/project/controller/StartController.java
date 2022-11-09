@@ -1,10 +1,12 @@
 package com.dt181g.project.controller;
 
-import com.dt181g.project.model.Constants;
+import com.dt181g.project.Constants;
 import com.dt181g.project.model.characters.Character;
 import com.dt181g.project.Observer;
 import com.dt181g.project.view.StartView;
 import com.dt181g.project.model.Model;
+
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -26,6 +28,7 @@ public class StartController implements Observer {
      */
     public StartController() throws IOException {
         this.theModel = new Model();
+
 
         // Initialize start-view with list of characters to be displayed, an animation image with size,
         // and pass action-listeners.

@@ -1,7 +1,6 @@
 package com.dt181g.project.model.characters;
 
-import static com.dt181g.project.model.Constants.DARYL_PATH;
-import static com.dt181g.project.model.Constants.EUGENE_PATH;
+import static com.dt181g.project.Constants.EUGENE_PATH;
 
 /**
  * Class representing Eugene, extending character class.

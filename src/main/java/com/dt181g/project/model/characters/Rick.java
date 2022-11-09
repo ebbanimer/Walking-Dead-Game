@@ -1,7 +1,6 @@
 package com.dt181g.project.model.characters;
 
-import static com.dt181g.project.model.Constants.DARYL_PATH;
-import static com.dt181g.project.model.Constants.RICK_PATH;
+import static com.dt181g.project.Constants.RICK_PATH;
 
 /**
  * Class representing Rick, extending character class.

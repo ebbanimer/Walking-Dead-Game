@@ -1,5 +1,5 @@
-package com.dt181g.project.controller;
-import com.dt181g.project.model.Constants;
+package com.dt181g.project;
+import com.dt181g.project.controller.GameController;
 
 import javax.swing.*;
 import java.util.Random;

@@ -1,10 +1,10 @@
 package com.dt181g.project.model.itemfactory;
 
-import com.dt181g.project.model.Constants;
+import com.dt181g.project.Constants;
 
 import java.util.Random;
 
-import static com.dt181g.project.model.Constants.ZOMBIE_ONE_PATH;
+import static com.dt181g.project.Constants.ZOMBIE_ONE_PATH;
 
 /**
  * Class representing zombie one, implementing zombie.

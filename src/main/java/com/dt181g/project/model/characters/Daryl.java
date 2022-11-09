@@ -1,6 +1,6 @@
 package com.dt181g.project.model.characters;
 
-import static com.dt181g.project.model.Constants.DARYL_PATH;
+import static com.dt181g.project.Constants.DARYL_PATH;
 
 /**
  * Class representing Daryl, extending character class.

@@ -229,7 +229,6 @@ instance, the animation of moving the zombies could have been altered in the mod
 coordinates, and initializing a thread with the runnable as a task.
 
 
-
 ## Game execution
 When the application runs, the user will see a JFrame containing four JPanels. One JPanel has a JCombobox where the user 
 selects a game character (Rick, Michonne, Eugene, or Daryl). These are sorted by name using the Streams API. Once the 

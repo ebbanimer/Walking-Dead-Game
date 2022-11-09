@@ -1,6 +1,4 @@
-package com.dt181g.project.model;
-
-import com.dt181g.project.Observer;
+package com.dt181g.project;
 
 /**
  * Interface representing observable.

@@ -1,5 +1,6 @@
 package com.dt181g.project.model;
 
+import com.dt181g.project.Observable;
 import com.dt181g.project.Observer;
 import com.dt181g.project.model.characters.Character;
 import com.dt181g.project.model.characters.CharacterFactory;
