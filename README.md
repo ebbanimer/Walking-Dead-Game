@@ -9,10 +9,9 @@ Apache Maven 3.8.5
 
 # Purpose
 The purpose of this final project is to comprehend the concepts of concurrency, design patterns used throughout the course, 
-Swing library, and Streams API. The goal is to get an understanding of how these can be applied in a GUI application
-built with the Swing library, and how they can be incorporated into working with each other, applying it to a possible 
-real-life project. To be more specific, the objective is to build an application based on the following technical 
-requirements;
+Swing library, and Streams API. The goal is to master how these can be applied in a GUI application built with the Swing 
+library, and how they can be incorporated into working with each other, applying it to a possible real-life project. To 
+be more specific, the objective is to build an application based on the following technical requirements;
 
 Create a GUI application based on the Swing library, running on the Event Dispatch Thread (EDT). The aim is to achieve 
 the highest grade A, which involves adding the following concepts/functionalities;
@@ -49,14 +48,15 @@ functionalities. Hence, starting with Swing and the creation of characters was t
 ### Preparation of the game; Selecting and creation of characters
 The start JFrame was created, using the Border-Layout manager to create a JPanel for each responsibility. One had the 
 responsibility to select a character, another one had to display the chosen character, and one had to have buttons to 
-initialize the game. Could a design pattern be applied here? Or concurrent processes or Streams API? As mentioned, the 
-character had to be picked by the user. The characters were created using a simple factory, but could the factory method
-be incorporated here somehow? The decision was to separate the weaponry to a factory method, as the weaponry was not 
-really useful for the game per se, and it could easily represent itself, being matched to each character. However, how 
-would the weapons be incorporated here? Where should the characters be created, in the controller or the model? This was 
-the main issue that persisted throughout the rest of the application, where to put each functionality being implemented. 
-As the model should contain the data, the view contains the GUI components and the displayed data, and the controller is 
-responsible for making decisions and communicating these data between the model and the view.
+initialize the game. At this stage, a design pattern and Streams API could be considered to be applied. As mentioned, the 
+character had to be picked by the user. The characters were created using a simple factory, but there was an opportunity
+to incorporate the factory method pattern here too. The decision was to separate the weaponry to a factory method, as 
+the weaponry was not really useful for the game per se, and it could easily represent itself, being matched to each 
+character. However, how would the weapons be incorporated here? Where should the characters be created, in the controller 
+or the model? This was the main issue that persisted throughout the rest of the application, where to put each 
+functionality being implemented. As the model should contain the data, the view contains the GUI components and the 
+displayed data, and the controller is responsible for making decisions and communicating these data between the model 
+and the view.
 
 Characters and weaponry were included in the model as they were part of the data and would be filtered according to the 
 user's selections in the view, which was given via the controller as the view and the model needed to be completely 
@@ -97,8 +97,10 @@ created in the controller, however, it seemed like the controller would have too
 controller, using the information from the user interaction in the view. How much responsibility should the controller 
 bear? While the model shouldn't be aware of what is happening in the view, neither the view nor the model should be in 
 charge of detecting collisions for this reason. Thus, the decision was to place this in the controller to manage these 
-interactions, using Streams API to find matching coordinates. The key listener's activities were used to stop the game 
-or raise the score, detect collisions, move the character's x- and y-coordinates, and determine if it was a win.
+interactions, using Streams API to find matching coordinates, even though it might normally be more desirable to place 
+Streams API in a model, as Streams API handles data. But in this situation, it was placed in the controller, do determine
+what operations should be done on the data. The key listener's activities were used to stop the game or raise the score, 
+collisions, move the character's x- and y-coordinates, and determine if it was a win.
 
 It started to take on the form of the game that was intended at this stage. However, there were still some problems, and 
 some functionalities and design principles were still not incorporated. Where should the zombie animation be placed? 
@@ -109,9 +111,9 @@ To overcome these issues, there were different approaches to be used to incorpor
 coordinates be dynamically updated in the model, and the controller retrieves these values by using a thread together 
 with sleep to get the desired interval? Or, should a TimerTask be implemented and run by a timer in the controller? The 
 decision was taken to use the latter option since it was appropriate to set up a timer to do a task at predetermined 
-intervals. The TimerTask would have to be implemented in the controller, as otherwise, the model would be aware of the 
-GUI or the view would handle too much logic. To enable the zombies to move concurrently and simultaneously, the 
-TimerTask was developed in a separate class in the controller and executed in GameController.
+intervals. The TimerTask was separated to a distinct class, neither pertaining model, view, nor controller, as otherwise, 
+the model would be aware of the GUI or the view would handle too much logic. To enable the zombies to move concurrently 
+and simultaneously, the TimerTask was developed in a separate class and executed in GameController.
 
 Although the Timer and TimerTask are running in a separate background thread, it was still necessary to integrate some 
 synchronized threads and processes. This was more of a "shoehorned" extra feature that was eventually incorporated into 
@@ -119,7 +121,9 @@ the start frame. The producer and consumer patterns were used to constructing a 
 increased and decreased while producer and consumer threads ran in the background. The processes of doing this were 
 synchronized and applying the observer pattern so that the SizeController could observe changes in the size, that was 
 altered in the pool. A ThreadSizeManager was included, to manage the number of threads. The third usage of Streams API 
-was included here, to remove threads if desired.
+was included here, to remove threads if desired. The placement of this feature were eventually placed in the model, as
+the size, threads, and runnables could be considered to be part of data that was manipulated based on what the controller
+requested.
 
 ### Final touch; jar-file
 All patterns, features, and concepts had now been incorporated; the jar file needed to be created. However, unlike in 
@@ -230,31 +234,20 @@ coordinates, and initializing a thread with the runnable as a task.
 
 
 ## Game execution
-When the application runs, the user will see a JFrame containing four JPanels. One JPanel has a JCombobox where the user 
-selects a game character (Rick, Michonne, Eugene, or Daryl). These are sorted by name using the Streams API. Once the 
-user has selected a character, the second JPanel will display an image of the chosen character together with the 
-character's weapon. The characters are built using a factory method pattern. The third JPanel will display an animation
-of a zombie that is increasing or decreasing. Start Game and Instructions will be the two buttons on the fourth JPanel.
-If the user clicks on Instructions, the user will see a JOptionPane containing the instructions for the game, which are:
+When the application starts, a JFrame will pop up where the user can select a character, inspired by The Walking Dead.
+The user will be able to view the chosen character, read instructions, and start the game. The character-list is 
+sorted by Streams API and produced using factories. Once the player starts the game, a new JFrame will appear, containing
+five moving zombies to avoid, five foods to collect, the chosen character which can be moved by using the keys. There
+will be a timer counting down and a JPanel which will display current stats and time left. 
 
--The character will collect food items by moving using the arrow keys.
--If the character gets too close to a zombie, the character will die, and it is game over.
--If the character collects all the food before the time is up (30 seconds), the character wins and will have the choice 
-to go to the next level. Otherwise, the game is canceled.
--In level two, the character will battle against 10 zombies and will have 10 foods to collect.
+If the user wins, i.e. collects all food items within the time-frame, it will have the option to continue to level two, 
+which will have 10 foods and 10 zombies. If the user gets hit by a zombie, it will die and the game is over. If the timer 
+runs out, the game will be over. If the user desires to end the game or exit the game, there are two separate buttons for 
+this.
 
-If the user clicks on the Start Game button, a new JFrame will be displayed containing three JPanels. There is a 
-GamePanel, a ButtonPanel, and a StatsPanel. The GamePanel will display a small image of the chosen character, five 
-zombies, and five food items. The zombies are moving simultaneously, the food items are still, and the character will be 
-moving around using arrow keys. When a character collides with a food item, the food item will disappear from the 
-GamePanel and the score will increase by one point. If the character collides with a zombie, the game is over. The same
-concept goes for level two, but level two will have 10 food items and 10 zombies.
-The second JPanel will contain the stats for the game, which are time counting down, score, food left, and zombies. 
-These will be updated throughout the game.
-The third JPanel will contain three buttons: one for exiting the game, and one for ending the game. If the user clicks 
-on End Game, the timer will stop and the key listener will be disabled.  If the user clicks on Exit Game, the JFrame will 
-be disposed of, but the StartView is still displayed so the user can have the option to select another character and run 
-the game again. There is only one way for the player to exit the game, which is by clicking on this button.
+The user will be able to access the JAR-file from the target folder using "java -jar project-1.0-SNAPSHOT.jar".
+
+
 
 
 

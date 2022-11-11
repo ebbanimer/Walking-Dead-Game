@@ -113,7 +113,6 @@ public class StartView extends JFrame {
      */
     public JPanel addImgPanel(){
 
-
         JPanel imgPanel = new JPanel();
         imgPanel.setLayout(new GridBagLayout());
         imgPanel.setPreferredSize(new Dimension(300, 400));
